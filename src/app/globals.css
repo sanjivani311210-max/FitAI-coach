@@ -1,5 +1,22 @@
 @import "tailwindcss";
 
+@theme {
+  --color-cyan-400: var(--neon-cyan);
+  --color-cyan-500: var(--neon-cyan);
+  --color-cyan-300: var(--neon-cyan);
+  --color-violet-400: var(--neon-violet);
+  --color-violet-500: var(--neon-violet);
+  --color-rose-400: var(--neon-rose);
+  --color-rose-450: var(--neon-rose);
+  --color-rose-500: var(--neon-rose);
+  --color-orange-400: var(--neon-orange);
+  --color-orange-450: var(--neon-orange);
+  --color-emerald-400: var(--neon-green);
+  --color-emerald-450: var(--neon-green);
+  --color-emerald-500: var(--neon-green);
+  --color-teal-500: var(--neon-green);
+}
+
 :root {
   --background: #050508;
   --foreground: #f8fafc;
@@ -17,19 +34,42 @@
   --neon-rose-glow: rgba(255, 8, 68, 0.2);
   --tech-gray: #0f111a;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Semantic Theme Variables */
+  --text-primary: #ffffff;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --input-bg: #020205;
+  --input-border: rgba(255, 255, 255, 0.08);
+  --divider: rgba(255, 255, 255, 0.05);
 }
 
 .light {
-  --background: #fafafa;
-  --foreground: #09090b;
-  --card-bg: rgba(255, 255, 255, 0.8);
-  --card-border: rgba(9, 9, 11, 0.06);
-  --neon-cyan-glow: rgba(0, 242, 254, 0.1);
-  --neon-green-glow: rgba(0, 245, 160, 0.1);
-  --neon-orange-glow: rgba(255, 126, 95, 0.1);
-  --neon-violet-glow: rgba(127, 0, 255, 0.1);
-  --neon-rose-glow: rgba(255, 8, 68, 0.1);
-  --tech-gray: #f4f4f5;
+  --background: #f1f3f6;
+  --foreground: #0f172a;
+  --card-bg: rgba(255, 255, 255, 0.82);
+  --card-border: rgba(15, 23, 42, 0.08);
+  --neon-cyan: #0284c7; /* readability shift for light mode */
+  --neon-cyan-glow: rgba(2, 132, 199, 0.15);
+  --neon-green: #059669; /* readability shift for light mode */
+  --neon-green-glow: rgba(5, 150, 105, 0.15);
+  --neon-orange: #ea580c;
+  --neon-orange-glow: rgba(234, 88, 12, 0.15);
+  --neon-violet: #7c3aed;
+  --neon-violet-glow: rgba(124, 58, 237, 0.15);
+  --neon-rose: #db2777;
+  --neon-rose-glow: rgba(219, 39, 119, 0.15);
+  --tech-gray: #e2e8f0;
+
+  /* Semantic Theme Variables */
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #475569;
+  --text-dim: #64748b;
+  --input-bg: #ffffff;
+  --input-border: rgba(15, 23, 42, 0.12);
+  --divider: rgba(15, 23, 42, 0.08);
 }
 
 body {
@@ -41,6 +81,15 @@ body {
   background-attachment: fixed;
 }
 
+/* Semantic Utility Classes for theme safety */
+.text-cyber-primary { color: var(--text-primary) !important; }
+.text-cyber-secondary { color: var(--text-secondary) !important; }
+.text-cyber-muted { color: var(--text-muted) !important; }
+.text-cyber-dim { color: var(--text-dim) !important; }
+
+.bg-cyber-input { background-color: var(--input-bg) !important; border-color: var(--input-border) !important; }
+.border-cyber-divider { border-color: var(--divider) !important; }
+
 /* Premium Tech Grid & Neon Mesh Background */
 .bg-tech-grid {
   background-size: 50px 50px;
@@ -51,8 +100,8 @@ body {
 
 .light .bg-tech-grid {
   background-image: 
-    linear-gradient(to right, rgba(9, 9, 11, 0.015) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(9, 9, 11, 0.015) 1px, transparent 1px);
+    linear-gradient(to right, rgba(15, 23, 42, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.025) 1px, transparent 1px);
 }
 
 /* Futuristic Dot Matrix Overlay */
@@ -62,7 +111,7 @@ body {
 }
 
 .light .bg-dot-matrix {
-  background-image: radial-gradient(circle, rgba(9, 9, 11, 0.02) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
 }
 
 /* Ambient Cyber Glow Blobs */
@@ -74,6 +123,10 @@ body {
   z-index: 0;
   opacity: 0.35;
   transition: all 1s ease;
+}
+
+.light .glow-blob {
+  opacity: 0.12;
 }
 
 /* Glassmorphic Cyber Cards */
@@ -93,12 +146,12 @@ body {
 }
 
 .light .glass-card {
-  box-shadow: 0 8px 32px 0 rgba(9, 9, 11, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.04);
 }
 
 .light .glass-card:hover {
-  border-color: rgba(9, 9, 11, 0.12);
-  box-shadow: 0 12px 40px 0 rgba(9, 9, 11, 0.08);
+  border-color: rgba(15, 23, 42, 0.15);
+  box-shadow: 0 12px 40px 0 rgba(15, 23, 42, 0.06);
 }
 
 /* Cyber Metallic Borders */
@@ -109,11 +162,11 @@ body {
 .border-neon-rose { border-color: var(--neon-rose); box-shadow: 0 0 15px var(--neon-rose-glow); }
 
 /* Glowing Typography */
-.text-glow-cyan { text-shadow: 0 0 10px rgba(0, 242, 254, 0.6); }
-.text-glow-green { text-shadow: 0 0 10px rgba(0, 245, 160, 0.6); }
-.text-glow-orange { text-shadow: 0 0 10px rgba(255, 126, 95, 0.6); }
-.text-glow-violet { text-shadow: 0 0 10px rgba(127, 0, 255, 0.6); }
-.text-glow-rose { text-shadow: 0 0 10px rgba(255, 8, 68, 0.6); }
+.text-glow-cyan { text-shadow: 0 0 10px var(--neon-cyan-glow); }
+.text-glow-green { text-shadow: 0 0 10px var(--neon-green-glow); }
+.text-glow-orange { text-shadow: 0 0 10px var(--neon-orange-glow); }
+.text-glow-violet { text-shadow: 0 0 10px var(--neon-violet-glow); }
+.text-glow-rose { text-shadow: 0 0 10px var(--neon-rose-glow); }
 
 /* Custom Premium Scrollbars */
 ::-webkit-scrollbar {
@@ -123,9 +176,15 @@ body {
 ::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.2);
 }
+.light ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.03);
+}
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
+}
+.light ::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.12);
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--neon-cyan);
@@ -176,7 +235,7 @@ body {
   display: block;
   position: absolute;
   top: 0; left: 0; bottom: 0; right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 242, 254, 0.08) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 242, 254, 0.03) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.012), rgba(0, 255, 0, 0.003), rgba(0, 0, 255, 0.012));
   z-index: 2;
   background-size: 100% 3px, 3px 100%;
   pointer-events: none;
@@ -203,7 +262,7 @@ body {
 
 /* Gradient text */
 .gradient-text-cyan-blue {
-  background: linear-gradient(135deg, var(--neon-cyan) 0%, #0070f3 100%);
+  background: linear-gradient(135deg, var(--neon-cyan) 0%, #0284c7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

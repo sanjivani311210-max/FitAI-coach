@@ -841,20 +841,20 @@ export default function FitAICoach() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#050508] flex flex-col justify-center items-center text-slate-100 bg-tech-grid bg-dot-matrix hologram-scanline">
+      <div className="min-h-screen bg-[#050508] flex flex-col justify-center items-center text-cyber-primary bg-tech-grid bg-dot-matrix hologram-scanline">
         <div className="relative w-24 h-24 flex items-center justify-center mb-6">
           <div className="absolute inset-0 rounded-full border-2 border-cyan-500/20 animate-pulse" />
           <div className="absolute inset-2 rounded-full border-t-2 border-cyan-400 animate-spin" />
           <Brain className="w-8 h-8 text-cyan-400 animate-pulse" />
         </div>
         <p className="text-sm tracking-[0.25em] text-cyan-400 font-mono font-bold text-glow-cyan animate-pulse">SYNCHRONISING SYSTEM CORES</p>
-        <span className="text-[10px] text-slate-500 font-mono mt-2 uppercase">Core status: SECURE // BMR CALIBRATION</span>
+        <span className="text-[10px] text-cyber-dim font-mono mt-2 uppercase">Core status: SECURE // BMR CALIBRATION</span>
       </div>
     );
   }
 
   return (
-    <div className="flex-grow flex flex-col relative bg-[#050508] text-slate-100 font-sans min-h-screen select-none bg-tech-grid bg-dot-matrix">
+    <div className="flex-grow flex flex-col relative bg-[#050508] text-cyber-primary font-sans min-h-screen select-none bg-tech-grid bg-dot-matrix">
       
       {/* Background Glow Blobs */}
       <div className="glow-blob w-[500px] h-[500px] bg-cyan-900/10 top-0 left-[-100px] animate-bg-pan" />
@@ -882,21 +882,21 @@ export default function FitAICoach() {
       {!user && (
         <div className="flex-grow flex flex-col z-10 relative">
           {/* Header Bar */}
-          <header className="w-full max-w-7xl mx-auto px-6 py-5 flex items-center justify-between border-b border-white/5">
+          <header className="w-full max-w-7xl mx-auto px-6 py-5 flex items-center justify-between border-b border-cyber-divider">
             <div className="flex items-center gap-2.5">
               <div className="w-9 h-9 rounded-lg bg-gradient-to-tr from-cyan-500 to-violet-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
                 <Brain className="w-5 h-5 text-slate-950" />
               </div>
               <div className="flex flex-col">
-                <span className="text-lg font-black tracking-tight text-white font-mono">Fit<span className="text-cyan-400">AI</span> Coach</span>
-                <span className="text-[8px] text-slate-400 font-mono tracking-widest uppercase">Consistency Engine // V2.5</span>
+                <span className="text-lg font-black tracking-tight text-cyber-primary font-mono">Fit<span className="text-cyan-400">AI</span> Coach</span>
+                <span className="text-[8px] text-cyber-muted font-mono tracking-widest uppercase">Consistency Engine // V2.5</span>
               </div>
             </div>
             <div className="flex items-center gap-4">
               <span className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-[9px] font-mono text-cyan-400 font-bold uppercase tracking-wider">
                 <ShieldCheck className="w-3.5 h-3.5" /> SECURE WORKSPACE
               </span>
-              <a href="#auth-section" className="px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs font-bold font-mono transition-all text-white border border-white/10 hover:border-white/20">
+              <a href="#auth-section" className="px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs font-bold font-mono transition-all text-cyber-primary border border-cyber-divider hover:border-cyber-divider">
                 ENTER HUBS
               </a>
             </div>
@@ -912,28 +912,28 @@ export default function FitAICoach() {
                 <span className="text-[10px] text-cyan-300 font-mono font-bold tracking-wider uppercase">Adaptive Epigenetic Optimization</span>
               </div>
 
-              <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-[1.05] text-white">
+              <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-[1.05] text-cyber-primary">
                 Unleash Your <br />
                 <span className="gradient-text-cyan-blue text-glow-cyan">Absolute Consistency</span>
               </h1>
 
-              <p className="text-slate-400 text-sm sm:text-base max-w-xl leading-relaxed">
+              <p className="text-cyber-muted text-sm sm:text-base max-w-xl leading-relaxed">
                 Unlock your physical potential. FitAI Coach bridges the gap between biological directives and physical execution, dynamically scaling workloads to guarantee streaks never break.
               </p>
 
               {/* Showcase mini widgets */}
-              <div className="grid grid-cols-3 gap-4 max-w-lg border-y border-white/5 py-6 font-mono">
+              <div className="grid grid-cols-3 gap-4 max-w-lg border-y border-cyber-divider py-6 font-mono">
                 <div>
                   <div className="text-xl sm:text-2xl font-black text-cyan-400 text-glow-cyan">84.2%</div>
-                  <div className="text-[9px] text-slate-500 uppercase mt-1 tracking-wider">Avg Adherence</div>
+                  <div className="text-[9px] text-cyber-dim uppercase mt-1 tracking-wider">Avg Adherence</div>
                 </div>
                 <div>
                   <div className="text-xl sm:text-2xl font-black text-violet-400 text-glow-violet">Lvl 12</div>
-                  <div className="text-[9px] text-slate-500 uppercase mt-1 tracking-wider">Aesthetic Cap</div>
+                  <div className="text-[9px] text-cyber-dim uppercase mt-1 tracking-wider">Aesthetic Cap</div>
                 </div>
                 <div>
                   <div className="text-xl sm:text-2xl font-black text-rose-400 text-glow-rose">SIRT1</div>
-                  <div className="text-[9px] text-slate-500 uppercase mt-1 tracking-wider">Gene Active</div>
+                  <div className="text-[9px] text-cyber-dim uppercase mt-1 tracking-wider">Gene Active</div>
                 </div>
               </div>
 
@@ -945,7 +945,7 @@ export default function FitAICoach() {
                   Start Athletic Assessment
                   <ArrowRight className="w-4 h-4 text-slate-950" />
                 </a>
-                <div className="flex items-center justify-center gap-2 text-slate-500 text-[10px] font-mono uppercase">
+                <div className="flex items-center justify-center gap-2 text-cyber-dim text-[10px] font-mono uppercase">
                   <Activity className="w-4 h-4 text-cyan-500 animate-pulse" />
                   Biometric Engine Offline Mode Available
                 </div>
@@ -954,7 +954,7 @@ export default function FitAICoach() {
 
             {/* Auth Form and Visual Preview Column */}
             <div id="auth-section" className="lg:col-span-5 w-full flex flex-col gap-6">
-              <div className="glass-card p-8 rounded-2xl border border-white/10 bg-slate-900/60 shadow-2xl relative overflow-hidden hologram-scanline">
+              <div className="glass-card p-8 rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-2xl relative overflow-hidden hologram-scanline">
                 <div className="hud-corner-tl" />
                 <div className="hud-corner-tr" />
                 <div className="hud-corner-bl" />
@@ -964,21 +964,21 @@ export default function FitAICoach() {
                   <div className="bg-cyan-500/10 w-12 h-12 rounded-full flex items-center justify-center border border-cyan-500/30 mb-3 shadow-inner">
                     <User className="w-6 h-6 text-cyan-400" />
                   </div>
-                  <h2 className="text-xl font-bold font-mono tracking-wider text-white">SYSTEM AUTHENTICATION</h2>
-                  <p className="text-slate-500 text-[9px] font-mono tracking-widest mt-1 uppercase">INITIALISE SESSION INTERFACE</p>
+                  <h2 className="text-xl font-bold font-mono tracking-wider text-cyber-primary">SYSTEM AUTHENTICATION</h2>
+                  <p className="text-cyber-dim text-[9px] font-mono tracking-widest mt-1 uppercase">INITIALISE SESSION INTERFACE</p>
                 </div>
 
                 {/* Form Tabs */}
-                <div className="grid grid-cols-2 bg-slate-950/80 p-1 rounded-xl border border-white/5 mb-6 font-mono">
+                <div className="grid grid-cols-2 bg-cyber-input/90 p-1 rounded-xl border border-cyber-divider mb-6 font-mono">
                   <button
                     onClick={() => { setAuthMode('signup'); setAuthError(''); }}
-                    className={`py-2 text-[10px] font-bold rounded-lg transition-all uppercase ${authMode === 'signup' ? 'bg-cyan-500 text-slate-950 shadow-md' : 'text-slate-400 hover:text-white'}`}
+                    className={`py-2 text-[10px] font-bold rounded-lg transition-all uppercase ${authMode === 'signup' ? 'bg-cyan-500 text-slate-950 shadow-md' : 'text-cyber-muted hover:text-cyber-primary'}`}
                   >
                     Create Account
                   </button>
                   <button
                     onClick={() => { setAuthMode('login'); setAuthError(''); }}
-                    className={`py-2 text-[10px] font-bold rounded-lg transition-all uppercase ${authMode === 'login' ? 'bg-cyan-500 text-slate-950 shadow-md' : 'text-slate-400 hover:text-white'}`}
+                    className={`py-2 text-[10px] font-bold rounded-lg transition-all uppercase ${authMode === 'login' ? 'bg-cyan-500 text-slate-950 shadow-md' : 'text-cyber-muted hover:text-cyber-primary'}`}
                   >
                     Access Profile
                   </button>
@@ -986,25 +986,25 @@ export default function FitAICoach() {
 
                 <form onSubmit={handleAuth} className="space-y-5 text-left">
                   <div className="space-y-1">
-                    <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest">Athletic ID (Email)</label>
+                    <label className="block text-[9px] font-mono font-bold text-cyber-muted uppercase tracking-widest">Athletic ID (Email)</label>
                     <input
                       type="email"
                       value={authEmail}
                       onChange={(e) => setAuthEmail(e.target.value)}
                       placeholder="name@fitness.com"
-                      className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all font-mono"
+                      className="w-full bg-cyber-input border border-cyber-divider rounded-lg px-4 py-2.5 text-xs text-cyber-primary focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all font-mono"
                       required
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest">Access Protocol (Password)</label>
+                    <label className="block text-[9px] font-mono font-bold text-cyber-muted uppercase tracking-widest">Access Protocol (Password)</label>
                     <input
                       type="password"
                       value={authPassword}
                       onChange={(e) => setAuthPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all"
+                      className="w-full bg-cyber-input border border-cyber-divider rounded-lg px-4 py-2.5 text-xs text-cyber-primary focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all"
                       required
                     />
                   </div>
@@ -1033,17 +1033,17 @@ export default function FitAICoach() {
       {/* --- DIAGNOSTIC ASSESSMENT WIZARD SCREEN --- */}
       {user && !profile?.name && (
         <div className="flex-grow flex items-center justify-center p-4 z-10 relative bg-tech-grid">
-          <div className="glass-card p-8 rounded-2xl w-full max-w-2xl border border-white/10 bg-slate-900/80 shadow-2xl relative overflow-hidden hologram-scanline">
+          <div className="glass-card p-8 rounded-2xl w-full max-w-2xl border border-cyber-divider bg-cyber-input/80 shadow-2xl relative overflow-hidden hologram-scanline">
             <div className="hud-corner-tl" />
             <div className="hud-corner-tr" />
             <div className="hud-corner-bl" />
             <div className="hud-corner-br" />
 
             {/* Diagnostic Steps Progress Indicator */}
-            <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
+            <div className="flex items-center justify-between mb-8 pb-4 border-b border-cyber-divider">
               <div className="flex flex-col text-left">
-                <h2 className="text-xl font-bold font-mono text-white tracking-widest uppercase">DIAGNOSTIC ASSESSMENT</h2>
-                <p className="text-[9px] text-slate-500 font-mono tracking-widest uppercase mt-0.5">Calibrating DNA-Coach Epigenetic Blueprints</p>
+                <h2 className="text-xl font-bold font-mono text-cyber-primary tracking-widest uppercase">DIAGNOSTIC ASSESSMENT</h2>
+                <p className="text-[9px] text-cyber-dim font-mono tracking-widest uppercase mt-0.5">Calibrating DNA-Coach Epigenetic Blueprints</p>
               </div>
               <div className="flex gap-2">
                 {[1, 2, 3, 4].map((step) => (
@@ -1060,64 +1060,64 @@ export default function FitAICoach() {
               {onboardingStep === 1 && (
                 <div className="space-y-5">
                   <div className="border-l-2 border-cyan-400 pl-3">
-                    <h3 className="text-sm font-bold text-white font-mono tracking-widest uppercase">01 // IDENTITY PROTOCOLS</h3>
-                    <p className="text-[10px] text-slate-400 mt-0.5">Primary identification and biometric measurements.</p>
+                    <h3 className="text-sm font-bold text-cyber-primary font-mono tracking-widest uppercase">01 // IDENTITY PROTOCOLS</h3>
+                    <p className="text-[10px] text-cyber-muted mt-0.5">Primary identification and biometric measurements.</p>
                   </div>
 
                   <div>
-                    <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1.5">Athlete Nom-de-Guerre</label>
+                    <label className="block text-[9px] font-mono font-bold text-cyber-muted uppercase tracking-widest mb-1.5">Athlete Nom-de-Guerre</label>
                     <input
                       type="text"
                       value={wizardName}
                       onChange={(e) => setWizardName(e.target.value)}
                       placeholder="e.g. Alexander Mercer"
-                      className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+                      className="w-full bg-cyber-input border border-cyber-divider rounded-lg px-4 py-3 text-xs text-cyber-primary focus:outline-none focus:border-cyan-500 font-mono"
                       required
                     />
                   </div>
 
                   <div className="grid grid-cols-3 gap-4">
                     <div>
-                      <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1.5">Age</label>
+                      <label className="block text-[9px] font-mono font-bold text-cyber-muted uppercase tracking-widest mb-1.5">Age</label>
                       <input
                         type="number"
                         value={wizardAge}
                         onChange={(e) => setWizardAge(e.target.value)}
-                        className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+                        className="w-full bg-cyber-input border border-cyber-divider rounded-lg px-4 py-3 text-xs text-cyber-primary focus:outline-none focus:border-cyan-500 font-mono"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1.5">Height (cm)</label>
+                      <label className="block text-[9px] font-mono font-bold text-cyber-muted uppercase tracking-widest mb-1.5">Height (cm)</label>
                       <input
                         type="number"
                         value={wizardHeight}
                         onChange={(e) => setWizardHeight(e.target.value)}
-                        className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+                        className="w-full bg-cyber-input border border-cyber-divider rounded-lg px-4 py-3 text-xs text-cyber-primary focus:outline-none focus:border-cyan-500 font-mono"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1.5">Weight (kg)</label>
+                      <label className="block text-[9px] font-mono font-bold text-cyber-muted uppercase tracking-widest mb-1.5">Weight (kg)</label>
                       <input
                         type="number"
                         value={wizardWeight}
                         onChange={(e) => setWizardWeight(e.target.value)}
-                        className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+                        className="w-full bg-cyber-input border border-cyber-divider rounded-lg px-4 py-3 text-xs text-cyber-primary focus:outline-none focus:border-cyan-500 font-mono"
                         required
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-2">Biological Phenotype</label>
+                    <label className="block text-[9px] font-mono font-bold text-cyber-muted uppercase tracking-widest mb-2">Biological Phenotype</label>
                     <div className="grid grid-cols-2 gap-4 font-mono">
                       {['male', 'female'].map((g) => (
                         <button
                           key={g}
                           type="button"
                           onClick={() => setWizardGender(g)}
-                          className={`py-3 text-xs font-bold rounded-lg border uppercase transition-all flex items-center justify-center gap-2 ${wizardGender === g ? 'bg-cyan-500/10 border-cyan-500 text-cyan-400 text-glow-cyan' : 'border-white/5 text-slate-400 bg-slate-950/60'}`}
+                          className={`py-3 text-xs font-bold rounded-lg border uppercase transition-all flex items-center justify-center gap-2 ${wizardGender === g ? 'bg-cyan-500/10 border-cyan-500 text-cyan-400 text-glow-cyan' : 'border-cyber-divider text-cyber-muted bg-cyber-input/70'}`}
                         >
                           <Activity className="w-3.5 h-3.5" />
                           {g === 'male' ? 'XY Phenotype (Male)' : 'XX Phenotype (Female)'}
@@ -1132,12 +1132,12 @@ export default function FitAICoach() {
               {onboardingStep === 2 && (
                 <div className="space-y-5">
                   <div className="border-l-2 border-cyan-400 pl-3">
-                    <h3 className="text-sm font-bold text-white font-mono tracking-widest uppercase">02 // LIFESTYLE DISPOSITION</h3>
-                    <p className="text-[10px] text-slate-400 mt-0.5">Calibrate metabolic baseline values for energy tracking.</p>
+                    <h3 className="text-sm font-bold text-cyber-primary font-mono tracking-widest uppercase">02 // LIFESTYLE DISPOSITION</h3>
+                    <p className="text-[10px] text-cyber-muted mt-0.5">Calibrate metabolic baseline values for energy tracking.</p>
                   </div>
 
                   <div>
-                    <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-2">Metabolic Activity Class</label>
+                    <label className="block text-[9px] font-mono font-bold text-cyber-muted uppercase tracking-widest mb-2">Metabolic Activity Class</label>
                     <div className="space-y-2">
                       {[
                         { id: 'sedentary', label: 'Hypokinetic Baseline (Sedentary, Desk job, Minimal active routines)' },
@@ -1148,7 +1148,7 @@ export default function FitAICoach() {
                           key={act.id}
                           type="button"
                           onClick={() => setWizardActivity(act.id)}
-                          className={`w-full py-3.5 px-4 text-left text-xs rounded-lg border transition-all flex items-center justify-between font-mono ${wizardActivity === act.id ? 'bg-cyan-500/10 border-cyan-500 text-cyan-400' : 'border-white/5 text-slate-400 bg-slate-950/60'}`}
+                          className={`w-full py-3.5 px-4 text-left text-xs rounded-lg border transition-all flex items-center justify-between font-mono ${wizardActivity === act.id ? 'bg-cyan-500/10 border-cyan-500 text-cyan-400' : 'border-cyber-divider text-cyber-muted bg-cyber-input/70'}`}
                         >
                           <span>{act.label}</span>
                           <span className={`w-2 h-2 rounded-full ${wizardActivity === act.id ? 'bg-cyan-400 animate-pulse' : 'bg-slate-800'}`} />
@@ -1159,23 +1159,23 @@ export default function FitAICoach() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1.5">Avg Sleep (Hours / Night)</label>
+                      <label className="block text-[9px] font-mono font-bold text-cyber-muted uppercase tracking-widest mb-1.5">Avg Sleep (Hours / Night)</label>
                       <input
                         type="number"
                         value={wizardSleep}
                         onChange={(e) => setWizardSleep(e.target.value)}
-                        className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+                        className="w-full bg-cyber-input border border-cyber-divider rounded-lg px-4 py-3 text-xs text-cyber-primary focus:outline-none focus:border-cyan-500 font-mono"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1.5">Avg Water (Liters / Day)</label>
+                      <label className="block text-[9px] font-mono font-bold text-cyber-muted uppercase tracking-widest mb-1.5">Avg Water (Liters / Day)</label>
                       <input
                         type="number"
                         step="0.5"
                         value={wizardWater}
                         onChange={(e) => setWizardWater(e.target.value)}
-                        className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+                        className="w-full bg-cyber-input border border-cyber-divider rounded-lg px-4 py-3 text-xs text-cyber-primary focus:outline-none focus:border-cyan-500 font-mono"
                         required
                       />
                     </div>
@@ -1187,12 +1187,12 @@ export default function FitAICoach() {
               {onboardingStep === 3 && (
                 <div className="space-y-5">
                   <div className="border-l-2 border-cyan-400 pl-3">
-                    <h3 className="text-sm font-bold text-white font-mono tracking-widest uppercase">03 // BIOMETRIC DIRECTIVES</h3>
-                    <p className="text-[10px] text-slate-400 mt-0.5">Determine target parameters and genetic adaptation focus.</p>
+                    <h3 className="text-sm font-bold text-cyber-primary font-mono tracking-widest uppercase">03 // BIOMETRIC DIRECTIVES</h3>
+                    <p className="text-[10px] text-cyber-muted mt-0.5">Determine target parameters and genetic adaptation focus.</p>
                   </div>
 
                   <div>
-                    <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-2.5">Target Genetic Adaptation Targets</label>
+                    <label className="block text-[9px] font-mono font-bold text-cyber-muted uppercase tracking-widest mb-2.5">Target Genetic Adaptation Targets</label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono">
                       {[
                         { id: 'weight-loss', label: 'Adipose Tissue Reduction (Weight Loss)' },
@@ -1213,7 +1213,7 @@ export default function FitAICoach() {
                                 setWizardGoals([...wizardGoals, goal.id]);
                               }
                             }}
-                            className={`py-3 px-3.5 text-left text-[10px] font-bold rounded-lg border transition-all flex items-center justify-between ${isSelected ? 'bg-cyan-500/10 border-cyan-500 text-cyan-400 text-glow-cyan' : 'border-white/5 text-slate-400 bg-slate-950/60'}`}
+                            className={`py-3 px-3.5 text-left text-[10px] font-bold rounded-lg border transition-all flex items-center justify-between ${isSelected ? 'bg-cyan-500/10 border-cyan-500 text-cyan-400 text-glow-cyan' : 'border-cyber-divider text-cyber-muted bg-cyber-input/70'}`}
                           >
                             <span>{goal.label}</span>
                             {isSelected ? <Check className="w-3.5 h-3.5 text-cyan-400" /> : <div className="w-3.5 h-3.5 border border-slate-700 rounded-sm" />}
@@ -1225,22 +1225,22 @@ export default function FitAICoach() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1.5">Target Mass (kg)</label>
+                      <label className="block text-[9px] font-mono font-bold text-cyber-muted uppercase tracking-widest mb-1.5">Target Mass (kg)</label>
                       <input
                         type="number"
                         value={wizardTargetWeight}
                         onChange={(e) => setWizardTargetWeight(e.target.value)}
-                        className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+                        className="w-full bg-cyber-input border border-cyber-divider rounded-lg px-4 py-3 text-xs text-cyber-primary focus:outline-none focus:border-cyan-500 font-mono"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1.5">Target Execution Horizon</label>
+                      <label className="block text-[9px] font-mono font-bold text-cyber-muted uppercase tracking-widest mb-1.5">Target Execution Horizon</label>
                       <input
                         type="date"
                         value={wizardTargetDate}
                         onChange={(e) => setWizardTargetDate(e.target.value)}
-                        className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-3 text-xs text-slate-350 focus:outline-none focus:border-cyan-500 font-mono"
+                        className="w-full bg-cyber-input border border-cyber-divider rounded-lg px-4 py-3 text-xs text-cyber-secondary focus:outline-none focus:border-cyan-500 font-mono"
                         required
                       />
                     </div>
@@ -1252,8 +1252,8 @@ export default function FitAICoach() {
               {onboardingStep === 4 && (
                 <div className="space-y-5">
                   <div className="border-l-2 border-cyan-400 pl-3">
-                    <h3 className="text-sm font-bold text-white font-mono tracking-widest uppercase">04 // SYSTEM DIAGNOSTIC ANALYSIS</h3>
-                    <p className="text-[10px] text-slate-400 mt-0.5">Previewing algorithmic calculations for biometric initialization.</p>
+                    <h3 className="text-sm font-bold text-cyber-primary font-mono tracking-widest uppercase">04 // SYSTEM DIAGNOSTIC ANALYSIS</h3>
+                    <p className="text-[10px] text-cyber-muted mt-0.5">Previewing algorithmic calculations for biometric initialization.</p>
                   </div>
 
                   {/* Redesigned BMI Dial preview */}
@@ -1262,19 +1262,19 @@ export default function FitAICoach() {
                     // Determine percentage on a visual scale from 15 to 35
                     const scaledPercent = Math.max(0, Math.min(100, ((bmi - 15) / 20) * 100));
                     return (
-                      <div className="bg-slate-950/80 p-6 rounded-xl border border-white/5 text-center relative overflow-hidden">
+                      <div className="bg-cyber-input/90 p-6 rounded-xl border border-cyber-divider text-center relative overflow-hidden">
                         <div className="hud-corner-tl" />
                         <div className="hud-corner-tr" />
-                        <p className="text-slate-500 text-[9px] font-mono tracking-widest mb-1.5">CALCULATED ATHLETIC BODY MASS INDEX (BMI)</p>
-                        <div className="text-4xl font-black text-white tracking-tight font-mono">{bmi.toFixed(1)}</div>
+                        <p className="text-cyber-dim text-[9px] font-mono tracking-widest mb-1.5">CALCULATED ATHLETIC BODY MASS INDEX (BMI)</p>
+                        <div className="text-4xl font-black text-cyber-primary tracking-tight font-mono">{bmi.toFixed(1)}</div>
                         <div className="text-cyan-400 text-xs font-bold mt-1 uppercase font-mono tracking-wider">{category} Index Category</div>
                         
                         {/* Visual sliding BMI Scale */}
-                        <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden mt-5 relative border border-white/5">
+                        <div className="w-full h-1.5 bg-cyber-input rounded-full overflow-hidden mt-5 relative border border-cyber-divider">
                           <div className="absolute top-0 bottom-0 left-0 bg-cyan-500" style={{ width: `${scaledPercent}%` }} />
                           <div className="absolute top-[-3px] w-3 h-3 rounded-full bg-white border border-cyan-400 shadow shadow-cyan-400" style={{ left: `calc(${scaledPercent}% - 6px)` }} />
                         </div>
-                        <div className="flex justify-between text-[8px] text-slate-500 font-mono mt-1.5">
+                        <div className="flex justify-between text-[8px] text-cyber-dim font-mono mt-1.5">
                           <span>18.5 (UNDER)</span>
                           <span>24.9 (NORMAL)</span>
                           <span>29.9 (OVER)</span>
@@ -1284,38 +1284,38 @@ export default function FitAICoach() {
                     );
                   })()}
 
-                  <div className="bg-slate-950/40 border border-white/5 p-4 rounded-xl space-y-3 text-xs font-mono">
-                    <div className="flex justify-between border-b border-white/5 pb-2">
-                      <span className="text-slate-500 uppercase">Registered Athlete:</span>
-                      <span className="font-bold text-white">{wizardName}</span>
+                  <div className="bg-cyber-input/50 border border-cyber-divider p-4 rounded-xl space-y-3 text-xs font-mono">
+                    <div className="flex justify-between border-b border-cyber-divider pb-2">
+                      <span className="text-cyber-dim uppercase">Registered Athlete:</span>
+                      <span className="font-bold text-cyber-primary">{wizardName}</span>
                     </div>
-                    <div className="flex justify-between border-b border-white/5 pb-2">
-                      <span className="text-slate-500 uppercase">Phenotype / Age:</span>
-                      <span className="font-bold text-white capitalize">{wizardGender} // {wizardAge} Years</span>
+                    <div className="flex justify-between border-b border-cyber-divider pb-2">
+                      <span className="text-cyber-dim uppercase">Phenotype / Age:</span>
+                      <span className="font-bold text-cyber-primary capitalize">{wizardGender} // {wizardAge} Years</span>
                     </div>
-                    <div className="flex justify-between border-b border-white/5 pb-2">
-                      <span className="text-slate-500 uppercase">Physical Parameters:</span>
-                      <span className="font-bold text-white">{wizardHeight}cm // {wizardWeight}kg</span>
+                    <div className="flex justify-between border-b border-cyber-divider pb-2">
+                      <span className="text-cyber-dim uppercase">Physical Parameters:</span>
+                      <span className="font-bold text-cyber-primary">{wizardHeight}cm // {wizardWeight}kg</span>
                     </div>
-                    <div className="flex justify-between border-b border-white/5 pb-2">
-                      <span className="text-slate-500 uppercase">Biometric Directives:</span>
+                    <div className="flex justify-between border-b border-cyber-divider pb-2">
+                      <span className="text-cyber-dim uppercase">Biometric Directives:</span>
                       <span className="font-bold text-cyan-400">{wizardWeight}kg → {wizardTargetWeight}kg</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500 uppercase">Activity Tier:</span>
-                      <span className="font-bold text-white uppercase">{wizardActivity}</span>
+                      <span className="text-cyber-dim uppercase">Activity Tier:</span>
+                      <span className="font-bold text-cyber-primary uppercase">{wizardActivity}</span>
                     </div>
                   </div>
                 </div>
               )}
 
               {/* Wizard Nav buttons */}
-              <div className="flex justify-between mt-8 pt-4 border-t border-white/5 font-mono">
+              <div className="flex justify-between mt-8 pt-4 border-t border-cyber-divider font-mono">
                 {onboardingStep > 1 ? (
                   <button
                     type="button"
                     onClick={() => setOnboardingStep(prev => prev - 1)}
-                    className="border border-white/5 hover:border-white/10 bg-slate-950 text-slate-400 hover:text-white font-bold px-5 py-2.5 rounded-lg text-xs transition-all flex items-center gap-1.5"
+                    className="border border-cyber-divider hover:border-cyber-divider bg-cyber-input text-cyber-muted hover:text-cyber-primary font-bold px-5 py-2.5 rounded-lg text-xs transition-all flex items-center gap-1.5"
                   >
                     <ChevronLeft className="w-4 h-4" />
                     PREVIOUS
@@ -1358,7 +1358,7 @@ export default function FitAICoach() {
           {/* SIDE NAVIGATION PANEL */}
           <aside className="w-full md:w-64 flex flex-col gap-4 text-left shrink-0">
             {/* User Profile Summary */}
-            <div className="glass-card p-5 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl flex flex-col items-center text-center relative overflow-hidden">
+            <div className="glass-card p-5 rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-xl flex flex-col items-center text-center relative overflow-hidden">
               <div className="hud-corner-tl" />
               <div className="hud-corner-tr" />
               
@@ -1380,7 +1380,7 @@ export default function FitAICoach() {
                     className="transition-all duration-700"
                   />
                 </svg>
-                <div className="w-15 h-15 rounded-full bg-slate-950 flex items-center justify-center font-bold font-mono text-cyan-400 text-xl border border-cyan-500/20 relative shadow-inner">
+                <div className="w-15 h-15 rounded-full bg-cyber-input flex items-center justify-center font-bold font-mono text-cyan-400 text-xl border border-cyan-500/20 relative shadow-inner">
                   {profile.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
                 </div>
                 <div className="absolute bottom-[-2px] right-[-2px] bg-gradient-to-tr from-cyan-500 to-violet-500 text-slate-950 w-6 h-6 rounded-full text-[10px] font-black flex items-center justify-center font-mono border border-slate-950 shadow">
@@ -1388,10 +1388,10 @@ export default function FitAICoach() {
                 </div>
               </div>
 
-              <h2 className="text-base font-bold text-white mt-1 leading-tight font-mono tracking-wide">{profile.name}</h2>
+              <h2 className="text-base font-bold text-cyber-primary mt-1 leading-tight font-mono tracking-wide">{profile.name}</h2>
               
               <div className="flex items-center gap-2 mt-1.5 justify-center">
-                <span className="text-[9px] text-slate-500 uppercase tracking-widest font-mono">LEVEL {level}</span>
+                <span className="text-[9px] text-cyber-dim uppercase tracking-widest font-mono">LEVEL {level}</span>
                 <span className="text-slate-800">•</span>
                 <span className="text-[9px] text-cyan-400 font-mono font-bold flex items-center gap-0.5 text-glow-cyan">
                   <Flame className="w-3.5 h-3.5 text-cyan-400 fill-cyan-400 animate-pulse" />
@@ -1401,11 +1401,11 @@ export default function FitAICoach() {
 
               {/* XP progress metrics */}
               <div className="w-full mt-4 space-y-1 font-mono text-[9px]">
-                <div className="flex justify-between text-slate-400">
+                <div className="flex justify-between text-cyber-muted">
                   <span>{xp} XP</span>
                   <span>{level * 100} XP NEXT</span>
                 </div>
-                <div className="w-full h-1 bg-slate-950 rounded-full overflow-hidden border border-white/5">
+                <div className="w-full h-1 bg-cyber-input rounded-full overflow-hidden border border-cyber-divider">
                   <div
                     className="h-full bg-gradient-to-r from-cyan-400 to-violet-500 transition-all duration-700"
                     style={{ width: `${(xp / (level * 100)) * 100}%` }}
@@ -1416,7 +1416,7 @@ export default function FitAICoach() {
               {/* Theme Toggle Button */}
               <button
                 onClick={() => setTheme(prev => prev === 'dark' ? 'light' : 'dark')}
-                className="mt-4 w-full flex items-center justify-between px-3 py-2 rounded-xl bg-slate-950/60 border border-white/5 hover:border-white/10 text-[9px] font-bold font-mono text-slate-400 hover:text-white transition-all shadow-inner"
+                className="mt-4 w-full flex items-center justify-between px-3 py-2 rounded-xl bg-cyber-input/70 border border-cyber-divider hover:border-cyber-divider text-[9px] font-bold font-mono text-cyber-muted hover:text-cyber-primary transition-all shadow-inner"
               >
                 <span>THEME PROTOCOL</span>
                 <span className="flex items-center gap-1 font-bold text-cyan-400 uppercase tracking-widest text-glow-cyan">
@@ -1436,7 +1436,7 @@ export default function FitAICoach() {
             </div>
 
             {/* Navigation Menu */}
-            <nav className="glass-card p-2 rounded-2xl border border-white/5 bg-slate-900/60 space-y-1 shadow-lg relative">
+            <nav className="glass-card p-2 rounded-2xl border border-cyber-divider bg-cyber-input/70 space-y-1 shadow-lg relative">
               <div className="hud-corner-tl" />
               <div className="hud-corner-tr" />
               {[
@@ -1451,7 +1451,7 @@ export default function FitAICoach() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id as any)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 text-[10px] font-bold font-mono rounded-xl transition-all ${isActive ? 'bg-gradient-to-r from-cyan-500/20 to-cyan-500/5 text-cyan-400 border border-cyan-500/30 text-glow-cyan' : 'text-slate-400 border border-transparent hover:text-slate-200 hover:bg-white/5'}`}
+                    className={`w-full flex items-center gap-3 px-4 py-3 text-[10px] font-bold font-mono rounded-xl transition-all ${isActive ? 'bg-gradient-to-r from-cyan-500/20 to-cyan-500/5 text-cyan-400 border border-cyan-500/30 text-glow-cyan' : 'text-cyber-muted border border-transparent hover:text-cyber-primary hover:bg-white/5'}`}
                   >
                     <Icon className="w-4 h-4 shrink-0" />
                     <span>{tab.label}</span>
@@ -1463,7 +1463,7 @@ export default function FitAICoach() {
             {/* API Config details */}
             <button
               onClick={() => setShowKeyModal(true)}
-              className="glass-card py-3.5 px-4 rounded-2xl border border-white/5 bg-slate-900/60 flex items-center justify-between text-[10px] font-bold font-mono text-cyan-400 hover:text-cyan-300 hover:border-white/10 shadow-md relative"
+              className="glass-card py-3.5 px-4 rounded-2xl border border-cyber-divider bg-cyber-input/70 flex items-center justify-between text-[10px] font-bold font-mono text-cyan-400 hover:text-cyan-300 hover:border-cyber-divider shadow-md relative"
             >
               <div className="hud-corner-tl" />
               <div className="hud-corner-tr" />
@@ -1471,7 +1471,7 @@ export default function FitAICoach() {
                 <Key className="w-4 h-4 shrink-0" />
                 API MATRIX
               </span>
-              <span className="text-[8px] text-slate-500 uppercase tracking-widest">
+              <span className="text-[8px] text-cyber-dim uppercase tracking-widest">
                 {getGeminiApiKey() ? 'LIVE' : 'MOCK'}
               </span>
             </button>
@@ -1492,17 +1492,17 @@ export default function FitAICoach() {
           <main className="flex-grow flex flex-col gap-6 text-left">
 
             {/* CORE STATUS ENGINE OVERLAY HEADER */}
-            <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-4 font-mono">
+            <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-cyber-divider pb-4 font-mono">
               <div className="flex flex-col">
-                <span className="text-[9px] text-slate-500 tracking-[0.25em] uppercase">SYSTEM COMMAND INTERFACE</span>
-                <span className="text-lg font-black text-white tracking-wide uppercase">FitAI // biometric control hub</span>
+                <span className="text-[9px] text-cyber-dim tracking-[0.25em] uppercase">SYSTEM COMMAND INTERFACE</span>
+                <span className="text-lg font-black text-cyber-primary tracking-wide uppercase">FitAI // Biometric Control Hub</span>
               </div>
               <div className="flex items-center gap-3 self-start sm:self-center">
                 <span className="flex items-center gap-1.5 px-3 py-1 rounded bg-emerald-500/10 border border-emerald-500/25 text-[8px] text-emerald-400 font-bold uppercase tracking-widest">
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
                   COACH ONLINE
                 </span>
-                <span className="text-[10px] text-slate-500">CONN: SECURE_NET</span>
+                <span className="text-[10px] text-cyber-dim">CONN: SECURE_NET</span>
               </div>
             </div>
 
@@ -1522,7 +1522,7 @@ export default function FitAICoach() {
                 }`} />
                 <div className="space-y-1">
                   <h4 className="text-[10px] font-bold uppercase tracking-widest font-mono">SYSTEM ANOMALY DETECTION // RISK: {riskAlert.scoreDrop}% ACCEL</h4>
-                  <p className="text-xs font-sans leading-relaxed text-slate-300 uppercase-first">{riskAlert.message}</p>
+                  <p className="text-xs font-sans leading-relaxed text-cyber-secondary uppercase-first">{riskAlert.message}</p>
                 </div>
               </div>
             )}
@@ -1533,36 +1533,36 @@ export default function FitAICoach() {
                 {/* 1. HEALTH SUMMARY GRID */}
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                   {/* BMI */}
-                  <div className="glass-card p-4 rounded-xl border border-white/5 bg-slate-900/40 relative">
+                  <div className="glass-card p-4 rounded-xl border border-cyber-divider bg-cyber-input/50 relative">
                     <div className="hud-corner-tl" />
-                    <p className="text-[9px] font-mono text-slate-500 tracking-wider uppercase">Biometric BMI</p>
-                    <p className="text-xl font-bold mt-1 text-white font-mono">{profile.bmi?.toFixed(1) || '22.4'}</p>
+                    <p className="text-[9px] font-mono text-cyber-dim tracking-wider uppercase">Biometric BMI</p>
+                    <p className="text-xl font-bold mt-1 text-cyber-primary font-mono">{profile.bmi?.toFixed(1) || '22.4'}</p>
                     <p className="text-[8px] text-cyan-400 font-mono mt-0.5 capitalize tracking-wider">{profile.bmiCategory || 'Normal'}</p>
                   </div>
                   {/* Current Weight */}
-                  <div className="glass-card p-4 rounded-xl border border-white/5 bg-slate-900/40">
-                    <p className="text-[9px] font-mono text-slate-500 tracking-wider uppercase">Current Mass</p>
-                    <p className="text-xl font-bold mt-1 text-white font-mono">{profile.weight || '70'} kg</p>
-                    <p className="text-[8px] text-slate-500 font-mono mt-0.5">Biometric Load</p>
+                  <div className="glass-card p-4 rounded-xl border border-cyber-divider bg-cyber-input/50">
+                    <p className="text-[9px] font-mono text-cyber-dim tracking-wider uppercase">Current Mass</p>
+                    <p className="text-xl font-bold mt-1 text-cyber-primary font-mono">{profile.weight || '70'} kg</p>
+                    <p className="text-[8px] text-cyber-dim font-mono mt-0.5">Biometric Load</p>
                   </div>
                   {/* Target Weight */}
-                  <div className="glass-card p-4 rounded-xl border border-white/5 bg-slate-900/40">
-                    <p className="text-[9px] font-mono text-slate-500 tracking-wider uppercase">Target Mass</p>
-                    <p className="text-xl font-bold mt-1 text-white font-mono">{profile.targetWeight || '68'} kg</p>
-                    <p className="text-[8px] text-slate-500 font-mono mt-0.5">Physical Target</p>
+                  <div className="glass-card p-4 rounded-xl border border-cyber-divider bg-cyber-input/50">
+                    <p className="text-[9px] font-mono text-cyber-dim tracking-wider uppercase">Target Mass</p>
+                    <p className="text-xl font-bold mt-1 text-cyber-primary font-mono">{profile.targetWeight || '68'} kg</p>
+                    <p className="text-[8px] text-cyber-dim font-mono mt-0.5">Physical Target</p>
                   </div>
                   {/* Days remaining */}
-                  <div className="glass-card p-4 rounded-xl border border-white/5 bg-slate-900/40">
-                    <p className="text-[9px] font-mono text-slate-500 tracking-wider uppercase">Time remaining</p>
-                    <p className="text-xl font-bold mt-1 text-white font-mono">{daysRemaining} D</p>
-                    <p className="text-[8px] text-slate-500 font-mono mt-0.5">Horizon limit</p>
+                  <div className="glass-card p-4 rounded-xl border border-cyber-divider bg-cyber-input/50">
+                    <p className="text-[9px] font-mono text-cyber-dim tracking-wider uppercase">Time remaining</p>
+                    <p className="text-xl font-bold mt-1 text-cyber-primary font-mono">{daysRemaining} D</p>
+                    <p className="text-[8px] text-cyber-dim font-mono mt-0.5">Horizon limit</p>
                   </div>
                   {/* Consistency Rating */}
                   <div className="glass-card p-4 rounded-xl border border-cyan-800/40 bg-cyan-950/15 col-span-2 md:col-span-1 shadow-inner relative">
                     <div className="hud-corner-tr" />
                     <p className="text-[9px] font-mono text-cyan-400 tracking-wider uppercase">Consistency Index</p>
                     <p className="text-xl font-black mt-1 text-cyan-300 font-mono text-glow-cyan">{overallConsistency}%</p>
-                    <p className="text-[8px] text-slate-400 font-mono mt-0.5 uppercase tracking-wider">
+                    <p className="text-[8px] text-cyber-muted font-mono mt-0.5 uppercase tracking-wider">
                       {overallConsistency >= 80 ? 'hyperkinetic' :
                        overallConsistency >= 50 ? 'homeostatic' :
                        'hypokinetic'}
@@ -1571,19 +1571,19 @@ export default function FitAICoach() {
                 </div>
 
                 {/* 2. THE HERO CONSISTENCY SCORE SECTION */}
-                <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl relative overflow-hidden">
+                <div className="glass-card p-6 rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-xl relative overflow-hidden">
                   <div className="hud-corner-tl" />
                   <div className="hud-corner-tr" />
                   
-                  <div className="flex items-center gap-2.5 mb-6 border-b border-white/5 pb-3">
+                  <div className="flex items-center gap-2.5 mb-6 border-b border-cyber-divider pb-3">
                     <Target className="w-5 h-5 text-cyan-400 animate-pulse" />
-                    <h3 className="text-xs font-bold font-mono text-white tracking-widest uppercase">CONSISTENCY ADHERENCE BIORHYTHM</h3>
+                    <h3 className="text-xs font-bold font-mono text-cyber-primary tracking-widest uppercase">CONSISTENCY ADHERENCE BIORHYTHM</h3>
                   </div>
 
                   <div className="grid grid-cols-2 lg:grid-cols-5 gap-6 text-center items-center">
                     
                     {/* Overall Ring (Redesigned as a massive radial gauge) */}
-                    <div className="flex flex-col items-center justify-center col-span-2 lg:col-span-1 border-r border-white/5 pr-0 lg:pr-6">
+                    <div className="flex flex-col items-center justify-center col-span-2 lg:col-span-1 border-r border-cyber-divider pr-0 lg:pr-6">
                       <div className="relative w-32 h-32 flex items-center justify-center mb-3">
                         <svg className="w-full h-full transform -rotate-90">
                           <circle cx="64" cy="64" r="54" strokeWidth="8" stroke="rgba(255,255,255,0.03)" fill="transparent" />
@@ -1598,8 +1598,8 @@ export default function FitAICoach() {
                           />
                         </svg>
                         <div className="absolute flex flex-col items-center">
-                          <span className="text-3xl font-black text-white font-mono text-glow-cyan">{overallConsistency}%</span>
-                          <span className="text-[8px] font-mono text-slate-500 tracking-widest uppercase mt-0.5">OVERALL MATRIX</span>
+                          <span className="text-3xl font-black text-cyber-primary font-mono text-glow-cyan">{overallConsistency}%</span>
+                          <span className="text-[8px] font-mono text-cyber-dim tracking-widest uppercase mt-0.5">OVERALL MATRIX</span>
                         </div>
                       </div>
                     </div>
@@ -1621,10 +1621,10 @@ export default function FitAICoach() {
                         </svg>
                         <div className="absolute flex flex-col items-center">
                           <Dumbbell className="w-4 h-4 text-violet-400 mb-0.5" />
-                          <span className="text-xs font-bold text-white font-mono">{consistencyStats.workout}%</span>
+                          <span className="text-xs font-bold text-cyber-primary font-mono">{consistencyStats.workout}%</span>
                         </div>
                       </div>
-                      <span className="text-[10px] font-mono text-slate-400 tracking-wider">ATHLETIC RUNS</span>
+                      <span className="text-[10px] font-mono text-cyber-muted tracking-wider">ATHLETIC RUNS</span>
                     </div>
 
                     {/* Sleep Ring */}
@@ -1644,10 +1644,10 @@ export default function FitAICoach() {
                         </svg>
                         <div className="absolute flex flex-col items-center">
                           <Moon className="w-4 h-4 text-rose-400 mb-0.5" />
-                          <span className="text-xs font-bold text-white font-mono">{consistencyStats.sleep}%</span>
+                          <span className="text-xs font-bold text-cyber-primary font-mono">{consistencyStats.sleep}%</span>
                         </div>
                       </div>
-                      <span className="text-[10px] font-mono text-slate-400 tracking-wider">CIRCADIAN RECOVERY</span>
+                      <span className="text-[10px] font-mono text-cyber-muted tracking-wider">CIRCADIAN RECOVERY</span>
                     </div>
 
                     {/* Hydration Ring */}
@@ -1667,10 +1667,10 @@ export default function FitAICoach() {
                         </svg>
                         <div className="absolute flex flex-col items-center">
                           <Droplets className="w-4 h-4 text-cyan-400 mb-0.5" />
-                          <span className="text-xs font-bold text-white font-mono">{consistencyStats.water}%</span>
+                          <span className="text-xs font-bold text-cyber-primary font-mono">{consistencyStats.water}%</span>
                         </div>
                       </div>
-                      <span className="text-[10px] font-mono text-slate-400 tracking-wider">HYDRATION MARKS</span>
+                      <span className="text-[10px] font-mono text-cyber-muted tracking-wider">HYDRATION MARKS</span>
                     </div>
 
                     {/* Nutrition Ring */}
@@ -1690,10 +1690,10 @@ export default function FitAICoach() {
                         </svg>
                         <div className="absolute flex flex-col items-center">
                           <Flame className="w-4 h-4 text-emerald-400 mb-0.5" />
-                          <span className="text-xs font-bold text-white font-mono">{consistencyStats.nutrition}%</span>
+                          <span className="text-xs font-bold text-cyber-primary font-mono">{consistencyStats.nutrition}%</span>
                         </div>
                       </div>
-                      <span className="text-[10px] font-mono text-slate-400 tracking-wider">NUTRITIONAL MARKS</span>
+                      <span className="text-[10px] font-mono text-cyber-muted tracking-wider">NUTRITIONAL MARKS</span>
                     </div>
 
                   </div>
@@ -1717,12 +1717,12 @@ export default function FitAICoach() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   
                   {/* Daily Habit Logger Card */}
-                  <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl flex flex-col relative">
+                  <div className="glass-card p-6 rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-xl flex flex-col relative">
                     <div className="hud-corner-tl" />
                     <div className="hud-corner-tr" />
-                    <div className="flex items-center gap-2 mb-5 border-b border-white/5 pb-3">
+                    <div className="flex items-center gap-2 mb-5 border-b border-cyber-divider pb-3">
                       <Plus className="w-5 h-5 text-cyan-400" />
-                      <h3 className="text-xs font-bold font-mono text-white tracking-widest uppercase">LOG DAILY BIOMETRICS</h3>
+                      <h3 className="text-xs font-bold font-mono text-cyber-primary tracking-widest uppercase">LOG DAILY BIOMETRICS</h3>
                     </div>
 
                     <form onSubmit={handleLogHabit} className="space-y-5 flex-grow flex flex-col justify-between">
@@ -1731,40 +1731,40 @@ export default function FitAICoach() {
                         {/* Sleep & Water inputs */}
                         <div className="grid grid-cols-2 gap-4 font-mono">
                           <div className="space-y-1">
-                            <label className="block text-[9px] font-mono text-slate-450 uppercase mb-1.5 tracking-wider">Hours Slept (rest)</label>
+                            <label className="block text-[9px] font-mono text-cyber-muted uppercase mb-1.5 tracking-wider">Hours Slept (rest)</label>
                             <input
                               type="number"
                               step="0.5"
                               value={todaySleep}
                               onChange={(e) => setTodaySleep(e.target.value)}
-                              className="w-full bg-slate-950 border border-white/5 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+                              className="w-full bg-cyber-input border border-cyber-divider rounded-lg px-3 py-2 text-sm text-cyber-primary focus:outline-none focus:border-cyan-500 font-mono"
                               required
                             />
                           </div>
                           <div className="space-y-1">
-                            <label className="block text-[9px] font-mono text-slate-450 uppercase mb-1.5 tracking-wider">Water Intake (Liters)</label>
+                            <label className="block text-[9px] font-mono text-cyber-muted uppercase mb-1.5 tracking-wider">Water Intake (Liters)</label>
                             <input
                               type="number"
                               step="0.1"
                               value={todayWater}
                               onChange={(e) => setTodayWater(e.target.value)}
-                              className="w-full bg-slate-950 border border-white/5 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+                              className="w-full bg-cyber-input border border-cyber-divider rounded-lg px-3 py-2 text-sm text-cyber-primary focus:outline-none focus:border-cyan-500 font-mono"
                               required
                             />
                           </div>
                         </div>
 
                         {/* Workout Checkbox & Duration */}
-                        <div className="bg-slate-950/80 p-4 rounded-xl border border-white/5 flex items-center justify-between font-mono">
+                        <div className="bg-cyber-input/90 p-4 rounded-xl border border-cyber-divider flex items-center justify-between font-mono">
                           <div className="flex items-center gap-3">
                             <input
                               type="checkbox"
                               id="workoutDone"
                               checked={todayWorkoutDone}
                               onChange={(e) => setTodayWorkoutDone(e.target.checked)}
-                              className="w-4 h-4 rounded text-cyan-500 bg-slate-900 border-white/5 focus:ring-0 focus:ring-offset-0 cursor-pointer"
+                              className="w-4 h-4 rounded text-cyan-500 bg-cyber-input border-cyber-divider focus:ring-0 focus:ring-offset-0 cursor-pointer"
                             />
-                            <label htmlFor="workoutDone" className="text-xs text-slate-300 font-bold uppercase tracking-wider cursor-pointer">Log Athletic Workout</label>
+                            <label htmlFor="workoutDone" className="text-xs text-cyber-secondary font-bold uppercase tracking-wider cursor-pointer">Log Athletic Workout</label>
                           </div>
                           {todayWorkoutDone && (
                             <div className="flex items-center gap-1.5 shrink-0 animate-pulse">
@@ -1772,11 +1772,11 @@ export default function FitAICoach() {
                                 type="number"
                                 value={todayWorkoutDuration}
                                 onChange={(e) => setTodayWorkoutDuration(e.target.value)}
-                                className="w-16 bg-slate-900 border border-white/5 rounded px-2.5 py-1 text-xs text-right focus:outline-none text-slate-200 font-mono"
+                                className="w-16 bg-cyber-input border border-cyber-divider rounded px-2.5 py-1 text-xs text-right focus:outline-none text-cyber-primary font-mono"
                                 placeholder="Mins"
                                 required
                               />
-                              <span className="text-[9px] font-mono text-slate-500">MINS</span>
+                              <span className="text-[9px] font-mono text-cyber-dim">MINS</span>
                             </div>
                           )}
                         </div>
@@ -1784,32 +1784,32 @@ export default function FitAICoach() {
                         {/* Calories, Protein & Meals count */}
                         <div className="grid grid-cols-3 gap-2 font-mono">
                           <div className="space-y-1">
-                            <label className="block text-[9px] text-slate-450 uppercase mb-1 tracking-wider">Meals Count</label>
+                            <label className="block text-[9px] text-cyber-muted uppercase mb-1 tracking-wider">Meals Count</label>
                             <input
                               type="number"
                               value={todayMealsCount}
                               onChange={(e) => setTodayMealsCount(e.target.value)}
-                              className="w-full bg-slate-950 border border-white/5 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+                              className="w-full bg-cyber-input border border-cyber-divider rounded-lg px-3 py-2 text-xs text-cyber-primary focus:outline-none focus:border-cyan-500 font-mono"
                               required
                             />
                           </div>
                           <div className="space-y-1">
-                            <label className="block text-[9px] text-slate-450 uppercase mb-1 tracking-wider">Calories (kcal)</label>
+                            <label className="block text-[9px] text-cyber-muted uppercase mb-1 tracking-wider">Calories (kcal)</label>
                             <input
                               type="number"
                               value={todayCalories}
                               onChange={(e) => setTodayCalories(e.target.value)}
-                              className="w-full bg-slate-950 border border-white/5 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+                              className="w-full bg-cyber-input border border-cyber-divider rounded-lg px-3 py-2 text-xs text-cyber-primary focus:outline-none focus:border-cyan-500 font-mono"
                               required
                             />
                           </div>
                           <div className="space-y-1">
-                            <label className="block text-[9px] text-slate-450 uppercase mb-1 tracking-wider">Protein (g)</label>
+                            <label className="block text-[9px] text-cyber-muted uppercase mb-1 tracking-wider">Protein (g)</label>
                             <input
                               type="number"
                               value={todayProtein}
                               onChange={(e) => setTodayProtein(e.target.value)}
-                              className="w-full bg-slate-950 border border-white/5 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+                              className="w-full bg-cyber-input border border-cyber-divider rounded-lg px-3 py-2 text-xs text-cyber-primary focus:outline-none focus:border-cyan-500 font-mono"
                               required
                             />
                           </div>
@@ -1826,13 +1826,13 @@ export default function FitAICoach() {
                   </div>
 
                   {/* Quests / Gamification Board */}
-                  <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl flex flex-col relative">
+                  <div className="glass-card p-6 rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-xl flex flex-col relative">
                     <div className="hud-corner-tl" />
                     <div className="hud-corner-tr" />
-                    <div className="flex items-center justify-between mb-5 border-b border-white/5 pb-3">
+                    <div className="flex items-center justify-between mb-5 border-b border-cyber-divider pb-3">
                       <div className="flex items-center gap-2">
                         <Trophy className="w-5 h-5 text-orange-400" />
-                        <h3 className="text-xs font-bold font-mono text-white tracking-widest uppercase">DAILY ADHERENCE QUESTS</h3>
+                        <h3 className="text-xs font-bold font-mono text-cyber-primary tracking-widest uppercase">DAILY ADHERENCE QUESTS</h3>
                       </div>
                       <span className="text-[8px] font-mono bg-orange-500/10 border border-orange-555/20 px-2 py-0.5 rounded text-orange-450 tracking-wider">ACTIVE DRILLS</span>
                     </div>
@@ -1842,16 +1842,16 @@ export default function FitAICoach() {
                         <div
                           key={quest.id}
                           className={`p-3.5 rounded-xl border flex items-center justify-between gap-3 transition-all relative overflow-hidden ${
-                            quest.claimed ? 'bg-slate-950/20 border-white/5 opacity-45' :
+                            quest.claimed ? 'bg-cyber-input/30 border-cyber-divider opacity-45' :
                             quest.completed ? 'bg-emerald-950/15 border-emerald-800/40 text-emerald-100 shadow-[0_0_15px_rgba(16,185,129,0.08)]' :
-                            'bg-slate-950/60 border-white/5'
+                            'bg-cyber-input/70 border-cyber-divider'
                           }`}
                         >
                           <div className="flex items-center gap-3 text-left">
                             <div className={`p-1.5 rounded-full shrink-0 border ${
-                              quest.claimed ? 'border-white/5 bg-slate-900 text-slate-650' :
+                              quest.claimed ? 'border-cyber-divider bg-cyber-input text-cyber-dim' :
                               quest.completed ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400' :
-                              'border-slate-800 bg-slate-950 text-slate-500'
+                              'border-cyber-divider bg-cyber-input text-cyber-dim'
                             }`}>
                               <CheckCircle className="w-3.5 h-3.5" />
                             </div>
@@ -1867,14 +1867,14 @@ export default function FitAICoach() {
                               onClick={(e) => handleClaimQuest(quest.id, e)}
                               className={`px-3 py-1.5 rounded text-[9px] font-bold font-mono transition-all uppercase shrink-0 tracking-wider cursor-pointer ${
                                 quest.completed ? 'bg-emerald-450 text-slate-950 hover:bg-emerald-400 shadow shadow-emerald-500/20' :
-                                'bg-slate-900 text-slate-600 border border-white/5 cursor-not-allowed'
+                                'bg-cyber-input text-cyber-dim border border-cyber-divider cursor-not-allowed'
                               }`}
                             >
                               CLAIM
                             </button>
                           )}
                           {quest.claimed && (
-                            <span className="text-[8px] font-black font-mono text-slate-550 mr-2 uppercase tracking-widest">CLAIMED</span>
+                            <span className="text-[8px] font-black font-mono text-cyber-dim mr-2 uppercase tracking-widest">CLAIMED</span>
                           )}
                         </div>
                       ))}
@@ -1887,13 +1887,13 @@ export default function FitAICoach() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   
                   {/* Consistency & Water trend */}
-                  <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl flex flex-col relative">
+                  <div className="glass-card p-6 rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-xl flex flex-col relative">
                     <div className="hud-corner-tl" />
                     <div className="hud-corner-tr" />
-                    <div className="flex justify-between items-center mb-4 border-b border-white/5 pb-3">
+                    <div className="flex justify-between items-center mb-4 border-b border-cyber-divider pb-3">
                       <div className="flex items-center gap-2">
                         <TrendingUp className="w-5 h-5 text-cyan-400" />
-                        <h3 className="text-xs font-bold font-mono text-white tracking-widest uppercase">WEEKLY COHORT INDEX</h3>
+                        <h3 className="text-xs font-bold font-mono text-cyber-primary tracking-widest uppercase">WEEKLY COHORT INDEX</h3>
                       </div>
                       <div className="flex gap-3 text-[8px] font-mono tracking-wider">
                         <span className="flex items-center gap-1"><span className="w-2.5 h-1.5 bg-cyan-400 rounded-sm shadow-sm" /> CONSISTENCY</span>
@@ -1901,9 +1901,9 @@ export default function FitAICoach() {
                       </div>
                     </div>
 
-                    <div className="relative w-full h-[190px] bg-slate-950/60 border border-white/5 rounded-xl overflow-hidden p-2 flex items-center justify-center">
+                    <div className="relative w-full h-[190px] bg-cyber-input/70 border border-cyber-divider rounded-xl overflow-hidden p-2 flex items-center justify-center">
                       {chartVitals.length < 2 ? (
-                        <p className="text-xs text-slate-500 font-mono tracking-wider">Biometric log points insufficient for cohort charting.</p>
+                        <p className="text-xs text-cyber-dim font-mono tracking-wider">Biometric log points insufficient for cohort charting.</p>
                       ) : (
                         <svg viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`} className="w-full h-full">
                           {/* Grid lines */}
@@ -1968,20 +1968,20 @@ export default function FitAICoach() {
                   </div>
 
                   {/* Weight progress curve */}
-                  <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl flex flex-col relative">
+                  <div className="glass-card p-6 rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-xl flex flex-col relative">
                     <div className="hud-corner-tl" />
                     <div className="hud-corner-tr" />
-                    <div className="flex justify-between items-center mb-4 border-b border-white/5 pb-3">
+                    <div className="flex justify-between items-center mb-4 border-b border-cyber-divider pb-3">
                       <div className="flex items-center gap-2">
                         <Flame className="w-5 h-5 text-rose-500" />
-                        <h3 className="text-xs font-bold font-mono text-white tracking-widest uppercase">MASS METABOLISM ESTIMATOR</h3>
+                        <h3 className="text-xs font-bold font-mono text-cyber-primary tracking-widest uppercase">MASS METABOLISM ESTIMATOR</h3>
                       </div>
                       <span className="text-[9px] font-mono text-rose-450 tracking-wider">TARGET: {profile.targetWeight} KG</span>
                     </div>
 
-                    <div className="relative w-full h-[190px] bg-slate-950/60 border border-white/5 rounded-xl overflow-hidden p-2 flex items-center justify-center">
+                    <div className="relative w-full h-[190px] bg-cyber-input/70 border border-cyber-divider rounded-xl overflow-hidden p-2 flex items-center justify-center">
                       {chartVitals.length < 2 ? (
-                        <p className="text-xs text-slate-500 font-mono tracking-wider">Log stats to visualize weight trend updates.</p>
+                        <p className="text-xs text-cyber-dim font-mono tracking-wider">Log stats to visualize weight trend updates.</p>
                       ) : (
                         <svg viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`} className="w-full h-full">
                           {/* Grid lines */}
@@ -2076,12 +2076,12 @@ export default function FitAICoach() {
                 </div>
 
                 {/* Achievements Showcase */}
-                <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl relative">
+                <div className="glass-card p-6 rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-xl relative">
                   <div className="hud-corner-tl" />
                   <div className="hud-corner-tr" />
-                  <div className="flex items-center gap-2.5 mb-5 border-b border-white/5 pb-3">
+                  <div className="flex items-center gap-2.5 mb-5 border-b border-cyber-divider pb-3">
                     <Award className="w-5 h-5 text-cyan-400" />
-                    <h3 className="text-xs font-bold font-mono text-white tracking-widest uppercase">UNLOCKABLE ATHLETIC MEDALS</h3>
+                    <h3 className="text-xs font-bold font-mono text-cyber-primary tracking-widest uppercase">UNLOCKABLE ATHLETIC MEDALS</h3>
                   </div>
 
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -2097,17 +2097,17 @@ export default function FitAICoach() {
                         <div
                           key={badge.id}
                           className={`p-4 rounded-xl border flex flex-col items-center text-center transition-all duration-300 relative ${
-                            hasBadge ? badge.color + ' border-neon-cyan scale-100 opacity-100 shadow-[0_0_15px_rgba(0,242,254,0.1)]' : 'border-white/5 bg-slate-950/20 opacity-30 scale-95'
+                            hasBadge ? badge.color + ' border-neon-cyan scale-100 opacity-100 shadow-[0_0_15px_rgba(0,242,254,0.1)]' : 'border-cyber-divider bg-cyber-input/30 opacity-30 scale-95'
                           }`}
                         >
                           {/* Holographic scanning effect on unlocked badges */}
                           {hasBadge && <div className="absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />}
-                          <div className={`p-3 rounded-full mb-3 shadow-inner ${hasBadge ? 'bg-slate-950/50 border border-white/5' : 'bg-slate-900'}`}>
-                            {hasBadge ? <Icon className="w-7 h-7" /> : <Lock className="w-7 h-7 text-slate-600" />}
+                          <div className={`p-3 rounded-full mb-3 shadow-inner ${hasBadge ? 'bg-cyber-input/50 border border-cyber-divider' : 'bg-cyber-input'}`}>
+                            {hasBadge ? <Icon className="w-7 h-7" /> : <Lock className="w-7 h-7 text-cyber-dim" />}
                           </div>
-                          <h4 className="text-xs font-bold text-white leading-tight font-mono tracking-wide">{badge.name}</h4>
-                          <p className="text-[10px] text-slate-400 mt-1.5 leading-snug">{badge.desc}</p>
-                          <span className="text-[8px] font-mono font-black mt-3 tracking-widest uppercase px-2 py-0.5 rounded bg-black/40 border border-white/5">
+                          <h4 className="text-xs font-bold text-cyber-primary leading-tight font-mono tracking-wide">{badge.name}</h4>
+                          <p className="text-[10px] text-cyber-muted mt-1.5 leading-snug">{badge.desc}</p>
+                          <span className="text-[8px] font-mono font-black mt-3 tracking-widest uppercase px-2 py-0.5 rounded bg-black/40 border border-cyber-divider">
                             {hasBadge ? 'ACTIVE' : 'OFFLINE'}
                           </span>
                         </div>
@@ -2120,17 +2120,17 @@ export default function FitAICoach() {
 
             {/* TAB VIEW: AI COACH CHAT */}
             {activeTab === 'chat' && (
-              <div className="glass-card rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl overflow-hidden flex flex-col h-[550px] relative hologram-scanline">
+              <div className="glass-card rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-xl overflow-hidden flex flex-col h-[550px] relative hologram-scanline">
                 <div className="hud-corner-tl" />
                 <div className="hud-corner-tr" />
                 
                 {/* Chat Panel Header */}
-                <div className="p-4 bg-slate-950/80 border-b border-white/5 flex items-center justify-between shrink-0 font-mono">
+                <div className="p-4 bg-cyber-input/90 border-b border-cyber-divider flex items-center justify-between shrink-0 font-mono">
                   <div className="flex items-center gap-2">
                     <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
-                    <span className="text-xs font-bold tracking-widest text-white">COACH SYSTEM TERMINAL DIRECT</span>
+                    <span className="text-xs font-bold tracking-widest text-cyber-primary">COACH SYSTEM TERMINAL DIRECT</span>
                   </div>
-                  <span className="text-[9px] text-slate-500 uppercase tracking-widest">GEMINI // CORE_SYNC</span>
+                  <span className="text-[9px] text-cyber-dim uppercase tracking-widest">GEMINI // CORE_SYNC</span>
                 </div>
 
                 {/* Messages scrollarea */}
@@ -2143,7 +2143,7 @@ export default function FitAICoach() {
                       <div className={`max-w-[80%] p-4 rounded-2xl text-xs sm:text-sm leading-relaxed relative ${
                         msg.sender === 'user'
                           ? 'bg-gradient-to-r from-cyan-500 to-cyan-600 text-slate-950 rounded-tr-none font-bold shadow-lg shadow-cyan-500/10'
-                          : 'bg-slate-950/80 border border-white/5 text-slate-200 rounded-tl-none font-mono text-left'
+                          : 'bg-cyber-input/90 border border-cyber-divider text-cyber-primary rounded-tl-none font-mono text-left'
                       }`}>
                         {msg.sender === 'ai' ? (
                           <div className="markdown-chat whitespace-pre-line leading-relaxed">
@@ -2152,7 +2152,7 @@ export default function FitAICoach() {
                         ) : (
                           <p className="font-sans font-bold">{msg.text}</p>
                         )}
-                        <span className={`block text-[8px] mt-2 font-mono ${msg.sender === 'user' ? 'text-cyan-950' : 'text-slate-500 text-right'}`}>
+                        <span className={`block text-[8px] mt-2 font-mono ${msg.sender === 'user' ? 'text-cyan-950' : 'text-cyber-dim text-right'}`}>
                           {msg.time}
                         </span>
                       </div>
@@ -2161,7 +2161,7 @@ export default function FitAICoach() {
                   
                   {chatLoading && (
                     <div className="flex justify-start">
-                      <div className="bg-slate-950/80 border border-white/5 p-4 rounded-2xl rounded-tl-none flex items-center gap-2 text-[10px] font-mono text-cyan-400">
+                      <div className="bg-cyber-input/90 border border-cyber-divider p-4 rounded-2xl rounded-tl-none flex items-center gap-2 text-[10px] font-mono text-cyan-400">
                         <RotateCw className="w-3.5 h-3.5 animate-spin text-cyan-400" />
                         <span className="animate-pulse tracking-widest">COACH DECIPHERING PATHWAYS...</span>
                       </div>
@@ -2171,12 +2171,12 @@ export default function FitAICoach() {
                 </div>
 
                 {/* Suggestion Chips */}
-                <div className="p-2.5 bg-slate-950/40 border-t border-white/5 overflow-x-auto whitespace-nowrap flex gap-2 shrink-0 font-mono">
+                <div className="p-2.5 bg-cyber-input/50 border-t border-cyber-divider overflow-x-auto whitespace-nowrap flex gap-2 shrink-0 font-mono">
                   {chatChips.map((chip, i) => (
                     <button
                       key={i}
                       onClick={() => handleSendChatMessage(chip)}
-                      className="border border-white/5 bg-slate-950 text-[9px] font-bold font-mono text-cyan-400 hover:text-white hover:border-cyan-500 px-3.5 py-1.5 rounded-full transition-all shrink-0 cursor-pointer"
+                      className="border border-cyber-divider bg-cyber-input text-[9px] font-bold font-mono text-cyan-400 hover:text-cyber-primary hover:border-cyan-500 px-3.5 py-1.5 rounded-full transition-all shrink-0 cursor-pointer"
                     >
                       {chip}
                     </button>
@@ -2184,7 +2184,7 @@ export default function FitAICoach() {
                 </div>
 
                 {/* Chat Input form */}
-                <div className="p-3.5 bg-slate-950/80 border-t border-white/5 shrink-0">
+                <div className="p-3.5 bg-cyber-input/90 border-t border-cyber-divider shrink-0">
                   <form
                     onSubmit={(e) => {
                       e.preventDefault();
@@ -2197,7 +2197,7 @@ export default function FitAICoach() {
                       value={chatInput}
                       onChange={(e) => setChatInput(e.target.value)}
                       placeholder="Input questions regarding metabolic rates, circadian sync or workouts..."
-                      className="flex-grow bg-slate-900 border border-white/5 rounded-xl px-4 py-3.5 text-xs sm:text-sm text-slate-200 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 font-mono"
+                      className="flex-grow bg-cyber-input border border-cyber-divider rounded-xl px-4 py-3.5 text-xs sm:text-sm text-cyber-primary focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 font-mono"
                     />
                     <button
                       type="submit"
@@ -2217,14 +2217,14 @@ export default function FitAICoach() {
               <div className="space-y-6">
                 
                 {/* Introduction banner */}
-                <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl relative overflow-hidden">
+                <div className="glass-card p-6 rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-xl relative overflow-hidden">
                   <div className="hud-corner-tl" />
                   <div className="hud-corner-tr" />
-                  <div className="flex items-center gap-2.5 mb-3 border-b border-white/5 pb-2">
+                  <div className="flex items-center gap-2.5 mb-3 border-b border-cyber-divider pb-2">
                     <Compass className="w-5 h-5 text-cyan-400 animate-spin-slow" />
-                    <h3 className="text-xs font-bold font-mono text-white tracking-widest uppercase">AUTOMATED WORKLOAD ADAPTATION</h3>
+                    <h3 className="text-xs font-bold font-mono text-cyber-primary tracking-widest uppercase">AUTOMATED WORKLOAD ADAPTATION</h3>
                   </div>
-                  <p className="text-xs sm:text-sm text-slate-350 leading-relaxed font-sans">
+                  <p className="text-xs sm:text-sm text-cyber-secondary leading-relaxed font-sans">
                     Fitness consistency fails when physical load expectations collide with lifestyle friction. 
                     If you miss your target exercises repeatedly, our AI **Consistency Engine** scales training blocks down to micro-habits, preventing burnout and keeping momentum alive.
                   </p>
@@ -2240,18 +2240,18 @@ export default function FitAICoach() {
                         INITIAL LOAD STATE
                       </div>
                       <div>
-                        <h4 className="text-xs font-bold text-white font-mono uppercase mb-4 border-b border-white/5 pb-2">Initial Adherence Load</h4>
-                        <div className="space-y-3 font-mono text-xs text-slate-300">
-                          <div className="flex justify-between border-b border-white/5 pb-2">
-                            <span className="text-slate-500">Weekly Cycles:</span>
-                            <span className="font-bold text-white">{adaptivePlan.originalWorkouts} drills / week</span>
+                        <h4 className="text-xs font-bold text-cyber-primary font-mono uppercase mb-4 border-b border-cyber-divider pb-2">Initial Adherence Load</h4>
+                        <div className="space-y-3 font-mono text-xs text-cyber-secondary">
+                          <div className="flex justify-between border-b border-cyber-divider pb-2">
+                            <span className="text-cyber-dim">Weekly Cycles:</span>
+                            <span className="font-bold text-cyber-primary">{adaptivePlan.originalWorkouts} drills / week</span>
                           </div>
-                          <div className="flex justify-between border-b border-white/5 pb-2">
-                            <span className="text-slate-500">Cycle Duration:</span>
-                            <span className="font-bold text-white">{adaptivePlan.originalDuration} minutes</span>
+                          <div className="flex justify-between border-b border-cyber-divider pb-2">
+                            <span className="text-cyber-dim">Cycle Duration:</span>
+                            <span className="font-bold text-cyber-primary">{adaptivePlan.originalDuration} minutes</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-slate-500">Total Workload Time:</span>
+                            <span className="text-cyber-dim">Total Workload Time:</span>
                             <span className="font-bold text-rose-400">{adaptivePlan.originalWorkouts * adaptivePlan.originalDuration} mins / week</span>
                           </div>
                         </div>
@@ -2272,18 +2272,18 @@ export default function FitAICoach() {
                       </div>
                       
                       <div>
-                        <h4 className="text-xs font-bold text-white font-mono uppercase mb-4 border-b border-white/5 pb-2">Scaled Adapted Blueprint</h4>
-                        <div className="space-y-3 font-mono text-xs text-slate-300">
-                          <div className="flex justify-between border-b border-white/5 pb-2">
-                            <span className="text-slate-500">Weekly Cycles:</span>
-                            <span className="font-bold text-white">{adaptivePlan.adaptedWorkouts} drills / week</span>
+                        <h4 className="text-xs font-bold text-cyber-primary font-mono uppercase mb-4 border-b border-cyber-divider pb-2">Scaled Adapted Blueprint</h4>
+                        <div className="space-y-3 font-mono text-xs text-cyber-secondary">
+                          <div className="flex justify-between border-b border-cyber-divider pb-2">
+                            <span className="text-cyber-dim">Weekly Cycles:</span>
+                            <span className="font-bold text-cyber-primary">{adaptivePlan.adaptedWorkouts} drills / week</span>
                           </div>
-                          <div className="flex justify-between border-b border-white/5 pb-2">
-                            <span className="text-slate-500">Cycle Duration:</span>
-                            <span className="font-bold text-white">{adaptivePlan.adaptedDuration} minutes</span>
+                          <div className="flex justify-between border-b border-cyber-divider pb-2">
+                            <span className="text-cyber-dim">Cycle Duration:</span>
+                            <span className="font-bold text-cyber-primary">{adaptivePlan.adaptedDuration} minutes</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-slate-500">Total Workload Time:</span>
+                            <span className="text-cyber-dim">Total Workload Time:</span>
                             <span className="font-bold text-cyan-400">{adaptivePlan.adaptedWorkouts * adaptivePlan.adaptedDuration} mins / week</span>
                           </div>
                         </div>
@@ -2311,7 +2311,7 @@ export default function FitAICoach() {
 
                   </div>
                 ) : (
-                  <div className="glass-card p-8 rounded-2xl border border-white/5 bg-slate-900/40 text-center font-mono text-slate-500 text-xs tracking-wider">
+                  <div className="glass-card p-8 rounded-2xl border border-cyber-divider bg-cyber-input/50 text-center font-mono text-cyber-dim text-xs tracking-wider">
                     Adherence levels are stable. Adaptive thresholds will trigger if your consistency index falls under 70%.
                   </div>
                 )}
@@ -2324,12 +2324,12 @@ export default function FitAICoach() {
               <div className="space-y-6">
                 
                 {/* Introduction and stats */}
-                <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl flex items-center justify-between relative">
+                <div className="glass-card p-6 rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-xl flex items-center justify-between relative">
                   <div className="hud-corner-tl" />
                   <div className="hud-corner-tr" />
                   <div className="space-y-0.5">
-                    <h3 className="text-xs font-bold font-mono text-white tracking-widest uppercase">COACH BIOMETRICS ANALYSIS</h3>
-                    <p className="text-[10px] text-slate-500 font-mono uppercase">Calculated across the preceding 7 diurnal rotations</p>
+                    <h3 className="text-xs font-bold font-mono text-cyber-primary tracking-widest uppercase">COACH BIOMETRICS ANALYSIS</h3>
+                    <p className="text-[10px] text-cyber-dim font-mono uppercase">Calculated across the preceding 7 diurnal rotations</p>
                   </div>
                   <span className="text-[8px] font-mono bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full uppercase tracking-wider font-bold">
                     MATRIX RECALIBRATED
@@ -2342,11 +2342,11 @@ export default function FitAICoach() {
                     {/* Wins column */}
                     <div className="glass-card p-6 rounded-2xl border border-emerald-900/20 bg-emerald-950/5 flex flex-col gap-4 relative">
                       <div className="hud-corner-tl" />
-                      <div className="flex items-center gap-2 border-b border-white/5 pb-2">
+                      <div className="flex items-center gap-2 border-b border-cyber-divider pb-2">
                         <CheckCircle className="w-4.5 h-4.5 text-emerald-400" />
-                        <h4 className="text-xs font-bold text-white font-mono uppercase tracking-wider">SECURED ADVANCEMENTS</h4>
+                        <h4 className="text-xs font-bold text-cyber-primary font-mono uppercase tracking-wider">SECURED ADVANCEMENTS</h4>
                       </div>
-                      <ul className="space-y-3 font-sans text-xs sm:text-sm text-slate-300 list-disc pl-4 leading-relaxed">
+                      <ul className="space-y-3 font-sans text-xs sm:text-sm text-cyber-secondary list-disc pl-4 leading-relaxed">
                         {weeklyReport.wins.map((w, idx) => (
                           <li key={idx} className="marker:text-emerald-400">{w}</li>
                         ))}
@@ -2356,11 +2356,11 @@ export default function FitAICoach() {
                     {/* Weak areas column */}
                     <div className="glass-card p-6 rounded-2xl border border-rose-900/20 bg-rose-950/5 flex flex-col gap-4 relative">
                       <div className="hud-corner-tl" />
-                      <div className="flex items-center gap-2 border-b border-white/5 pb-2">
+                      <div className="flex items-center gap-2 border-b border-cyber-divider pb-2">
                         <AlertTriangle className="w-4.5 h-4.5 text-rose-400" />
-                        <h4 className="text-xs font-bold text-white font-mono uppercase tracking-wider">BIOMETRIC SLIPS</h4>
+                        <h4 className="text-xs font-bold text-cyber-primary font-mono uppercase tracking-wider">BIOMETRIC SLIPS</h4>
                       </div>
-                      <ul className="space-y-3 font-sans text-xs sm:text-sm text-slate-300 list-disc pl-4 leading-relaxed">
+                      <ul className="space-y-3 font-sans text-xs sm:text-sm text-cyber-secondary list-disc pl-4 leading-relaxed">
                         {weeklyReport.weakAreas.map((w, idx) => (
                           <li key={idx} className="marker:text-rose-455">{w}</li>
                         ))}
@@ -2370,11 +2370,11 @@ export default function FitAICoach() {
                     {/* Suggestions column */}
                     <div className="glass-card p-6 rounded-2xl border border-cyan-900/25 bg-cyan-950/5 flex flex-col gap-4 relative">
                       <div className="hud-corner-tl" />
-                      <div className="flex items-center gap-2 border-b border-white/5 pb-2">
+                      <div className="flex items-center gap-2 border-b border-cyber-divider pb-2">
                         <Sparkles className="w-4.5 h-4.5 text-cyan-400" />
-                        <h4 className="text-xs font-bold text-white font-mono uppercase tracking-wider">COACH INTERVENTIONS</h4>
+                        <h4 className="text-xs font-bold text-cyber-primary font-mono uppercase tracking-wider">COACH INTERVENTIONS</h4>
                       </div>
-                      <ul className="space-y-3 font-sans text-xs sm:text-sm text-slate-300 list-disc pl-4 leading-relaxed">
+                      <ul className="space-y-3 font-sans text-xs sm:text-sm text-cyber-secondary list-disc pl-4 leading-relaxed">
                         {weeklyReport.suggestions.map((w, idx) => (
                           <li key={idx} className="marker:text-cyan-450">{w}</li>
                         ))}
@@ -2383,7 +2383,7 @@ export default function FitAICoach() {
 
                   </div>
                 ) : (
-                  <div className="glass-card p-8 rounded-2xl border border-white/5 bg-slate-900/40 text-center font-mono text-slate-500 text-xs tracking-wider">
+                  <div className="glass-card p-8 rounded-2xl border border-cyber-divider bg-cyber-input/50 text-center font-mono text-cyber-dim text-xs tracking-wider">
                     Feedback vectors require at least 4 active log frames. Perform more diurnal logs.
                   </div>
                 )}
@@ -2396,27 +2396,27 @@ export default function FitAICoach() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 text-left">
                 
                 {/* Workout blueprint */}
-                <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl relative overflow-hidden">
+                <div className="glass-card p-6 rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-xl relative overflow-hidden">
                   <div className="hud-corner-tl" />
                   <div className="hud-corner-tr" />
-                  <div className="flex items-center gap-2 mb-3 border-b border-white/5 pb-2">
+                  <div className="flex items-center gap-2 mb-3 border-b border-cyber-divider pb-2">
                     <Dumbbell className="w-4 h-4 text-cyan-400" />
-                    <h4 className="text-[10px] font-bold font-mono text-white tracking-widest uppercase">ACTIVE CYCLICAL TRAINING PLAN</h4>
+                    <h4 className="text-[10px] font-bold font-mono text-cyber-primary tracking-widest uppercase">ACTIVE CYCLICAL TRAINING PLAN</h4>
                   </div>
-                  <div className="font-sans text-xs sm:text-sm leading-relaxed text-slate-350 max-h-[220px] overflow-y-auto whitespace-pre-line">
+                  <div className="font-sans text-xs sm:text-sm leading-relaxed text-cyber-secondary max-h-[220px] overflow-y-auto whitespace-pre-line">
                     {activeWorkoutPlan}
                   </div>
                 </div>
 
                 {/* Nutrition blueprint */}
-                <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl relative overflow-hidden">
+                <div className="glass-card p-6 rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-xl relative overflow-hidden">
                   <div className="hud-corner-tl" />
                   <div className="hud-corner-tr" />
-                  <div className="flex items-center gap-2 mb-3 border-b border-white/5 pb-2">
+                  <div className="flex items-center gap-2 mb-3 border-b border-cyber-divider pb-2">
                     <Flame className="w-4 h-4 text-cyan-400" />
-                    <h4 className="text-[10px] font-bold font-mono text-white tracking-widest uppercase">ACTIVE NUTRITIONAL FUEL PLAN</h4>
+                    <h4 className="text-[10px] font-bold font-mono text-cyber-primary tracking-widest uppercase">ACTIVE NUTRITIONAL FUEL PLAN</h4>
                   </div>
-                  <div className="font-sans text-xs sm:text-sm leading-relaxed text-slate-350 max-h-[220px] overflow-y-auto whitespace-pre-line">
+                  <div className="font-sans text-xs sm:text-sm leading-relaxed text-cyber-secondary max-h-[220px] overflow-y-auto whitespace-pre-line">
                     {activeNutritionPlan}
                   </div>
                 </div>
@@ -2431,31 +2431,31 @@ export default function FitAICoach() {
 
       {/* --- MOCK API CONFIGURATION MODAL --- */}
       {showKeyModal && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="glass-card p-6 rounded-2xl border border-white/10 bg-slate-900 max-w-md w-full shadow-2xl space-y-4 relative text-left font-mono">
+        <div className="fixed inset-0 bg-cyber-input/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="glass-card p-6 rounded-2xl border border-cyber-divider bg-cyber-input max-w-md w-full shadow-2xl space-y-4 relative text-left font-mono">
             <div className="hud-corner-tl" />
             <div className="hud-corner-tr" />
             <div className="hud-corner-bl" />
             <div className="hud-corner-br" />
 
-            <div className="flex items-center gap-2.5 border-b border-white/5 pb-3">
+            <div className="flex items-center gap-2.5 border-b border-cyber-divider pb-3">
               <Key className="w-5 h-5 text-cyan-400" />
-              <h3 className="text-xs font-bold text-white uppercase tracking-widest">GEMINI SYSTEM API KEY</h3>
+              <h3 className="text-xs font-bold text-cyber-primary uppercase tracking-widest">GEMINI SYSTEM API KEY</h3>
             </div>
             
-            <p className="text-[10px] text-slate-400 leading-relaxed font-sans uppercase-first">
+            <p className="text-[10px] text-cyber-muted leading-relaxed font-sans uppercase-first">
               FitAI Coach runs offline via a local heuristic model. 
               Input a Google Gemini API key to swap to the live **Gemini 1.5 Flash** model for blueprints and coaching feedback. Keys are cached locally and never sent to external servers.
             </p>
 
             <div className="space-y-1.5">
-              <label className="block text-[9px] font-bold text-slate-450 uppercase tracking-widest">Gemini API Token Key</label>
+              <label className="block text-[9px] font-bold text-cyber-muted uppercase tracking-widest">Gemini API Token Key</label>
               <input
                 type="password"
                 value={apiKeyInput}
                 onChange={(e) => setApiKeyInput(e.target.value)}
                 placeholder={getGeminiApiKey() ? '••••••••••••••••••••••••' : 'AIzaSy...'}
-                className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-cyan-500 font-mono"
+                className="w-full bg-cyber-input border border-cyber-divider rounded-lg px-4 py-2.5 text-xs text-cyber-secondary focus:outline-none focus:border-cyan-500 font-mono"
               />
             </div>
 
@@ -2463,7 +2463,7 @@ export default function FitAICoach() {
               <button
                 type="button"
                 onClick={() => setShowKeyModal(false)}
-                className="flex-1 border border-white/5 hover:border-white/10 bg-slate-950 py-2.5 rounded-lg text-slate-400 font-bold tracking-widest uppercase cursor-pointer"
+                className="flex-1 border border-cyber-divider hover:border-cyber-divider bg-cyber-input py-2.5 rounded-lg text-cyber-muted font-bold tracking-widest uppercase cursor-pointer"
               >
                 Cancel
               </button>
