@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "FitDNA Coach | AI-Powered Fitness Consistency Platform",
-  description: "AI-powered fitness consistency coach, personalized blueprints, adaptive training plans, habit tracking, and epigenetic simulations.",
+  title: "FitAI Coach | AI-Powered Fitness Consistency Platform",
+  description: "AI-powered fitness consistency coach, personalized blueprints, adaptive training plans, habit tracking, and cognitive analytics.",
 };
 
 export default function RootLayout({

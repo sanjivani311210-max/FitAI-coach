@@ -25,7 +25,14 @@ import {
   Key,
   TrendingUp,
   MoonIcon,
-  SunIcon
+  SunIcon,
+  Lock,
+  Target,
+  Sparkle,
+  ArrowRight,
+  ShieldCheck,
+  ChevronLeft,
+  Award
 } from 'lucide-react';
 import { auth, db, UserProfile, HabitLog, WeeklyReport, AdaptivePlan, UserState } from '@/lib/mockFirebase';
 import {
@@ -37,7 +44,7 @@ import {
   removeGeminiApiKey
 } from '@/lib/gemini';
 
-export default function FitDNACoach() {
+export default function FitAICoach() {
   // Navigation & Authentication state
   const [user, setUser] = useState<any>(null);
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('signup');
@@ -48,7 +55,7 @@ export default function FitDNACoach() {
   const [loading, setLoading] = useState(true);
 
   // Active navigation tab
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'chat' | 'adaptive' | 'report' | 'profile'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'chat' | 'adaptive' | 'report'>('dashboard');
 
   // Theme state
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
@@ -101,7 +108,7 @@ export default function FitDNACoach() {
   const [chatMessages, setChatMessages] = useState<{ sender: 'user' | 'ai'; text: string; time: string }[]>([
     {
       sender: 'ai',
-      text: "Hello! I am your FitDNA Coach. Ask me anything about your custom plan, workout strategies, optimizing nutrition, circadian sleep synchronization, or how to maintain consistency!",
+      text: "Welcome to your FitAI Command Hub. I am your adaptive AI Fitness Coach. I monitor your daily habits, recalibrate training parameters when your schedule becomes tight, and unlock genetic alignment directives. Ask me anything to begin.",
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -111,13 +118,10 @@ export default function FitDNACoach() {
 
   // Quest / Challenges State (Gamification)
   const [quests, setQuests] = useState([
-    { id: 'q1', text: 'Reach 2.5L Water Intake today', xpReward: 30, completed: false, claimed: false },
-    { id: 'q2', text: 'Log a workout of at least 25 minutes', xpReward: 40, completed: false, claimed: false },
-    { id: 'q3', text: 'Log 8 hours of restorative sleep', xpReward: 30, completed: false, claimed: false }
+    { id: 'q1', text: 'Sip 2.5L of pure cellular hydration today', xpReward: 30, completed: false, claimed: false },
+    { id: 'q2', text: 'Engage in a 25-minute focused athletic session', xpReward: 40, completed: false, claimed: false },
+    { id: 'q3', text: 'Log 8 hours of deep restorative sleep', xpReward: 30, completed: false, claimed: false }
   ]);
-
-  // DNA Rotation Angle (Simulated Epigenetics)
-  const [dnaAngle, setDnaAngle] = useState(0);
 
   // Confetti State
   const [confetti, setConfetti] = useState<{ id: number; x: number; y: number; color: string }[]>([]);
@@ -126,13 +130,11 @@ export default function FitDNACoach() {
   const populateMockHistory = (userId: string, startWeight: number, targetW: number) => {
     const historicalLogs: Record<string, HabitLog> = {};
     const today = new Date();
-    
-    // Generate 6 days of historical data leading to today (Day -6 to Day -1)
-    // Create a scenario: high enthusiasm at first, then a dip in workouts and sleep, which triggers risk alerts!
+
     const weights = [startWeight, startWeight - 0.2, startWeight - 0.1, startWeight + 0.1, startWeight, startWeight + 0.2];
     const sleepHrs = [7.5, 8.0, 6.0, 5.5, 7.0, 6.5];
     const waterLtrs = [2.2, 3.0, 1.5, 1.2, 2.0, 1.8];
-    const workoutState = [true, true, false, false, true, false]; // 3 completed, 3 missed
+    const workoutState = [true, true, false, false, true, false];
     const workoutDur = [45, 45, 0, 0, 40, 0];
     const mealCount = [3, 4, 2, 2, 3, 2];
     const calories = [2100, 1950, 2500, 2600, 2200, 2400];
@@ -142,7 +144,7 @@ export default function FitDNACoach() {
       const d = new Date();
       d.setDate(today.getDate() - i);
       const dateStr = d.toISOString().split('T')[0];
-      
+
       historicalLogs[dateStr] = {
         date: dateStr,
         sleep: sleepHrs[6 - i],
@@ -165,7 +167,7 @@ export default function FitDNACoach() {
     try {
       const doc = await db.getDoc('users', user.uid);
       const currentData = doc.exists() ? doc.data() : {};
-      
+
       const merged: UserState = {
         profile: updatedState.profile !== undefined ? updatedState.profile : (currentData.profile || profile),
         logs: updatedState.logs !== undefined ? updatedState.logs : (currentData.logs || logs),
@@ -202,11 +204,10 @@ export default function FitDNACoach() {
         });
         setAdaptivePlan(data.adaptivePlan || null);
         setWeeklyReport(data.weeklyReport || null);
-        
-        // Restore AI blueprints if they exist
+
         if (data.profile?.uid) {
-          const storedWorkout = localStorage.getItem(`fitdna_workout_${userId}`);
-          const storedNutrition = localStorage.getItem(`fitdna_nutrition_${userId}`);
+          const storedWorkout = localStorage.getItem(`fitai_workout_${userId}`);
+          const storedNutrition = localStorage.getItem(`fitai_nutrition_${userId}`);
           if (storedWorkout) setActiveWorkoutPlan(storedWorkout);
           if (storedNutrition) setActiveNutritionPlan(storedNutrition);
         }
@@ -245,7 +246,6 @@ export default function FitDNACoach() {
     const apiKey = getGeminiApiKey();
     if (apiKey) setApiKeyInput(apiKey);
 
-    // Default target date for assessment
     const future = new Date();
     future.setDate(future.getDate() + 60);
     setWizardTargetDate(future.toISOString().split('T')[0]);
@@ -264,18 +264,6 @@ export default function FitDNACoach() {
     }
   }, [theme]);
 
-  // DNA Rotation Engine Loop
-  useEffect(() => {
-    let frameId: number;
-    const tick = () => {
-      const speed = 0.015 + (overallConsistency / 100) * 0.05;
-      setDnaAngle((prev) => (prev + speed) % (Math.PI * 2));
-      frameId = requestAnimationFrame(tick);
-    };
-    frameId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frameId);
-  }, [logs, profile]);
-
   // Scroll to bottom of chat
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -293,7 +281,7 @@ export default function FitDNACoach() {
 
   // Trigger particle effect
   const triggerConfetti = (x: number, y: number) => {
-    const colors = ['#06b6d4', '#10b981', '#8b5cf6', '#f43f5e', '#f59e0b'];
+    const colors = ['#00f2fe', '#00f5a0', '#ff7e5f', '#7f00ff', '#ff0844'];
     const newParticles = Array.from({ length: 45 }).map((_, i) => ({
       id: Math.random() + i,
       x: x || (typeof window !== 'undefined' ? window.innerWidth / 2 : 500),
@@ -348,19 +336,18 @@ export default function FitDNACoach() {
       let newXp = prevXp + amount;
       let newLevel = level;
       const xpNeeded = level * 100;
-      
+
       if (newXp >= xpNeeded) {
         newXp -= xpNeeded;
         newLevel += 1;
         setLevel(newLevel);
         triggerConfetti(eventX || 0, eventY || 0);
       }
-      
-      // Save state update
+
       setTimeout(() => {
         saveStateToDB({ xp: newXp, level: newLevel });
       }, 0);
-      
+
       return newXp;
     });
   };
@@ -389,7 +376,7 @@ export default function FitDNACoach() {
       const waterNum = parseFloat(wizardWater);
       const sleepNum = parseFloat(wizardSleep);
       const targetWNum = parseFloat(wizardTargetWeight);
-      
+
       const { bmi, category } = calculateBMI(weightNum, heightNum);
 
       const newProfile: UserProfile = {
@@ -411,43 +398,37 @@ export default function FitDNACoach() {
         createdAt: new Date().toISOString()
       };
 
-      // Populate history with mock logs so dashboard displays metrics immediately
       const startWeight = weightNum;
       const initialLogs = populateMockHistory(user.uid, startWeight, targetWNum);
-      
-      // Calculate today's water/sleep defaults based on targets
+
       const hydration = Math.round((weightNum * 0.033) * 10) / 10;
       setTodayWater(hydration.toString());
       setTodaySleep('8');
-      
-      // Initialise state
+
       setProfile(newProfile);
       setLogs(initialLogs);
-      setStreaks({ current: 4, best: 4 }); // Starter streak
-      
-      // Generate blueprint from Gemini API
+      setStreaks({ current: 4, best: 4 });
+
       const blueprint = await generateFitnessBlueprint(newProfile);
-      
+
       setActiveWorkoutPlan(blueprint.workoutPlan);
       setActiveNutritionPlan(blueprint.nutritionPlan);
-      localStorage.setItem(`fitdna_workout_${user.uid}`, blueprint.workoutPlan);
-      localStorage.setItem(`fitdna_nutrition_${user.uid}`, blueprint.nutritionPlan);
+      localStorage.setItem(`fitai_workout_${user.uid}`, blueprint.workoutPlan);
+      localStorage.setItem(`fitai_nutrition_${user.uid}`, blueprint.nutritionPlan);
 
-      // Generate initial weekly AI report
       const logsArray = Object.values(initialLogs).sort((a, b) => a.timestamp - b.timestamp);
       const report = await generateWeeklyReport(newProfile, logsArray);
       setWeeklyReport(report);
 
-      // Check if adaptive planning triggers (workout rate is 50% which is < 70%)
       const completedCount = logsArray.filter(l => l.workoutCompleted).length;
+      let newAdaptive: AdaptivePlan | null = null;
       if (completedCount <= 3) {
-        // Trigger adaptive planning recommendation!
-        const newAdaptive: AdaptivePlan = {
+        newAdaptive = {
           originalWorkouts: 5,
           originalDuration: 45,
           adaptedWorkouts: 4,
           adaptedDuration: 25,
-          reason: 'Your workout completion rate is 50% over the last week. Slicing workout durations and shifting to a 4-day plan will help recover consistency.',
+          reason: 'Biometric completion rate sits at 50%. Activating adaptive protocols to lower duration resistance and protect your streak.',
           isActive: false
         };
         setAdaptivePlan(newAdaptive);
@@ -456,30 +437,23 @@ export default function FitDNACoach() {
       const updatedState: UserState = {
         profile: newProfile,
         logs: initialLogs,
-        xp: 100, // Initial XP reward
+        xp: 100,
         level: 1,
         streaks: { current: 4, best: 4 },
         achievements: {
           hydrationHero: false,
           sleepChampion: false,
-          fitnessStarter: true, // Unlocked fitness starter
+          fitnessStarter: true,
           consistencyMaster: false
         },
-        adaptivePlan: completedCount <= 3 ? {
-          originalWorkouts: 5,
-          originalDuration: 45,
-          adaptedWorkouts: 4,
-          adaptedDuration: 25,
-          reason: 'Your workout completion rate is 50% over the last week. Slicing workout durations and shifting to a 4-day plan will help recover consistency.',
-          isActive: false
-        } : null,
+        adaptivePlan: newAdaptive,
         weeklyReport: report
       };
 
       setXp(100);
       setAchievements(updatedState.achievements);
       await db.setDoc('users', user.uid, updatedState);
-      
+
       triggerConfetti(0, 0);
     } catch (error) {
       console.error('Onboarding failed:', error);
@@ -509,24 +483,19 @@ export default function FitDNACoach() {
     const updatedLogs = { ...logs, [dateStr]: newLog };
     setLogs(updatedLogs);
 
-    // Calculate XP
-    let gainedXP = 15; // Daily logging base reward
-    
-    // Check if hydration met
+    let gainedXP = 15;
+
     const dailyWaterTarget = Math.round((profile.weight || 70) * 0.033 * 10) / 10;
     if (newLog.water >= dailyWaterTarget && (!logs[dateStr] || logs[dateStr].water < dailyWaterTarget)) {
       gainedXP += 10;
     }
-    // Check if sleep met
     if (newLog.sleep >= 8 && (!logs[dateStr] || logs[dateStr].sleep < 8)) {
       gainedXP += 10;
     }
-    // Check if workout met
     if (newLog.workoutCompleted && (!logs[dateStr] || !logs[dateStr].workoutCompleted)) {
       gainedXP += 15;
     }
 
-    // Refresh streak calendar rules
     let currentStreak = streaks.current;
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
@@ -539,41 +508,32 @@ export default function FitDNACoach() {
       if (hasLoggedYesterday || Object.keys(logs).length === 0) {
         currentStreak += 1;
       } else {
-        currentStreak = 1; // reset streak
+        currentStreak = 1;
       }
     }
-    
+
     const bestStreak = Math.max(currentStreak, streaks.best);
     const updatedStreaks = { current: currentStreak, best: bestStreak, lastActiveDate: dateStr };
     setStreaks(updatedStreaks);
 
-    // Evaluate Achievements
     const newAchievements = { ...achievements };
-    
-    // 1. Fitness Starter
+
     if (newLog.workoutCompleted) newAchievements.fitnessStarter = true;
-    
-    // Count historic successes
+
     const logList = Object.values(updatedLogs);
     const waterMetDays = logList.filter(l => l.water >= dailyWaterTarget).length;
     const sleepMetDays = logList.filter(l => l.sleep >= 8).length;
 
-    // 2. Hydration Hero (3 days)
     if (waterMetDays >= 3) newAchievements.hydrationHero = true;
-
-    // 3. Sleep Champion (3 days)
     if (sleepMetDays >= 3) newAchievements.sleepChampion = true;
-
-    // 4. Consistency Master
     if (overallConsistency >= 80 && logList.length >= 5) newAchievements.consistencyMaster = true;
 
-    // Trigger achievement sound/confetti
     let achievementUnlocked = false;
     Object.keys(newAchievements).forEach((key) => {
       const k = key as keyof typeof achievements;
       if (newAchievements[k] && !achievements[k]) {
         achievementUnlocked = true;
-        gainedXP += 50; // Bonus for achievements
+        gainedXP += 50;
       }
     });
 
@@ -584,7 +544,6 @@ export default function FitDNACoach() {
       triggerConfetti(0, 0);
     }
 
-    // Update quest tracking
     const updatedQuests = quests.map(q => {
       if (q.id === 'q1' && newLog.water >= 2.5) return { ...q, completed: true };
       if (q.id === 'q2' && newLog.workoutCompleted && newLog.workoutDuration >= 25) return { ...q, completed: true };
@@ -593,7 +552,6 @@ export default function FitDNACoach() {
     });
     setQuests(updatedQuests);
 
-    // Persist
     saveStateToDB({
       logs: updatedLogs,
       streaks: updatedStreaks,
@@ -606,21 +564,18 @@ export default function FitDNACoach() {
     const quest = quests.find(q => q.id === id);
     if (!quest || !quest.completed || quest.claimed) return;
 
-    // Trigger confetti at click coordinate
     triggerConfetti(e.clientX, e.clientY);
 
-    // Claim Quest
     setQuests(prev => prev.map(q => q.id === id ? { ...q, claimed: true } : q));
     awardXP(quest.xpReward, e.clientX, e.clientY);
 
-    // Swap finished quest with a new random quest
     setTimeout(() => {
       const newPool = [
-        { text: 'Complete a 40m High Intensity workout', xpReward: 50 },
-        { text: 'Consume 130g of protein today', xpReward: 40 },
-        { text: 'Meet all 4 habit goals today', xpReward: 60 },
-        { text: 'Drink 3L of water', xpReward: 35 },
-        { text: 'Sleep 8.5 hours for full DNA expression', xpReward: 45 }
+        { text: 'Conquer a 40m High-Intensity session', xpReward: 50 },
+        { text: 'Absorb 130g of pure muscle-building protein', xpReward: 40 },
+        { text: 'Excel across all 4 core habits today', xpReward: 60 },
+        { text: 'Infuse 3L of water into your body system', xpReward: 35 },
+        { text: 'Sleep 8.5 hours for full recovery optimization', xpReward: 45 }
       ];
 
       const selected = newPool[Math.floor(Math.random() * newPool.length)];
@@ -638,25 +593,24 @@ export default function FitDNACoach() {
   // Adaptive Planning Action
   const handleApplyAdaptation = () => {
     if (!adaptivePlan || !profile || !user) return;
-    
-    // Adapt recommendations
+
     const message = `
-### Weekly Workout Schedule (Adapted for Consistency)
-* **Monday (Strength):** 25 mins Focus workout (Push focus)
-* **Tuesday (Active Recovery):** 15 mins mobility flow and light stretches
-* **Wednesday:** Rest Day
-* **Thursday (Strength):** 25 mins Lower Body focus (Squats & Core)
-* **Friday (Stamina):** 20 mins HIIT/Cardio brisk walk
-* **Saturday:** Rest Day
+### Weekly Workout Schedule (Adapted for Adherence)
+* **Monday (Strength Foundation):** 25 mins High Intensity Focus (Upper Body Compound)
+* **Tuesday (Circadian Flow):** 15 mins dynamic stretching & thoracic mobility flow
+* **Wednesday:** Rest and Epigenetic Recovery Day
+* **Thursday (Strength Activation):** 25 mins Core Stability & Lower Body squats
+* **Friday (Cardiovascular Surge):** 20 mins HIIT / tempo fat-burner circuit
+* **Saturday:** Outdoor Movement (Walk/Recreation)
 * **Sunday:** Circadian sleep reset.
     `;
-    
+
     setActiveWorkoutPlan(message);
-    localStorage.setItem(`fitdna_workout_${user.uid}`, message);
-    
+    localStorage.setItem(`fitai_workout_${user.uid}`, message);
+
     const newAdaptive = { ...adaptivePlan, isActive: true };
     setAdaptivePlan(newAdaptive);
-    
+
     awardXP(30);
     triggerConfetti(0, 0);
     saveStateToDB({ adaptivePlan: newAdaptive });
@@ -669,13 +623,12 @@ export default function FitDNACoach() {
 
     const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const userMsg = { sender: 'user' as const, text: textToSend, time };
-    
+
     setChatMessages(prev => [...prev, userMsg]);
     setChatInput('');
     setChatLoading(true);
 
     try {
-      // Prepare history format
       const history = chatMessages.map(msg => ({
         role: msg.sender === 'user' ? 'user' as const : 'model' as const,
         parts: [{ text: msg.text }]
@@ -696,15 +649,14 @@ export default function FitDNACoach() {
     }
   };
 
-  // AI suggestion chips
   const chatChips = [
-    "How does consistency alter my DNA?",
-    "Suggest a quick 15-minute workout",
-    "How can I hit my protein goal today?",
-    "Tips to sleep better tonight"
+    "Recalibrate my consistency index",
+    "Request 15-min functional workout",
+    "Directives to hit protein markers",
+    "Optimise sleep circadian window"
   ];
 
-  // Calculate consistency scores using the AI engine logic
+  // Calculate consistency scores
   const consistencyStats = useMemo(() => {
     const logList = Object.values(logs);
     if (logList.length === 0) {
@@ -723,7 +675,6 @@ export default function FitDNACoach() {
       if (log.workoutCompleted) workoutSuccess++;
       if (log.sleep >= 8) sleepSuccess++;
       if (log.water >= waterTarget) waterSuccess++;
-      // Nutrition met if logged calories is within 350 calories of baseline target (approx 2000)
       if (log.mealsCompleted >= 3 || (log.caloriesConsumed > 1500 && log.caloriesConsumed < 2500)) {
         nutritionSuccess++;
       }
@@ -746,47 +697,42 @@ export default function FitDNACoach() {
 
   const overallConsistency = consistencyStats.overall;
 
-  // Consistency Risk Alerts logic
+  // Consistency Risk Alerts
   const riskAlert = useMemo(() => {
     if (Object.keys(logs).length < 3) return null;
-    
-    // Sort logs chronologically
+
     const sorted = Object.values(logs).sort((a, b) => a.timestamp - b.timestamp);
-    const recent = sorted.slice(-4); // last 4 entries
-    
-    // 1. Detect multiple missed workouts (e.g. 2 consecutive missed workouts)
+    const recent = sorted.slice(-4);
+
     if (recent.length >= 2 && !recent[recent.length - 1].workoutCompleted && !recent[recent.length - 2].workoutCompleted) {
       return {
         type: 'danger',
-        message: "Consistency Alert: You've missed workouts for 2 consecutive days. High risk of losing momentum! Completing a short 15-minute workout today can reactivate your FTO metabolism genes.",
+        message: "momentum hazard: Two consecutive training sessions missed. Muscle protein synthesis markers are declining. Complete a 15-minute high-intensity micro-workout today to reset circadian momentum.",
         scoreDrop: 15
       };
     }
 
-    // 2. Detect falling sleep quality
     if (recent.length >= 3 && recent[recent.length - 1].sleep < 6.5 && recent[recent.length - 2].sleep < 6.5) {
       return {
         type: 'warning',
-        message: "Recovery Alert: Sleep has dropped below 6.5 hours for 2 nights. Your CLOCK gene expression is falling, creating recovery debt. Prioritise a 15-min screen-free wind down tonight.",
+        message: "recovery deficit: Sleeping hours fell under 6.5h for two consecutive nights. Cortisol elevations detected. Prioritize screen exclusion 45 minutes before bedtime.",
         scoreDrop: 8
       };
     }
 
-    // 3. Detect low hydration
     const waterTarget = profile ? Math.round((profile.weight || 70) * 0.033 * 10) / 10 : 2.5;
     if (recent.length >= 3 && recent[recent.length - 1].water < waterTarget * 0.7 && recent[recent.length - 2].water < waterTarget * 0.7) {
       return {
         type: 'info',
-        message: `Hydration Risk: Water intake is under 70% of your ${waterTarget}L target. Low hydration limits joint lubrication and metabolic speed. Sip a glass of water now.`,
+        message: `hydration drop: Cell hydration level is below 70% of ${waterTarget}L baseline. Metabolic filtration velocity has slowed. Drink 500ml of mineralized water.`,
         scoreDrop: 10
       };
     }
 
-    // 4. Declining overall consistency trend (last 3 days vs preceding 3 days)
     if (sorted.length >= 6) {
       const last3 = sorted.slice(-3);
       const prev3 = sorted.slice(-6, -3);
-      
+
       const last3Score = last3.filter(l => l.workoutCompleted).length;
       const prev3Score = prev3.filter(l => l.workoutCompleted).length;
 
@@ -794,7 +740,7 @@ export default function FitDNACoach() {
         const drop = Math.round(((prev3Score - last3Score) / 3) * 100);
         return {
           type: 'warning',
-          message: `Your consistency score has dropped by ${drop}% this week. Completing one small fitness habit today will help regain full momentum.`,
+          message: `Your consistency rating has dropped by ${drop}% in comparison with last week. Perform one active habit now to recover absolute alignment.`,
           scoreDrop: drop
         };
       }
@@ -818,11 +764,10 @@ export default function FitDNACoach() {
     return sorted.map((log) => {
       const dateObj = new Date(log.date);
       const name = dateObj.toLocaleDateString([], { weekday: 'short' });
-      
-      // Calculate daily consistency score
+
       const sleepTarget = 8;
       const waterTarget = profile ? Math.round((profile.weight || 70) * 0.033 * 10) / 10 : 2.5;
-      
+
       let dayScore = 0;
       if (log.workoutCompleted) dayScore += 25;
       if (log.sleep >= sleepTarget) dayScore += 25;
@@ -842,12 +787,10 @@ export default function FitDNACoach() {
     });
   }, [logs, profile]);
 
-  // SVG Chart path calculation helpers
   const svgDimensions = { width: 500, height: 200, padding: 30 };
   const plotWidth = svgDimensions.width - svgDimensions.padding * 2;
   const plotHeight = svgDimensions.height - svgDimensions.padding * 2;
 
-  // 1. Generate line path for Consistency over last 7 days
   const consistencyPath = useMemo(() => {
     if (chartVitals.length < 2) return '';
     const points = chartVitals.map((d, index) => {
@@ -858,10 +801,9 @@ export default function FitDNACoach() {
     return `M ${points.join(' L ')}`;
   }, [chartVitals]);
 
-  // 2. Generate line path for Water logs over last 7 days
   const waterPath = useMemo(() => {
     if (chartVitals.length < 2) return '';
-    const maxWater = 4; // L
+    const maxWater = 4;
     const points = chartVitals.map((d, index) => {
       const x = svgDimensions.padding + (index / (chartVitals.length - 1)) * plotWidth;
       const val = Math.min(maxWater, d.water);
@@ -871,17 +813,13 @@ export default function FitDNACoach() {
     return `M ${points.join(' L ')}`;
   }, [chartVitals]);
 
-  // 3. Weight log points
   const weightTrendPath = useMemo(() => {
     if (chartVitals.length < 2 || !profile) return '';
     const startW = profile.weight || 78;
     const targetW = profile.targetWeight || 72;
-    const maxDiff = Math.abs(startW - targetW) * 1.5 || 10;
-    
-    // Simulate weight dropping towards target
+
     const points = chartVitals.map((d, index) => {
       const x = svgDimensions.padding + (index / (chartVitals.length - 1)) * plotWidth;
-      // Interpolate weight based on consistency (simulate losing weight if consistency is high)
       let currentEstimate = startW;
       for (let j = 0; j <= index; j++) {
         const day = chartVitals[j];
@@ -891,12 +829,11 @@ export default function FitDNACoach() {
           currentEstimate += (startW > targetW ? 0.05 : -0.05);
         }
       }
-      // Constrain plotting bounds
       const minBound = Math.min(startW, targetW) - 2;
       const maxBound = Math.max(startW, targetW) + 2;
       const range = maxBound - minBound || 10;
       const y = svgDimensions.height - svgDimensions.padding - ((currentEstimate - minBound) / range) * plotHeight;
-      
+
       return `${x},${y}`;
     });
     return `M ${points.join(' L ')}`;
@@ -904,20 +841,25 @@ export default function FitDNACoach() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex flex-col justify-center items-center text-slate-100">
-        <RotateCw className="w-10 h-10 text-cyan-500 animate-spin mb-3" />
-        <p className="text-sm tracking-widest text-cyan-400 font-mono">CALIBRATING DNA PATHWAYS...</p>
+      <div className="min-h-screen bg-[#050508] flex flex-col justify-center items-center text-slate-100 bg-tech-grid bg-dot-matrix hologram-scanline">
+        <div className="relative w-24 h-24 flex items-center justify-center mb-6">
+          <div className="absolute inset-0 rounded-full border-2 border-cyan-500/20 animate-pulse" />
+          <div className="absolute inset-2 rounded-full border-t-2 border-cyan-400 animate-spin" />
+          <Brain className="w-8 h-8 text-cyan-400 animate-pulse" />
+        </div>
+        <p className="text-sm tracking-[0.25em] text-cyan-400 font-mono font-bold text-glow-cyan animate-pulse">SYNCHRONISING SYSTEM CORES</p>
+        <span className="text-[10px] text-slate-500 font-mono mt-2 uppercase">Core status: SECURE // BMR CALIBRATION</span>
       </div>
     );
   }
 
-  // View Router State
   return (
-    <div className="flex-grow flex flex-col relative bg-slate-950 text-slate-100 font-sans min-h-screen select-none bg-tech-grid">
+    <div className="flex-grow flex flex-col relative bg-[#050508] text-slate-100 font-sans min-h-screen select-none bg-tech-grid bg-dot-matrix">
       
       {/* Background Glow Blobs */}
-      <div className="glow-blob w-[400px] h-[400px] bg-cyan-900/20 top-12 left-10" />
-      <div className="glow-blob w-[350px] h-[350px] bg-violet-900/20 bottom-12 right-10" />
+      <div className="glow-blob w-[500px] h-[500px] bg-cyan-900/10 top-0 left-[-100px] animate-bg-pan" />
+      <div className="glow-blob w-[450px] h-[450px] bg-violet-900/10 bottom-0 right-[-100px] animate-bg-pan" />
+      <div className="glow-blob w-[400px] h-[400px] bg-rose-900/5 top-1/2 left-1/3" />
 
       {/* Confetti canvas animation */}
       {confetti.map((particle) => (
@@ -930,160 +872,255 @@ export default function FitDNACoach() {
             backgroundColor: particle.color,
             width: `${Math.random() * 8 + 4}px`,
             height: `${Math.random() * 12 + 6}px`,
-            animationDelay: `${Math.random() * 0.3}s`,
-            animationDuration: `${Math.random() * 1.5 + 1.5}s`
+            animationDelay: `${Math.random() * 0.2}s`,
+            animationDuration: `${Math.random() * 1.5 + 1.2}s`
           }}
         />
       ))}
 
-      {/* --- AUTH SHIELD SCREEN --- */}
+      {/* --- LANDING HERO PAGE (UNAUTHENTICATED) --- */}
       {!user && (
-        <div className="flex-grow flex items-center justify-center p-4 z-10 relative">
-          <div className="glass-card p-8 rounded-2xl w-full max-w-md border border-slate-800 bg-slate-900/80 shadow-2xl">
-            <div className="flex flex-col items-center mb-6">
-              <div className="bg-cyan-500/10 p-4 rounded-full border border-cyan-500/30 mb-3 shadow-inner">
-                <Brain className="w-12 h-12 text-cyan-400 animate-pulse" />
+        <div className="flex-grow flex flex-col z-10 relative">
+          {/* Header Bar */}
+          <header className="w-full max-w-7xl mx-auto px-6 py-5 flex items-center justify-between border-b border-white/5">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-lg bg-gradient-to-tr from-cyan-500 to-violet-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                <Brain className="w-5 h-5 text-slate-950" />
               </div>
-              <h1 className="text-3xl font-extrabold tracking-tight text-white font-mono">Fit<span className="text-cyan-400">DNA</span></h1>
-              <p className="text-slate-400 text-xs mt-1 font-mono tracking-wider">AI CONSISTENCY ENGINE MVP</p>
+              <div className="flex flex-col">
+                <span className="text-lg font-black tracking-tight text-white font-mono">Fit<span className="text-cyan-400">AI</span> Coach</span>
+                <span className="text-[8px] text-slate-400 font-mono tracking-widest uppercase">Consistency Engine // V2.5</span>
+              </div>
             </div>
-
-            <div className="flex bg-slate-950/80 p-1.5 rounded-lg border border-slate-800 mb-6">
-              <button
-                onClick={() => setAuthMode('signup')}
-                className={`flex-1 py-2 text-sm font-semibold rounded-md transition-all font-mono ${authMode === 'signup' ? 'bg-cyan-500 text-slate-950' : 'text-slate-400 hover:text-white'}`}
-              >
-                SIGN UP
-              </button>
-              <button
-                onClick={() => setAuthMode('login')}
-                className={`flex-1 py-2 text-sm font-semibold rounded-md transition-all font-mono ${authMode === 'login' ? 'bg-cyan-500 text-slate-950' : 'text-slate-400 hover:text-white'}`}
-              >
-                LOGIN
-              </button>
+            <div className="flex items-center gap-4">
+              <span className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-[9px] font-mono text-cyan-400 font-bold uppercase tracking-wider">
+                <ShieldCheck className="w-3.5 h-3.5" /> SECURE WORKSPACE
+              </span>
+              <a href="#auth-section" className="px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs font-bold font-mono transition-all text-white border border-white/10 hover:border-white/20">
+                ENTER HUBS
+              </a>
             </div>
+          </header>
 
-            <form onSubmit={handleAuth} className="space-y-4">
-              <div>
-                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Email Address</label>
-                <input
-                  type="email"
-                  value={authEmail}
-                  onChange={(e) => setAuthEmail(e.target.value)}
-                  placeholder="name@domain.com"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition"
-                  required
-                />
+          {/* Hero Section Container */}
+          <div className="max-w-7xl w-full mx-auto px-6 py-12 md:py-20 flex-grow grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            {/* Hero Info Column */}
+            <div className="lg:col-span-7 space-y-8 text-left">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-cyan-500/10 to-violet-500/10 border border-cyan-400/20 shadow-inner">
+                <Sparkle className="w-3.5 h-3.5 text-cyan-400 animate-spin-slow" />
+                <span className="text-[10px] text-cyan-300 font-mono font-bold tracking-wider uppercase">Adaptive Epigenetic Optimization</span>
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Password</label>
-                <input
-                  type="password"
-                  value={authPassword}
-                  onChange={(e) => setAuthPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition"
-                  required
-                />
-              </div>
+              <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-[1.05] text-white">
+                Unleash Your <br />
+                <span className="gradient-text-cyan-blue text-glow-cyan">Absolute Consistency</span>
+              </h1>
 
-              {authError && (
-                <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs px-4 py-2.5 rounded-lg flex items-center gap-2">
-                  <AlertTriangle className="w-4 h-4 shrink-0" />
-                  <span>{authError}</span>
+              <p className="text-slate-400 text-sm sm:text-base max-w-xl leading-relaxed">
+                Unlock your physical potential. FitAI Coach bridges the gap between biological directives and physical execution, dynamically scaling workloads to guarantee streaks never break.
+              </p>
+
+              {/* Showcase mini widgets */}
+              <div className="grid grid-cols-3 gap-4 max-w-lg border-y border-white/5 py-6 font-mono">
+                <div>
+                  <div className="text-xl sm:text-2xl font-black text-cyan-400 text-glow-cyan">84.2%</div>
+                  <div className="text-[9px] text-slate-500 uppercase mt-1 tracking-wider">Avg Adherence</div>
                 </div>
-              )}
+                <div>
+                  <div className="text-xl sm:text-2xl font-black text-violet-400 text-glow-violet">Lvl 12</div>
+                  <div className="text-[9px] text-slate-500 uppercase mt-1 tracking-wider">Aesthetic Cap</div>
+                </div>
+                <div>
+                  <div className="text-xl sm:text-2xl font-black text-rose-400 text-glow-rose">SIRT1</div>
+                  <div className="text-[9px] text-slate-500 uppercase mt-1 tracking-wider">Gene Active</div>
+                </div>
+              </div>
 
-              <button
-                type="submit"
-                disabled={authLoading}
-                className="w-full bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-400 hover:to-teal-400 text-slate-950 font-bold py-3 rounded-lg text-sm tracking-wider uppercase transition-all shadow-lg shadow-cyan-500/20 active:scale-[0.98]"
-              >
-                {authLoading ? 'CONNECTING AGENT...' : authMode === 'signup' ? 'CREATE FITDNA SESSION' : 'INITIALISE FITNESS CORE'}
-              </button>
-            </form>
+              <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+                <a
+                  href="#auth-section"
+                  className="px-8 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 font-black tracking-widest text-xs uppercase transition-all shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2"
+                >
+                  Start Athletic Assessment
+                  <ArrowRight className="w-4 h-4 text-slate-950" />
+                </a>
+                <div className="flex items-center justify-center gap-2 text-slate-500 text-[10px] font-mono uppercase">
+                  <Activity className="w-4 h-4 text-cyan-500 animate-pulse" />
+                  Biometric Engine Offline Mode Available
+                </div>
+              </div>
+            </div>
+
+            {/* Auth Form and Visual Preview Column */}
+            <div id="auth-section" className="lg:col-span-5 w-full flex flex-col gap-6">
+              <div className="glass-card p-8 rounded-2xl border border-white/10 bg-slate-900/60 shadow-2xl relative overflow-hidden hologram-scanline">
+                <div className="hud-corner-tl" />
+                <div className="hud-corner-tr" />
+                <div className="hud-corner-bl" />
+                <div className="hud-corner-br" />
+
+                <div className="flex flex-col items-center mb-6">
+                  <div className="bg-cyan-500/10 w-12 h-12 rounded-full flex items-center justify-center border border-cyan-500/30 mb-3 shadow-inner">
+                    <User className="w-6 h-6 text-cyan-400" />
+                  </div>
+                  <h2 className="text-xl font-bold font-mono tracking-wider text-white">SYSTEM AUTHENTICATION</h2>
+                  <p className="text-slate-500 text-[9px] font-mono tracking-widest mt-1 uppercase">INITIALISE SESSION INTERFACE</p>
+                </div>
+
+                {/* Form Tabs */}
+                <div className="grid grid-cols-2 bg-slate-950/80 p-1 rounded-xl border border-white/5 mb-6 font-mono">
+                  <button
+                    onClick={() => { setAuthMode('signup'); setAuthError(''); }}
+                    className={`py-2 text-[10px] font-bold rounded-lg transition-all uppercase ${authMode === 'signup' ? 'bg-cyan-500 text-slate-950 shadow-md' : 'text-slate-400 hover:text-white'}`}
+                  >
+                    Create Account
+                  </button>
+                  <button
+                    onClick={() => { setAuthMode('login'); setAuthError(''); }}
+                    className={`py-2 text-[10px] font-bold rounded-lg transition-all uppercase ${authMode === 'login' ? 'bg-cyan-500 text-slate-950 shadow-md' : 'text-slate-400 hover:text-white'}`}
+                  >
+                    Access Profile
+                  </button>
+                </div>
+
+                <form onSubmit={handleAuth} className="space-y-5 text-left">
+                  <div className="space-y-1">
+                    <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest">Athletic ID (Email)</label>
+                    <input
+                      type="email"
+                      value={authEmail}
+                      onChange={(e) => setAuthEmail(e.target.value)}
+                      placeholder="name@fitness.com"
+                      className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all font-mono"
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest">Access Protocol (Password)</label>
+                    <input
+                      type="password"
+                      value={authPassword}
+                      onChange={(e) => setAuthPassword(e.target.value)}
+                      placeholder="••••••••"
+                      className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all"
+                      required
+                    />
+                  </div>
+
+                  {authError && (
+                    <div className="bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs px-4 py-2.5 rounded-lg flex items-center gap-2 font-mono">
+                      <AlertTriangle className="w-4 h-4 shrink-0 text-rose-500 animate-pulse" />
+                      <span>{authError}</span>
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={authLoading}
+                    className="w-full bg-gradient-to-r from-cyan-500 to-violet-550 hover:from-cyan-400 hover:to-violet-400 text-slate-950 font-black py-3.5 rounded-lg text-xs tracking-wider uppercase transition-all shadow-lg shadow-cyan-500/10 active:scale-[0.98] cursor-pointer"
+                  >
+                    {authLoading ? 'ESTABLISHING HANDSHAKE...' : authMode === 'signup' ? 'Create FitAI Core Profile' : 'Authenticate Fitness Matrix'}
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       )}
 
-      {/* --- ASSESSMENT WIZARD SCREEN --- */}
+      {/* --- DIAGNOSTIC ASSESSMENT WIZARD SCREEN --- */}
       {user && !profile?.name && (
-        <div className="flex-grow flex items-center justify-center p-4 z-10 relative">
-          <div className="glass-card p-8 rounded-2xl w-full max-w-2xl border border-slate-800 bg-slate-900/90 shadow-2xl">
-            
-            {/* Steps Progress Indicator */}
-            <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-800">
-              <h2 className="text-xl font-bold font-mono text-white">ONBOARDING ASSESSMENT</h2>
+        <div className="flex-grow flex items-center justify-center p-4 z-10 relative bg-tech-grid">
+          <div className="glass-card p-8 rounded-2xl w-full max-w-2xl border border-white/10 bg-slate-900/80 shadow-2xl relative overflow-hidden hologram-scanline">
+            <div className="hud-corner-tl" />
+            <div className="hud-corner-tr" />
+            <div className="hud-corner-bl" />
+            <div className="hud-corner-br" />
+
+            {/* Diagnostic Steps Progress Indicator */}
+            <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
+              <div className="flex flex-col text-left">
+                <h2 className="text-xl font-bold font-mono text-white tracking-widest uppercase">DIAGNOSTIC ASSESSMENT</h2>
+                <p className="text-[9px] text-slate-500 font-mono tracking-widest uppercase mt-0.5">Calibrating DNA-Coach Epigenetic Blueprints</p>
+              </div>
               <div className="flex gap-2">
                 {[1, 2, 3, 4].map((step) => (
                   <div
                     key={step}
-                    className={`w-8 h-2 rounded-full transition-all ${onboardingStep >= step ? 'bg-cyan-400' : 'bg-slate-800'}`}
+                    className={`w-10 h-1 rounded-full transition-all ${onboardingStep >= step ? 'bg-cyan-400 text-glow-cyan' : 'bg-slate-800'}`}
                   />
                 ))}
               </div>
             </div>
 
-            <form onSubmit={handleAssessmentSubmit}>
-              {/* Step 1: Personal Info */}
+            <form onSubmit={handleAssessmentSubmit} className="text-left">
+              {/* Step 1: Personal Profile */}
               {onboardingStep === 1 && (
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-cyan-400 font-mono mb-2">1. Personal Information</h3>
+                <div className="space-y-5">
+                  <div className="border-l-2 border-cyan-400 pl-3">
+                    <h3 className="text-sm font-bold text-white font-mono tracking-widest uppercase">01 // IDENTITY PROTOCOLS</h3>
+                    <p className="text-[10px] text-slate-400 mt-0.5">Primary identification and biometric measurements.</p>
+                  </div>
+
                   <div>
-                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Full Name</label>
+                    <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1.5">Athlete Nom-de-Guerre</label>
                     <input
                       type="text"
                       value={wizardName}
                       onChange={(e) => setWizardName(e.target.value)}
-                      placeholder="Enter your name"
-                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500"
+                      placeholder="e.g. Alexander Mercer"
+                      className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
                       required
                     />
                   </div>
+
                   <div className="grid grid-cols-3 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Age</label>
+                      <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1.5">Age</label>
                       <input
                         type="number"
                         value={wizardAge}
                         onChange={(e) => setWizardAge(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500"
+                        className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Height (cm)</label>
+                      <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1.5">Height (cm)</label>
                       <input
                         type="number"
                         value={wizardHeight}
                         onChange={(e) => setWizardHeight(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500"
+                        className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Weight (kg)</label>
+                      <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1.5">Weight (kg)</label>
                       <input
                         type="number"
                         value={wizardWeight}
                         onChange={(e) => setWizardWeight(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500"
+                        className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
                         required
                       />
                     </div>
                   </div>
+
                   <div>
-                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Biological Gender</label>
-                    <div className="grid grid-cols-2 gap-4">
+                    <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-2">Biological Phenotype</label>
+                    <div className="grid grid-cols-2 gap-4 font-mono">
                       {['male', 'female'].map((g) => (
                         <button
                           key={g}
                           type="button"
                           onClick={() => setWizardGender(g)}
-                          className={`py-2.5 text-sm font-semibold rounded-lg font-mono border uppercase transition-all ${wizardGender === g ? 'bg-cyan-500/10 border-cyan-500 text-cyan-400' : 'border-slate-800 text-slate-400 bg-slate-950'}`}
+                          className={`py-3 text-xs font-bold rounded-lg border uppercase transition-all flex items-center justify-center gap-2 ${wizardGender === g ? 'bg-cyan-500/10 border-cyan-500 text-cyan-400 text-glow-cyan' : 'border-white/5 text-slate-400 bg-slate-950/60'}`}
                         >
-                          {g}
+                          <Activity className="w-3.5 h-3.5" />
+                          {g === 'male' ? 'XY Phenotype (Male)' : 'XX Phenotype (Female)'}
                         </button>
                       ))}
                     </div>
@@ -1091,48 +1128,54 @@ export default function FitDNACoach() {
                 </div>
               )}
 
-              {/* Step 2: Lifestyle */}
+              {/* Step 2: Lifestyle Baseline */}
               {onboardingStep === 2 && (
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-cyan-400 font-mono mb-2">2. Lifestyle Calibration</h3>
+                <div className="space-y-5">
+                  <div className="border-l-2 border-cyan-400 pl-3">
+                    <h3 className="text-sm font-bold text-white font-mono tracking-widest uppercase">02 // LIFESTYLE DISPOSITION</h3>
+                    <p className="text-[10px] text-slate-400 mt-0.5">Calibrate metabolic baseline values for energy tracking.</p>
+                  </div>
+
                   <div>
-                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Daily Activity Level</label>
+                    <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-2">Metabolic Activity Class</label>
                     <div className="space-y-2">
                       {[
-                        { id: 'sedentary', label: 'Sedentary (desk job, low weekly activity)' },
-                        { id: 'moderate', label: 'Moderate (3-5 workouts/week, active day-to-day)' },
-                        { id: 'high', label: 'High (daily training, strenuous job)' }
+                        { id: 'sedentary', label: 'Hypokinetic Baseline (Sedentary, Desk job, Minimal active routines)' },
+                        { id: 'moderate', label: 'Homeostatic Active (Moderate, 3-5 athletic drills/week)' },
+                        { id: 'high', label: 'Hyperkinetic Metabolism (Strenuous athletic loads, high volume daily drills)' }
                       ].map((act) => (
                         <button
                           key={act.id}
                           type="button"
                           onClick={() => setWizardActivity(act.id)}
-                          className={`w-full py-3 px-4 text-left text-sm rounded-lg border transition-all ${wizardActivity === act.id ? 'bg-cyan-500/10 border-cyan-500 text-cyan-400' : 'border-slate-800 text-slate-400 bg-slate-950'}`}
+                          className={`w-full py-3.5 px-4 text-left text-xs rounded-lg border transition-all flex items-center justify-between font-mono ${wizardActivity === act.id ? 'bg-cyan-500/10 border-cyan-500 text-cyan-400' : 'border-white/5 text-slate-400 bg-slate-950/60'}`}
                         >
-                          {act.label}
+                          <span>{act.label}</span>
+                          <span className={`w-2 h-2 rounded-full ${wizardActivity === act.id ? 'bg-cyan-400 animate-pulse' : 'bg-slate-800'}`} />
                         </button>
                       ))}
                     </div>
                   </div>
+
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Avg. Sleep (Hours/night)</label>
+                      <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1.5">Avg Sleep (Hours / Night)</label>
                       <input
                         type="number"
                         value={wizardSleep}
                         onChange={(e) => setWizardSleep(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500"
+                        className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Water Intake (Liters/day)</label>
+                      <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1.5">Avg Water (Liters / Day)</label>
                       <input
                         type="number"
                         step="0.5"
                         value={wizardWater}
                         onChange={(e) => setWizardWater(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500"
+                        className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
                         required
                       />
                     </div>
@@ -1140,19 +1183,23 @@ export default function FitDNACoach() {
                 </div>
               )}
 
-              {/* Step 3: Goals */}
+              {/* Step 3: Goals Calibration */}
               {onboardingStep === 3 && (
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-cyan-400 font-mono mb-2">3. Targets & Fitness Goals</h3>
+                <div className="space-y-5">
+                  <div className="border-l-2 border-cyan-400 pl-3">
+                    <h3 className="text-sm font-bold text-white font-mono tracking-widest uppercase">03 // BIOMETRIC DIRECTIVES</h3>
+                    <p className="text-[10px] text-slate-400 mt-0.5">Determine target parameters and genetic adaptation focus.</p>
+                  </div>
+
                   <div>
-                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Select Goals (Multiple selection)</label>
-                    <div className="grid grid-cols-2 gap-2">
+                    <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-2.5">Target Genetic Adaptation Targets</label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono">
                       {[
-                        { id: 'weight-loss', label: 'Weight Loss' },
-                        { id: 'weight-gain', label: 'Weight Gain' },
-                        { id: 'muscle-gain', label: 'Muscle Gain' },
-                        { id: 'general-fitness', label: 'General Fitness' },
-                        { id: 'improve-stamina', label: 'Improve Stamina' }
+                        { id: 'weight-loss', label: 'Adipose Tissue Reduction (Weight Loss)' },
+                        { id: 'weight-gain', label: 'Hypertrophic Weight Gain' },
+                        { id: 'muscle-gain', label: 'Myofibrillar Hypertrophy (Muscle Gain)' },
+                        { id: 'general-fitness', label: 'Mitochondrial Density (General Fitness)' },
+                        { id: 'improve-stamina', label: 'VO2 Max Elevation (Stamina)' }
                       ].map((goal) => {
                         const isSelected = wizardGoals.includes(goal.id);
                         return (
@@ -1166,33 +1213,34 @@ export default function FitDNACoach() {
                                 setWizardGoals([...wizardGoals, goal.id]);
                               }
                             }}
-                            className={`py-2.5 px-4 text-sm font-semibold rounded-lg border transition-all text-left flex items-center justify-between ${isSelected ? 'bg-cyan-500/10 border-cyan-500 text-cyan-400' : 'border-slate-800 text-slate-400 bg-slate-950'}`}
+                            className={`py-3 px-3.5 text-left text-[10px] font-bold rounded-lg border transition-all flex items-center justify-between ${isSelected ? 'bg-cyan-500/10 border-cyan-500 text-cyan-400 text-glow-cyan' : 'border-white/5 text-slate-400 bg-slate-950/60'}`}
                           >
                             <span>{goal.label}</span>
-                            {isSelected && <Check className="w-4 h-4 text-cyan-400" />}
+                            {isSelected ? <Check className="w-3.5 h-3.5 text-cyan-400" /> : <div className="w-3.5 h-3.5 border border-slate-700 rounded-sm" />}
                           </button>
                         );
                       })}
                     </div>
                   </div>
+
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Target Weight (kg)</label>
+                      <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1.5">Target Mass (kg)</label>
                       <input
                         type="number"
                         value={wizardTargetWeight}
                         onChange={(e) => setWizardTargetWeight(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500"
+                        className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Target Date</label>
+                      <label className="block text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1.5">Target Execution Horizon</label>
                       <input
                         type="date"
                         value={wizardTargetDate}
                         onChange={(e) => setWizardTargetDate(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-250 focus:outline-none focus:border-cyan-500"
+                        className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-3 text-xs text-slate-350 focus:outline-none focus:border-cyan-500 font-mono"
                         required
                       />
                     </div>
@@ -1200,59 +1248,77 @@ export default function FitDNACoach() {
                 </div>
               )}
 
-              {/* Step 4: Review Assessment */}
+              {/* Step 4: Calculations Summary */}
               {onboardingStep === 4 && (
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-cyan-400 font-mono mb-2">4. Core Calculations Preview</h3>
-                  
-                  {/* BMI preview */}
-                  <div className="bg-slate-950/80 p-6 rounded-xl border border-slate-800 text-center">
-                    <p className="text-slate-400 text-xs font-mono tracking-widest mb-1">YOUR CALCULATED BMI</p>
-                    {(() => {
-                      const { bmi, category } = calculateBMI(parseFloat(wizardWeight) || 70, parseFloat(wizardHeight) || 170);
-                      return (
-                        <>
-                          <div className="text-4xl font-extrabold text-white tracking-tight">{bmi.toFixed(1)}</div>
-                          <div className="text-cyan-400 text-sm font-semibold mt-1 uppercase font-mono">{category} Category</div>
-                        </>
-                      );
-                    })()}
+                <div className="space-y-5">
+                  <div className="border-l-2 border-cyan-400 pl-3">
+                    <h3 className="text-sm font-bold text-white font-mono tracking-widest uppercase">04 // SYSTEM DIAGNOSTIC ANALYSIS</h3>
+                    <p className="text-[10px] text-slate-400 mt-0.5">Previewing algorithmic calculations for biometric initialization.</p>
                   </div>
 
-                  <div className="bg-slate-900 border border-slate-800/60 p-4 rounded-xl space-y-2.5 text-sm">
-                    <div className="flex justify-between border-b border-slate-800/50 pb-1.5">
-                      <span className="text-slate-400 font-mono">Athlete:</span>
-                      <span className="font-semibold text-white">{wizardName}</span>
+                  {/* Redesigned BMI Dial preview */}
+                  {(() => {
+                    const { bmi, category } = calculateBMI(parseFloat(wizardWeight) || 70, parseFloat(wizardHeight) || 170);
+                    // Determine percentage on a visual scale from 15 to 35
+                    const scaledPercent = Math.max(0, Math.min(100, ((bmi - 15) / 20) * 100));
+                    return (
+                      <div className="bg-slate-950/80 p-6 rounded-xl border border-white/5 text-center relative overflow-hidden">
+                        <div className="hud-corner-tl" />
+                        <div className="hud-corner-tr" />
+                        <p className="text-slate-500 text-[9px] font-mono tracking-widest mb-1.5">CALCULATED ATHLETIC BODY MASS INDEX (BMI)</p>
+                        <div className="text-4xl font-black text-white tracking-tight font-mono">{bmi.toFixed(1)}</div>
+                        <div className="text-cyan-400 text-xs font-bold mt-1 uppercase font-mono tracking-wider">{category} Index Category</div>
+                        
+                        {/* Visual sliding BMI Scale */}
+                        <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden mt-5 relative border border-white/5">
+                          <div className="absolute top-0 bottom-0 left-0 bg-cyan-500" style={{ width: `${scaledPercent}%` }} />
+                          <div className="absolute top-[-3px] w-3 h-3 rounded-full bg-white border border-cyan-400 shadow shadow-cyan-400" style={{ left: `calc(${scaledPercent}% - 6px)` }} />
+                        </div>
+                        <div className="flex justify-between text-[8px] text-slate-500 font-mono mt-1.5">
+                          <span>18.5 (UNDER)</span>
+                          <span>24.9 (NORMAL)</span>
+                          <span>29.9 (OVER)</span>
+                          <span>35.0 (OBESE)</span>
+                        </div>
+                      </div>
+                    );
+                  })()}
+
+                  <div className="bg-slate-950/40 border border-white/5 p-4 rounded-xl space-y-3 text-xs font-mono">
+                    <div className="flex justify-between border-b border-white/5 pb-2">
+                      <span className="text-slate-500 uppercase">Registered Athlete:</span>
+                      <span className="font-bold text-white">{wizardName}</span>
                     </div>
-                    <div className="flex justify-between border-b border-slate-800/50 pb-1.5">
-                      <span className="text-slate-400 font-mono">Age / Gender:</span>
-                      <span className="font-semibold text-white capitalize">{wizardAge} y/o | {wizardGender}</span>
+                    <div className="flex justify-between border-b border-white/5 pb-2">
+                      <span className="text-slate-500 uppercase">Phenotype / Age:</span>
+                      <span className="font-bold text-white capitalize">{wizardGender} // {wizardAge} Years</span>
                     </div>
-                    <div className="flex justify-between border-b border-slate-800/50 pb-1.5">
-                      <span className="text-slate-400 font-mono">Physical Stature:</span>
-                      <span className="font-semibold text-white">{wizardHeight}cm | {wizardWeight}kg</span>
+                    <div className="flex justify-between border-b border-white/5 pb-2">
+                      <span className="text-slate-500 uppercase">Physical Parameters:</span>
+                      <span className="font-bold text-white">{wizardHeight}cm // {wizardWeight}kg</span>
                     </div>
-                    <div className="flex justify-between border-b border-slate-800/50 pb-1.5">
-                      <span className="text-slate-400 font-mono">Goal Weights:</span>
-                      <span className="font-semibold text-cyan-400">{wizardWeight}kg → {wizardTargetWeight}kg</span>
+                    <div className="flex justify-between border-b border-white/5 pb-2">
+                      <span className="text-slate-500 uppercase">Biometric Directives:</span>
+                      <span className="font-bold text-cyan-400">{wizardWeight}kg → {wizardTargetWeight}kg</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400 font-mono">Activity Tier:</span>
-                      <span className="font-semibold text-white capitalize">{wizardActivity}</span>
+                      <span className="text-slate-500 uppercase">Activity Tier:</span>
+                      <span className="font-bold text-white uppercase">{wizardActivity}</span>
                     </div>
                   </div>
                 </div>
               )}
 
               {/* Wizard Nav buttons */}
-              <div className="flex justify-between mt-8 pt-4 border-t border-slate-800">
+              <div className="flex justify-between mt-8 pt-4 border-t border-white/5 font-mono">
                 {onboardingStep > 1 ? (
                   <button
                     type="button"
                     onClick={() => setOnboardingStep(prev => prev - 1)}
-                    className="border border-slate-800 hover:border-slate-700 bg-slate-950 font-semibold px-6 py-2.5 rounded-lg text-sm transition-all"
+                    className="border border-white/5 hover:border-white/10 bg-slate-950 text-slate-400 hover:text-white font-bold px-5 py-2.5 rounded-lg text-xs transition-all flex items-center gap-1.5"
                   >
-                    BACK
+                    <ChevronLeft className="w-4 h-4" />
+                    PREVIOUS
                   </button>
                 ) : (
                   <div />
@@ -1265,18 +1331,18 @@ export default function FitDNACoach() {
                       if (onboardingStep === 1 && !wizardName.trim()) return;
                       setOnboardingStep(prev => prev + 1);
                     }}
-                    className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-6 py-2.5 rounded-lg text-sm tracking-wider uppercase transition-all shadow-md shadow-cyan-500/10 flex items-center gap-1"
+                    className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black px-6 py-2.5 rounded-lg text-xs tracking-wider uppercase transition-all shadow-md shadow-cyan-500/10 flex items-center gap-1.5 ml-auto cursor-pointer"
                   >
-                    <span>NEXT STEP</span>
-                    <ChevronRight className="w-4 h-4" />
+                    <span>NEXT PROTOCOL</span>
+                    <ChevronRight className="w-4 h-4 text-slate-950" />
                   </button>
                 ) : (
                   <button
                     type="submit"
                     disabled={authLoading}
-                    className="bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-400 hover:to-teal-400 text-slate-950 font-bold px-8 py-3 rounded-lg text-sm tracking-wider uppercase transition-all shadow-lg shadow-cyan-500/20 active:scale-[0.98]"
+                    className="bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 font-black px-8 py-3 rounded-lg text-xs tracking-widest uppercase transition-all shadow-lg shadow-cyan-500/20 active:scale-[0.98] ml-auto cursor-pointer"
                   >
-                    {authLoading ? 'COMPUTING GENETIC BLUEPRINTS...' : 'INITIALISE AI FITNESS blueprint'}
+                    {authLoading ? 'COMPUTING BLUEPRINTS...' : 'INITIALISE FITAI SYSTEM CORE'}
                   </button>
                 )}
               </div>
@@ -1285,51 +1351,75 @@ export default function FitDNACoach() {
         </div>
       )}
 
-      {/* --- CORE WORKSPACE APPLICATION --- */}
+      {/* --- AUTHENTICATED ATHLETIC CORE INTERFACE --- */}
       {user && profile?.name && (
         <div className="flex-grow flex flex-col md:flex-row max-w-7xl w-full mx-auto p-4 md:p-6 gap-6 z-10 relative">
           
           {/* SIDE NAVIGATION PANEL */}
-          <aside className="w-full md:w-64 flex flex-col gap-4">
+          <aside className="w-full md:w-64 flex flex-col gap-4 text-left shrink-0">
             {/* User Profile Summary */}
-            <div className="glass-card p-5 rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl flex flex-col items-center text-center">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-cyan-500 to-violet-500 flex items-center justify-center font-bold font-mono text-slate-950 text-2xl shadow-lg border border-cyan-400/20 relative animate-float">
-                {profile.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
-                <div className="absolute -bottom-1 -right-1 bg-cyan-400 text-slate-950 w-6 h-6 rounded-full text-xs font-black flex items-center justify-center font-mono">
+            <div className="glass-card p-5 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl flex flex-col items-center text-center relative overflow-hidden">
+              <div className="hud-corner-tl" />
+              <div className="hud-corner-tr" />
+              
+              {/* User Avatar with circular level rings */}
+              <div className="relative w-20 h-20 flex items-center justify-center mb-3.5">
+                {/* SVG circular level meter border */}
+                <svg className="absolute inset-0 w-full h-full transform -rotate-90">
+                  <circle cx="40" cy="40" r="36" strokeWidth="2.5" stroke="rgba(255,255,255,0.03)" fill="transparent" />
+                  <circle
+                    cx="40"
+                    cy="40"
+                    r="36"
+                    strokeWidth="2.5"
+                    stroke="url(#avatarGradient)"
+                    fill="transparent"
+                    strokeDasharray={2 * Math.PI * 36}
+                    strokeDashoffset={2 * Math.PI * 36 * (1 - xp / (level * 100))}
+                    strokeLinecap="round"
+                    className="transition-all duration-700"
+                  />
+                </svg>
+                <div className="w-15 h-15 rounded-full bg-slate-950 flex items-center justify-center font-bold font-mono text-cyan-400 text-xl border border-cyan-500/20 relative shadow-inner">
+                  {profile.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
+                </div>
+                <div className="absolute bottom-[-2px] right-[-2px] bg-gradient-to-tr from-cyan-500 to-violet-500 text-slate-950 w-6 h-6 rounded-full text-[10px] font-black flex items-center justify-center font-mono border border-slate-950 shadow">
                   {level}
                 </div>
               </div>
-              <h2 className="text-lg font-bold text-white mt-3 leading-tight font-mono">{profile.name}</h2>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="text-xs text-slate-400 uppercase tracking-widest font-mono">LEVEL {level}</span>
-                <span className="text-slate-700">•</span>
-                <span className="text-xs text-cyan-400 font-mono font-bold flex items-center gap-0.5">
-                  <Zap className="w-3.5 h-3.5 fill-cyan-400" />
-                  {streaks.current} DAY STREAK
+
+              <h2 className="text-base font-bold text-white mt-1 leading-tight font-mono tracking-wide">{profile.name}</h2>
+              
+              <div className="flex items-center gap-2 mt-1.5 justify-center">
+                <span className="text-[9px] text-slate-500 uppercase tracking-widest font-mono">LEVEL {level}</span>
+                <span className="text-slate-800">•</span>
+                <span className="text-[9px] text-cyan-400 font-mono font-bold flex items-center gap-0.5 text-glow-cyan">
+                  <Flame className="w-3.5 h-3.5 text-cyan-400 fill-cyan-400 animate-pulse" />
+                  {streaks.current} DAYS
                 </span>
               </div>
 
-              {/* XP progress bar */}
-              <div className="w-full mt-4 space-y-1">
-                <div className="flex justify-between text-[10px] font-mono text-slate-400">
+              {/* XP progress metrics */}
+              <div className="w-full mt-4 space-y-1 font-mono text-[9px]">
+                <div className="flex justify-between text-slate-400">
                   <span>{xp} XP</span>
                   <span>{level * 100} XP NEXT</span>
                 </div>
-                <div className="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+                <div className="w-full h-1 bg-slate-950 rounded-full overflow-hidden border border-white/5">
                   <div
-                    className="h-full bg-gradient-to-r from-cyan-500 to-teal-400 transition-all duration-500"
+                    className="h-full bg-gradient-to-r from-cyan-400 to-violet-500 transition-all duration-700"
                     style={{ width: `${(xp / (level * 100)) * 100}%` }}
                   />
                 </div>
               </div>
 
-              {/* Theme Toggle */}
+              {/* Theme Toggle Button */}
               <button
                 onClick={() => setTheme(prev => prev === 'dark' ? 'light' : 'dark')}
-                className="mt-4 w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-slate-950/60 border border-slate-850 hover:border-slate-800 text-[10px] font-bold font-mono text-slate-400 hover:text-white transition-all shadow-inner"
+                className="mt-4 w-full flex items-center justify-between px-3 py-2 rounded-xl bg-slate-950/60 border border-white/5 hover:border-white/10 text-[9px] font-bold font-mono text-slate-400 hover:text-white transition-all shadow-inner"
               >
-                <span>THEME</span>
-                <span className="flex items-center gap-1 font-bold text-cyan-400 uppercase">
+                <span>THEME PROTOCOL</span>
+                <span className="flex items-center gap-1 font-bold text-cyan-400 uppercase tracking-widest text-glow-cyan">
                   {theme === 'dark' ? (
                     <>
                       <MoonIcon className="w-3.5 h-3.5" />
@@ -1345,14 +1435,15 @@ export default function FitDNACoach() {
               </button>
             </div>
 
-            {/* Navigation Tabs */}
-            <nav className="glass-card p-2 rounded-2xl border border-slate-800 bg-slate-900/60 space-y-1 shadow-lg">
+            {/* Navigation Menu */}
+            <nav className="glass-card p-2 rounded-2xl border border-white/5 bg-slate-900/60 space-y-1 shadow-lg relative">
+              <div className="hud-corner-tl" />
+              <div className="hud-corner-tr" />
               {[
-                { id: 'dashboard', label: 'DASHBOARD', icon: Activity },
-                { id: 'chat', label: 'AI COACH CHAT', icon: Brain },
-                { id: 'adaptive', label: 'ADAPTIVE PLAN', icon: Compass },
-                { id: 'report', label: 'AI COACH REPORT', icon: ShieldAlert },
-                { id: 'profile', label: 'GENETIC PROFILE', icon: User }
+                { id: 'dashboard', label: 'ATHLETIC CONSOLE', icon: Activity },
+                { id: 'chat', label: 'AI COACH ASSISTANT', icon: Brain },
+                { id: 'adaptive', label: 'ADAPTIVE INTERFACE', icon: Compass },
+                { id: 'report', label: 'COACH BIOMETRICS', icon: ShieldAlert }
               ].map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.id;
@@ -1360,7 +1451,7 @@ export default function FitDNACoach() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id as any)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 text-xs font-bold font-mono rounded-xl transition-all ${isActive ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/20' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'}`}
+                    className={`w-full flex items-center gap-3 px-4 py-3 text-[10px] font-bold font-mono rounded-xl transition-all ${isActive ? 'bg-gradient-to-r from-cyan-500/20 to-cyan-500/5 text-cyan-400 border border-cyan-500/30 text-glow-cyan' : 'text-slate-400 border border-transparent hover:text-slate-200 hover:bg-white/5'}`}
                   >
                     <Icon className="w-4 h-4 shrink-0" />
                     <span>{tab.label}</span>
@@ -1369,48 +1460,69 @@ export default function FitDNACoach() {
               })}
             </nav>
 
-            {/* AI Key config Button */}
+            {/* API Config details */}
             <button
               onClick={() => setShowKeyModal(true)}
-              className="glass-card py-3.5 px-4 rounded-2xl border border-slate-800 bg-slate-900/60 flex items-center justify-between text-xs font-bold font-mono text-cyan-400 hover:text-cyan-300 hover:border-slate-700 shadow-md"
+              className="glass-card py-3.5 px-4 rounded-2xl border border-white/5 bg-slate-900/60 flex items-center justify-between text-[10px] font-bold font-mono text-cyan-400 hover:text-cyan-300 hover:border-white/10 shadow-md relative"
             >
+              <div className="hud-corner-tl" />
+              <div className="hud-corner-tr" />
               <span className="flex items-center gap-2">
                 <Key className="w-4 h-4 shrink-0" />
-                API CONFIG
+                API MATRIX
               </span>
-              <span className="text-[10px] text-slate-500 uppercase">
-                {getGeminiApiKey() ? 'ACTIVE' : 'MOCK'}
+              <span className="text-[8px] text-slate-500 uppercase tracking-widest">
+                {getGeminiApiKey() ? 'LIVE' : 'MOCK'}
               </span>
             </button>
 
-            {/* Logout Button */}
+            {/* Disconnect Button */}
             <button
               onClick={handleSignOut}
-              className="glass-card py-3 px-4 rounded-2xl border border-slate-800 bg-red-950/20 text-red-400 hover:bg-red-950/40 hover:text-red-300 flex items-center justify-center gap-2 text-xs font-bold font-mono transition-all"
+              className="glass-card py-3 px-4 rounded-2xl border border-rose-950/20 bg-rose-950/10 text-rose-400 hover:bg-rose-950/25 hover:text-rose-300 flex items-center justify-center gap-2 text-[10px] font-bold font-mono transition-all uppercase tracking-widest relative"
             >
-              <LogOut className="w-4 h-4 shrink-0" />
-              <span>LOGOUT ACTIVE SESSION</span>
+              <div className="hud-corner-bl" />
+              <div className="hud-corner-br" />
+              <LogOut className="w-4 h-4 shrink-0 text-rose-500" />
+              <span>Disconnect System</span>
             </button>
           </aside>
 
           {/* MAIN DASHBOARD CONTENT AREA */}
-          <main className="flex-grow flex flex-col gap-6">
+          <main className="flex-grow flex flex-col gap-6 text-left">
+
+            {/* CORE STATUS ENGINE OVERLAY HEADER */}
+            <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-4 font-mono">
+              <div className="flex flex-col">
+                <span className="text-[9px] text-slate-500 tracking-[0.25em] uppercase">SYSTEM COMMAND INTERFACE</span>
+                <span className="text-lg font-black text-white tracking-wide uppercase">FitAI // biometric control hub</span>
+              </div>
+              <div className="flex items-center gap-3 self-start sm:self-center">
+                <span className="flex items-center gap-1.5 px-3 py-1 rounded bg-emerald-500/10 border border-emerald-500/25 text-[8px] text-emerald-400 font-bold uppercase tracking-widest">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                  COACH ONLINE
+                </span>
+                <span className="text-[10px] text-slate-500">CONN: SECURE_NET</span>
+              </div>
+            </div>
 
             {/* CONSISTENCY RISK ALERTS BANNER */}
             {riskAlert && activeTab === 'dashboard' && (
-              <div className={`border rounded-2xl p-4 flex gap-3 shadow-lg transition-all animate-float ${
-                riskAlert.type === 'danger' ? 'bg-red-500/10 border-red-500/30 text-red-300' :
-                riskAlert.type === 'warning' ? 'bg-amber-500/10 border-amber-500/30 text-amber-300' :
+              <div className={`border rounded-2xl p-4 flex gap-3.5 shadow-lg transition-all animate-float relative overflow-hidden ${
+                riskAlert.type === 'danger' ? 'bg-rose-500/10 border-rose-500/30 text-rose-300' :
+                riskAlert.type === 'warning' ? 'bg-orange-500/10 border-orange-500/30 text-orange-300' :
                 'bg-cyan-500/10 border-cyan-500/30 text-cyan-300'
               }`}>
-                <AlertTriangle className={`w-5 h-5 shrink-0 mt-0.5 ${
-                  riskAlert.type === 'danger' ? 'text-red-400' :
-                  riskAlert.type === 'warning' ? 'text-amber-400' :
+                <div className="hud-corner-tl" />
+                <div className="hud-corner-tr" />
+                <AlertTriangle className={`w-5 h-5 shrink-0 mt-0.5 animate-pulse ${
+                  riskAlert.type === 'danger' ? 'text-rose-400' :
+                  riskAlert.type === 'warning' ? 'text-orange-400' :
                   'text-cyan-400'
                 }`} />
                 <div className="space-y-1">
-                  <h4 className="text-xs font-bold uppercase tracking-widest font-mono">Consistency Engine Risk Detection</h4>
-                  <p className="text-sm font-sans leading-relaxed">{riskAlert.message}</p>
+                  <h4 className="text-[10px] font-bold uppercase tracking-widest font-mono">SYSTEM ANOMALY DETECTION // RISK: {riskAlert.scoreDrop}% ACCEL</h4>
+                  <p className="text-xs font-sans leading-relaxed text-slate-300 uppercase-first">{riskAlert.message}</p>
                 </div>
               </div>
             )}
@@ -1418,175 +1530,184 @@ export default function FitDNACoach() {
             {/* TAB VIEW: DASHBOARD */}
             {activeTab === 'dashboard' && (
               <>
-                {/* 1. HEALTH SUMMARY CARDS */}
+                {/* 1. HEALTH SUMMARY GRID */}
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                   {/* BMI */}
-                  <div className="glass-card p-4 rounded-xl border border-slate-800 bg-slate-900/40">
-                    <p className="text-[10px] font-mono text-slate-400 tracking-wider uppercase">BMI Target</p>
+                  <div className="glass-card p-4 rounded-xl border border-white/5 bg-slate-900/40 relative">
+                    <div className="hud-corner-tl" />
+                    <p className="text-[9px] font-mono text-slate-500 tracking-wider uppercase">Biometric BMI</p>
                     <p className="text-xl font-bold mt-1 text-white font-mono">{profile.bmi?.toFixed(1) || '22.4'}</p>
-                    <p className="text-[9px] text-cyan-400 font-mono mt-0.5 capitalize">{profile.bmiCategory || 'Normal'}</p>
+                    <p className="text-[8px] text-cyan-400 font-mono mt-0.5 capitalize tracking-wider">{profile.bmiCategory || 'Normal'}</p>
                   </div>
                   {/* Current Weight */}
-                  <div className="glass-card p-4 rounded-xl border border-slate-800 bg-slate-900/40">
-                    <p className="text-[10px] font-mono text-slate-400 tracking-wider uppercase">Current Weight</p>
+                  <div className="glass-card p-4 rounded-xl border border-white/5 bg-slate-900/40">
+                    <p className="text-[9px] font-mono text-slate-500 tracking-wider uppercase">Current Mass</p>
                     <p className="text-xl font-bold mt-1 text-white font-mono">{profile.weight || '70'} kg</p>
-                    <p className="text-[9px] text-slate-500 font-mono mt-0.5">Updated recently</p>
+                    <p className="text-[8px] text-slate-500 font-mono mt-0.5">Biometric Load</p>
                   </div>
                   {/* Target Weight */}
-                  <div className="glass-card p-4 rounded-xl border border-slate-800 bg-slate-900/40">
-                    <p className="text-[10px] font-mono text-slate-400 tracking-wider uppercase">Target Weight</p>
+                  <div className="glass-card p-4 rounded-xl border border-white/5 bg-slate-900/40">
+                    <p className="text-[9px] font-mono text-slate-500 tracking-wider uppercase">Target Mass</p>
                     <p className="text-xl font-bold mt-1 text-white font-mono">{profile.targetWeight || '68'} kg</p>
-                    <p className="text-[9px] text-slate-500 font-mono mt-0.5">Target reached dynamic</p>
+                    <p className="text-[8px] text-slate-500 font-mono mt-0.5">Physical Target</p>
                   </div>
                   {/* Days remaining */}
-                  <div className="glass-card p-4 rounded-xl border border-slate-800 bg-slate-900/40">
-                    <p className="text-[10px] font-mono text-slate-400 tracking-wider uppercase">Days Remaining</p>
-                    <p className="text-xl font-bold mt-1 text-white font-mono">{daysRemaining}</p>
-                    <p className="text-[9px] text-slate-500 font-mono mt-0.5">Till {profile.targetDate ? new Date(profile.targetDate).toLocaleDateString() : 'target'}</p>
+                  <div className="glass-card p-4 rounded-xl border border-white/5 bg-slate-900/40">
+                    <p className="text-[9px] font-mono text-slate-500 tracking-wider uppercase">Time remaining</p>
+                    <p className="text-xl font-bold mt-1 text-white font-mono">{daysRemaining} D</p>
+                    <p className="text-[8px] text-slate-500 font-mono mt-0.5">Horizon limit</p>
                   </div>
-                  {/* Overall Consistency Score */}
-                  <div className="glass-card p-4 rounded-xl border border-cyan-800 bg-cyan-950/10 col-span-2 md:col-span-1 shadow-md shadow-cyan-950/20">
-                    <p className="text-[10px] font-mono text-cyan-400 tracking-wider uppercase">Consistency Score</p>
+                  {/* Consistency Rating */}
+                  <div className="glass-card p-4 rounded-xl border border-cyan-800/40 bg-cyan-950/15 col-span-2 md:col-span-1 shadow-inner relative">
+                    <div className="hud-corner-tr" />
+                    <p className="text-[9px] font-mono text-cyan-400 tracking-wider uppercase">Consistency Index</p>
                     <p className="text-xl font-black mt-1 text-cyan-300 font-mono text-glow-cyan">{overallConsistency}%</p>
-                    <p className="text-[9px] text-slate-400 font-mono mt-0.5">
-                      {overallConsistency >= 80 ? 'Master tier expression' :
-                       overallConsistency >= 50 ? 'Intermediate tier' :
-                       'Struggling adherence'}
+                    <p className="text-[8px] text-slate-400 font-mono mt-0.5 uppercase tracking-wider">
+                      {overallConsistency >= 80 ? 'hyperkinetic' :
+                       overallConsistency >= 50 ? 'homeostatic' :
+                       'hypokinetic'}
                     </p>
                   </div>
                 </div>
 
-                {/* 2. THE AI CONSISTENCY SCORE CIRCLES */}
-                <div className="glass-card p-6 rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl">
-                  <div className="flex items-center gap-2 mb-6 border-b border-slate-800/80 pb-3">
-                    <Brain className="w-5 h-5 text-cyan-400 animate-pulse" />
-                    <h3 className="text-sm font-bold font-mono text-white tracking-wider">AI CONSISTENCY ENGINE</h3>
+                {/* 2. THE HERO CONSISTENCY SCORE SECTION */}
+                <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl relative overflow-hidden">
+                  <div className="hud-corner-tl" />
+                  <div className="hud-corner-tr" />
+                  
+                  <div className="flex items-center gap-2.5 mb-6 border-b border-white/5 pb-3">
+                    <Target className="w-5 h-5 text-cyan-400 animate-pulse" />
+                    <h3 className="text-xs font-bold font-mono text-white tracking-widest uppercase">CONSISTENCY ADHERENCE BIORHYTHM</h3>
                   </div>
 
-                  <div className="grid grid-cols-2 lg:grid-cols-5 gap-6 text-center">
+                  <div className="grid grid-cols-2 lg:grid-cols-5 gap-6 text-center items-center">
                     
-                    {/* Overall Ring */}
-                    <div className="flex flex-col items-center justify-center col-span-2 lg:col-span-1 border-r border-slate-800/50 pr-0 lg:pr-6">
-                      <div className="relative w-28 h-28 flex items-center justify-center mb-3">
+                    {/* Overall Ring (Redesigned as a massive radial gauge) */}
+                    <div className="flex flex-col items-center justify-center col-span-2 lg:col-span-1 border-r border-white/5 pr-0 lg:pr-6">
+                      <div className="relative w-32 h-32 flex items-center justify-center mb-3">
                         <svg className="w-full h-full transform -rotate-90">
-                          <circle cx="56" cy="56" r="46" strokeWidth="6" stroke="#0f172a" fill="transparent" />
+                          <circle cx="64" cy="64" r="54" strokeWidth="8" stroke="rgba(255,255,255,0.03)" fill="transparent" />
                           <circle
-                            cx="56" cy="56" r="46" strokeWidth="6"
+                            cx="64" cy="64" r="54" strokeWidth="8"
                             stroke="url(#cyanGlow)"
                             fill="transparent"
-                            strokeDasharray={2 * Math.PI * 46}
-                            strokeDashoffset={2 * Math.PI * 46 * (1 - overallConsistency / 100)}
+                            strokeDasharray={2 * Math.PI * 54}
+                            strokeDashoffset={2 * Math.PI * 54 * (1 - overallConsistency / 100)}
                             className="transition-all duration-1000"
                             strokeLinecap="round"
                           />
                         </svg>
                         <div className="absolute flex flex-col items-center">
-                          <span className="text-2xl font-black text-white font-mono text-glow-cyan">{overallConsistency}%</span>
-                          <span className="text-[8px] font-mono text-slate-400 tracking-widest uppercase mt-0.5">OVERALL</span>
+                          <span className="text-3xl font-black text-white font-mono text-glow-cyan">{overallConsistency}%</span>
+                          <span className="text-[8px] font-mono text-slate-500 tracking-widest uppercase mt-0.5">OVERALL MATRIX</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Workout Ring */}
                     <div className="flex flex-col items-center justify-center">
-                      <div className="relative w-24 h-24 flex items-center justify-center mb-3">
+                      <div className="relative w-24 h-24 flex items-center justify-center mb-2.5">
                         <svg className="w-full h-full transform -rotate-90">
-                          <circle cx="48" cy="48" r="38" strokeWidth="5" stroke="#0f172a" fill="transparent" />
+                          <circle cx="48" cy="48" r="40" strokeWidth="5.5" stroke="rgba(255,255,255,0.02)" fill="transparent" />
                           <circle
-                            cx="48" cy="48" r="38" strokeWidth="5"
+                            cx="48" cy="48" r="40" strokeWidth="5.5"
                             stroke="var(--neon-violet)"
                             fill="transparent"
-                            strokeDasharray={2 * Math.PI * 38}
-                            strokeDashoffset={2 * Math.PI * 38 * (1 - consistencyStats.workout / 100)}
+                            strokeDasharray={2 * Math.PI * 40}
+                            strokeDashoffset={2 * Math.PI * 40 * (1 - consistencyStats.workout / 100)}
                             className="transition-all duration-1000"
                             strokeLinecap="round"
                           />
                         </svg>
                         <div className="absolute flex flex-col items-center">
                           <Dumbbell className="w-4 h-4 text-violet-400 mb-0.5" />
-                          <span className="text-base font-bold text-white font-mono">{consistencyStats.workout}%</span>
+                          <span className="text-xs font-bold text-white font-mono">{consistencyStats.workout}%</span>
                         </div>
                       </div>
-                      <span className="text-[10px] font-mono text-slate-400 tracking-wider">WORKOUT</span>
+                      <span className="text-[10px] font-mono text-slate-400 tracking-wider">ATHLETIC RUNS</span>
                     </div>
 
                     {/* Sleep Ring */}
                     <div className="flex flex-col items-center justify-center">
-                      <div className="relative w-24 h-24 flex items-center justify-center mb-3">
+                      <div className="relative w-24 h-24 flex items-center justify-center mb-2.5">
                         <svg className="w-full h-full transform -rotate-90">
-                          <circle cx="48" cy="48" r="38" strokeWidth="5" stroke="#0f172a" fill="transparent" />
+                          <circle cx="48" cy="48" r="40" strokeWidth="5.5" stroke="rgba(255,255,255,0.02)" fill="transparent" />
                           <circle
-                            cx="48" cy="48" r="38" strokeWidth="5"
+                            cx="48" cy="48" r="40" strokeWidth="5.5"
                             stroke="var(--neon-rose)"
                             fill="transparent"
-                            strokeDasharray={2 * Math.PI * 38}
-                            strokeDashoffset={2 * Math.PI * 38 * (1 - consistencyStats.sleep / 100)}
+                            strokeDasharray={2 * Math.PI * 40}
+                            strokeDashoffset={2 * Math.PI * 40 * (1 - consistencyStats.sleep / 100)}
                             className="transition-all duration-1000"
                             strokeLinecap="round"
                           />
                         </svg>
                         <div className="absolute flex flex-col items-center">
                           <Moon className="w-4 h-4 text-rose-400 mb-0.5" />
-                          <span className="text-base font-bold text-white font-mono">{consistencyStats.sleep}%</span>
+                          <span className="text-xs font-bold text-white font-mono">{consistencyStats.sleep}%</span>
                         </div>
                       </div>
-                      <span className="text-[10px] font-mono text-slate-400 tracking-wider">SLEEP</span>
+                      <span className="text-[10px] font-mono text-slate-400 tracking-wider">CIRCADIAN RECOVERY</span>
                     </div>
 
                     {/* Hydration Ring */}
                     <div className="flex flex-col items-center justify-center">
-                      <div className="relative w-24 h-24 flex items-center justify-center mb-3">
+                      <div className="relative w-24 h-24 flex items-center justify-center mb-2.5">
                         <svg className="w-full h-full transform -rotate-90">
-                          <circle cx="48" cy="48" r="38" strokeWidth="5" stroke="#0f172a" fill="transparent" />
+                          <circle cx="48" cy="48" r="40" strokeWidth="5.5" stroke="rgba(255,255,255,0.02)" fill="transparent" />
                           <circle
-                            cx="48" cy="48" r="38" strokeWidth="5"
+                            cx="48" cy="48" r="40" strokeWidth="5.5"
                             stroke="var(--neon-cyan)"
                             fill="transparent"
-                            strokeDasharray={2 * Math.PI * 38}
-                            strokeDashoffset={2 * Math.PI * 38 * (1 - consistencyStats.water / 100)}
+                            strokeDasharray={2 * Math.PI * 40}
+                            strokeDashoffset={2 * Math.PI * 40 * (1 - consistencyStats.water / 100)}
                             className="transition-all duration-1000"
                             strokeLinecap="round"
                           />
                         </svg>
                         <div className="absolute flex flex-col items-center">
                           <Droplets className="w-4 h-4 text-cyan-400 mb-0.5" />
-                          <span className="text-base font-bold text-white font-mono">{consistencyStats.water}%</span>
+                          <span className="text-xs font-bold text-white font-mono">{consistencyStats.water}%</span>
                         </div>
                       </div>
-                      <span className="text-[10px] font-mono text-slate-400 tracking-wider">WATER</span>
+                      <span className="text-[10px] font-mono text-slate-400 tracking-wider">HYDRATION MARKS</span>
                     </div>
 
                     {/* Nutrition Ring */}
                     <div className="flex flex-col items-center justify-center">
-                      <div className="relative w-24 h-24 flex items-center justify-center mb-3">
+                      <div className="relative w-24 h-24 flex items-center justify-center mb-2.5">
                         <svg className="w-full h-full transform -rotate-90">
-                          <circle cx="48" cy="48" r="38" strokeWidth="5" stroke="#0f172a" fill="transparent" />
+                          <circle cx="48" cy="48" r="40" strokeWidth="5.5" stroke="rgba(255,255,255,0.02)" fill="transparent" />
                           <circle
-                            cx="48" cy="48" r="38" strokeWidth="5"
+                            cx="48" cy="48" r="40" strokeWidth="5.5"
                             stroke="var(--neon-green)"
                             fill="transparent"
-                            strokeDasharray={2 * Math.PI * 38}
-                            strokeDashoffset={2 * Math.PI * 38 * (1 - consistencyStats.nutrition / 100)}
+                            strokeDasharray={2 * Math.PI * 40}
+                            strokeDashoffset={2 * Math.PI * 40 * (1 - consistencyStats.nutrition / 100)}
                             className="transition-all duration-1000"
                             strokeLinecap="round"
                           />
                         </svg>
                         <div className="absolute flex flex-col items-center">
                           <Flame className="w-4 h-4 text-emerald-400 mb-0.5" />
-                          <span className="text-base font-bold text-white font-mono">{consistencyStats.nutrition}%</span>
+                          <span className="text-xs font-bold text-white font-mono">{consistencyStats.nutrition}%</span>
                         </div>
                       </div>
-                      <span className="text-[10px] font-mono text-slate-400 tracking-wider">NUTRITION</span>
+                      <span className="text-[10px] font-mono text-slate-400 tracking-wider">NUTRITIONAL MARKS</span>
                     </div>
 
                   </div>
-                  
-                  {/* Linear SVG Gradient Definition */}
+
+                  {/* SVG gradients definition */}
                   <svg className="hidden">
                     <defs>
                       <linearGradient id="cyanGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#06b6d4" />
-                        <stop offset="100%" stopColor="#8b5cf6" />
+                        <stop offset="0%" stopColor="#00f2fe" />
+                        <stop offset="100%" stopColor="#7f00ff" />
+                      </linearGradient>
+                      <linearGradient id="avatarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#00f2fe" />
+                        <stop offset="100%" stopColor="#00f5a0" />
                       </linearGradient>
                     </defs>
                   </svg>
@@ -1596,96 +1717,99 @@ export default function FitDNACoach() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   
                   {/* Daily Habit Logger Card */}
-                  <div className="glass-card p-6 rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl flex flex-col">
-                    <div className="flex items-center gap-2 mb-4 border-b border-slate-800/80 pb-3">
+                  <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl flex flex-col relative">
+                    <div className="hud-corner-tl" />
+                    <div className="hud-corner-tr" />
+                    <div className="flex items-center gap-2 mb-5 border-b border-white/5 pb-3">
                       <Plus className="w-5 h-5 text-cyan-400" />
-                      <h3 className="text-sm font-bold font-mono text-white tracking-wider">LOG TODAY'S HABITS</h3>
+                      <h3 className="text-xs font-bold font-mono text-white tracking-widest uppercase">LOG DAILY BIOMETRICS</h3>
                     </div>
 
-                    <form onSubmit={handleLogHabit} className="space-y-4 flex-grow flex flex-col justify-between">
-                      <div className="space-y-3">
+                    <form onSubmit={handleLogHabit} className="space-y-5 flex-grow flex flex-col justify-between">
+                      <div className="space-y-4">
+                        
                         {/* Sleep & Water inputs */}
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-[10px] font-mono text-slate-400 uppercase mb-1">Hours Slept</label>
+                        <div className="grid grid-cols-2 gap-4 font-mono">
+                          <div className="space-y-1">
+                            <label className="block text-[9px] font-mono text-slate-450 uppercase mb-1.5 tracking-wider">Hours Slept (rest)</label>
                             <input
                               type="number"
                               step="0.5"
                               value={todaySleep}
                               onChange={(e) => setTodaySleep(e.target.value)}
-                              className="w-full bg-slate-950 border border-slate-850 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-cyan-500"
+                              className="w-full bg-slate-950 border border-white/5 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
                               required
                             />
                           </div>
-                          <div>
-                            <label className="block text-[10px] font-mono text-slate-400 uppercase mb-1">Water Consumed (L)</label>
+                          <div className="space-y-1">
+                            <label className="block text-[9px] font-mono text-slate-450 uppercase mb-1.5 tracking-wider">Water Intake (Liters)</label>
                             <input
                               type="number"
                               step="0.1"
                               value={todayWater}
                               onChange={(e) => setTodayWater(e.target.value)}
-                              className="w-full bg-slate-950 border border-slate-850 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-cyan-500"
+                              className="w-full bg-slate-950 border border-white/5 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
                               required
                             />
                           </div>
                         </div>
 
                         {/* Workout Checkbox & Duration */}
-                        <div className="bg-slate-950/80 p-3 rounded-lg border border-slate-900 flex items-center justify-between">
-                          <div className="flex items-center gap-2">
+                        <div className="bg-slate-950/80 p-4 rounded-xl border border-white/5 flex items-center justify-between font-mono">
+                          <div className="flex items-center gap-3">
                             <input
                               type="checkbox"
                               id="workoutDone"
                               checked={todayWorkoutDone}
                               onChange={(e) => setTodayWorkoutDone(e.target.checked)}
-                              className="w-4 h-4 rounded text-cyan-500 bg-slate-900 border-slate-800 focus:ring-0 focus:ring-offset-0"
+                              className="w-4 h-4 rounded text-cyan-500 bg-slate-900 border-white/5 focus:ring-0 focus:ring-offset-0 cursor-pointer"
                             />
-                            <label htmlFor="workoutDone" className="text-sm text-slate-300 font-medium">Completed Workout Today</label>
+                            <label htmlFor="workoutDone" className="text-xs text-slate-300 font-bold uppercase tracking-wider cursor-pointer">Log Athletic Workout</label>
                           </div>
                           {todayWorkoutDone && (
-                            <div className="flex items-center gap-1.5 shrink-0">
+                            <div className="flex items-center gap-1.5 shrink-0 animate-pulse">
                               <input
                                 type="number"
                                 value={todayWorkoutDuration}
                                 onChange={(e) => setTodayWorkoutDuration(e.target.value)}
-                                className="w-16 bg-slate-900 border border-slate-800 rounded px-2 py-0.5 text-xs text-right focus:outline-none text-slate-200"
+                                className="w-16 bg-slate-900 border border-white/5 rounded px-2.5 py-1 text-xs text-right focus:outline-none text-slate-200 font-mono"
                                 placeholder="Mins"
                                 required
                               />
-                              <span className="text-[10px] font-mono text-slate-400">MINS</span>
+                              <span className="text-[9px] font-mono text-slate-500">MINS</span>
                             </div>
                           )}
                         </div>
 
                         {/* Calories, Protein & Meals count */}
-                        <div className="grid grid-cols-3 gap-2">
-                          <div>
-                            <label className="block text-[10px] font-mono text-slate-400 uppercase mb-1">Meals Met</label>
+                        <div className="grid grid-cols-3 gap-2 font-mono">
+                          <div className="space-y-1">
+                            <label className="block text-[9px] text-slate-450 uppercase mb-1 tracking-wider">Meals Count</label>
                             <input
                               type="number"
                               value={todayMealsCount}
                               onChange={(e) => setTodayMealsCount(e.target.value)}
-                              className="w-full bg-slate-950 border border-slate-850 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+                              className="w-full bg-slate-950 border border-white/5 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
                               required
                             />
                           </div>
-                          <div>
-                            <label className="block text-[10px] font-mono text-slate-400 uppercase mb-1">Calories (kcal)</label>
+                          <div className="space-y-1">
+                            <label className="block text-[9px] text-slate-450 uppercase mb-1 tracking-wider">Calories (kcal)</label>
                             <input
                               type="number"
                               value={todayCalories}
                               onChange={(e) => setTodayCalories(e.target.value)}
-                              className="w-full bg-slate-950 border border-slate-850 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+                              className="w-full bg-slate-950 border border-white/5 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
                               required
                             />
                           </div>
-                          <div>
-                            <label className="block text-[10px] font-mono text-slate-400 uppercase mb-1">Protein (g)</label>
+                          <div className="space-y-1">
+                            <label className="block text-[9px] text-slate-450 uppercase mb-1 tracking-wider">Protein (g)</label>
                             <input
                               type="number"
                               value={todayProtein}
                               onChange={(e) => setTodayProtein(e.target.value)}
-                              className="w-full bg-slate-950 border border-slate-850 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+                              className="w-full bg-slate-950 border border-white/5 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
                               required
                             />
                           </div>
@@ -1694,44 +1818,46 @@ export default function FitDNACoach() {
 
                       <button
                         type="submit"
-                        className="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-2.5 rounded-lg text-xs tracking-wider uppercase transition-all shadow-md shadow-cyan-500/10 active:scale-[0.98] mt-4"
+                        className="w-full bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-450 hover:to-teal-450 text-slate-950 font-black py-3 rounded-lg text-xs tracking-widest uppercase transition-all shadow-lg shadow-cyan-500/10 active:scale-[0.98] mt-4 font-mono cursor-pointer"
                       >
-                        LOG HABITS & SYNC GENES
+                        LOG BIOMETRICS & SYNC
                       </button>
                     </form>
                   </div>
 
                   {/* Quests / Gamification Board */}
-                  <div className="glass-card p-6 rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl flex flex-col">
-                    <div className="flex items-center justify-between mb-4 border-b border-slate-800/80 pb-3">
+                  <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl flex flex-col relative">
+                    <div className="hud-corner-tl" />
+                    <div className="hud-corner-tr" />
+                    <div className="flex items-center justify-between mb-5 border-b border-white/5 pb-3">
                       <div className="flex items-center gap-2">
-                        <Trophy className="w-5 h-5 text-amber-400" />
-                        <h3 className="text-sm font-bold font-mono text-white tracking-wider">DAILY QUEST BOARD</h3>
+                        <Trophy className="w-5 h-5 text-orange-400" />
+                        <h3 className="text-xs font-bold font-mono text-white tracking-widest uppercase">DAILY ADHERENCE QUESTS</h3>
                       </div>
-                      <span className="text-[10px] font-mono bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded text-amber-400">ACTIVE</span>
+                      <span className="text-[8px] font-mono bg-orange-500/10 border border-orange-555/20 px-2 py-0.5 rounded text-orange-450 tracking-wider">ACTIVE DRILLS</span>
                     </div>
 
-                    <div className="space-y-3 flex-grow flex flex-col justify-center">
+                    <div className="space-y-3.5 flex-grow flex flex-col justify-center">
                       {quests.map((quest) => (
                         <div
                           key={quest.id}
-                          className={`p-3.5 rounded-xl border flex items-center justify-between gap-3 transition-all ${
-                            quest.claimed ? 'bg-slate-950/40 border-slate-900 opacity-50' :
-                            quest.completed ? 'bg-emerald-950/15 border-emerald-800/60 border-glow-green text-emerald-100' :
-                            'bg-slate-950/70 border-slate-800'
+                          className={`p-3.5 rounded-xl border flex items-center justify-between gap-3 transition-all relative overflow-hidden ${
+                            quest.claimed ? 'bg-slate-950/20 border-white/5 opacity-45' :
+                            quest.completed ? 'bg-emerald-950/15 border-emerald-800/40 text-emerald-100 shadow-[0_0_15px_rgba(16,185,129,0.08)]' :
+                            'bg-slate-950/60 border-white/5'
                           }`}
                         >
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 text-left">
                             <div className={`p-1.5 rounded-full shrink-0 border ${
-                              quest.claimed ? 'border-slate-800 bg-slate-900 text-slate-500' :
+                              quest.claimed ? 'border-white/5 bg-slate-900 text-slate-650' :
                               quest.completed ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400' :
-                              'border-slate-700 bg-slate-800 text-slate-400'
+                              'border-slate-800 bg-slate-950 text-slate-500'
                             }`}>
-                              <CheckCircle className="w-4 h-4" />
+                              <CheckCircle className="w-3.5 h-3.5" />
                             </div>
                             <div className="space-y-0.5">
-                              <p className="text-xs font-semibold leading-snug">{quest.text}</p>
-                              <span className="text-[9px] font-mono text-cyan-400 font-semibold">+{quest.xpReward} XP REWARD</span>
+                              <p className="text-xs font-bold leading-snug">{quest.text}</p>
+                              <span className="text-[8px] font-mono text-cyan-400 font-black tracking-wider">+{quest.xpReward} XP STIMULATOR</span>
                             </div>
                           </div>
 
@@ -1739,16 +1865,16 @@ export default function FitDNACoach() {
                             <button
                               disabled={!quest.completed}
                               onClick={(e) => handleClaimQuest(quest.id, e)}
-                              className={`px-3 py-1.5 rounded text-[10px] font-bold font-mono transition-all uppercase shrink-0 ${
-                                quest.completed ? 'bg-emerald-500 text-slate-950 hover:bg-emerald-400 cursor-pointer shadow' :
-                                'bg-slate-900 text-slate-600 border border-slate-800 cursor-not-allowed'
+                              className={`px-3 py-1.5 rounded text-[9px] font-bold font-mono transition-all uppercase shrink-0 tracking-wider cursor-pointer ${
+                                quest.completed ? 'bg-emerald-450 text-slate-950 hover:bg-emerald-400 shadow shadow-emerald-500/20' :
+                                'bg-slate-900 text-slate-600 border border-white/5 cursor-not-allowed'
                               }`}
                             >
                               CLAIM
                             </button>
                           )}
                           {quest.claimed && (
-                            <span className="text-[9px] font-bold font-mono text-slate-500 mr-2 uppercase tracking-wide">CLAIMED</span>
+                            <span className="text-[8px] font-black font-mono text-slate-550 mr-2 uppercase tracking-widest">CLAIMED</span>
                           )}
                         </div>
                       ))}
@@ -1757,25 +1883,27 @@ export default function FitDNACoach() {
 
                 </div>
 
-                {/* 4. PROGRESS CHARTS (LIVE DYNAMIC SVG PLOTS) */}
+                {/* 4. PROGRESS CHARTS (LIVE DETAILED METRIC CURVES) */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   
                   {/* Consistency & Water trend */}
-                  <div className="glass-card p-6 rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl flex flex-col">
-                    <div className="flex justify-between items-center mb-4 border-b border-slate-800/80 pb-3">
+                  <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl flex flex-col relative">
+                    <div className="hud-corner-tl" />
+                    <div className="hud-corner-tr" />
+                    <div className="flex justify-between items-center mb-4 border-b border-white/5 pb-3">
                       <div className="flex items-center gap-2">
                         <TrendingUp className="w-5 h-5 text-cyan-400" />
-                        <h3 className="text-sm font-bold font-mono text-white tracking-wider">WEEKLY TRENDS</h3>
+                        <h3 className="text-xs font-bold font-mono text-white tracking-widest uppercase">WEEKLY COHORT INDEX</h3>
                       </div>
-                      <div className="flex gap-3 text-[9px] font-mono">
-                        <span className="flex items-center gap-1"><span className="w-2.5 h-1.5 bg-cyan-400 rounded-sm" /> CONSISTENCY</span>
-                        <span className="flex items-center gap-1"><span className="w-2.5 h-1.5 bg-violet-400 rounded-sm" /> WATER</span>
+                      <div className="flex gap-3 text-[8px] font-mono tracking-wider">
+                        <span className="flex items-center gap-1"><span className="w-2.5 h-1.5 bg-cyan-400 rounded-sm shadow-sm" /> CONSISTENCY</span>
+                        <span className="flex items-center gap-1"><span className="w-2.5 h-1.5 bg-violet-400 rounded-sm shadow-sm" /> HYDRATION</span>
                       </div>
                     </div>
 
-                    <div className="relative w-full h-[180px] bg-slate-950/60 border border-slate-900 rounded-xl overflow-hidden p-2 flex items-center justify-center">
+                    <div className="relative w-full h-[190px] bg-slate-950/60 border border-white/5 rounded-xl overflow-hidden p-2 flex items-center justify-center">
                       {chartVitals.length < 2 ? (
-                        <p className="text-xs text-slate-500 font-mono">Log your habits daily to visualize consistency trends.</p>
+                        <p className="text-xs text-slate-500 font-mono tracking-wider">Biometric log points insufficient for cohort charting.</p>
                       ) : (
                         <svg viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`} className="w-full h-full">
                           {/* Grid lines */}
@@ -1788,16 +1916,16 @@ export default function FitDNACoach() {
                                 y1={y}
                                 x2={svgDimensions.width - svgDimensions.padding}
                                 y2={y}
-                                stroke="#1e293b"
-                                strokeWidth="0.75"
-                                strokeDasharray="4 4"
+                                stroke="rgba(255,255,255,0.03)"
+                                strokeWidth="1"
+                                strokeDasharray="3 3"
                               />
                             );
                           })}
                           
                           {/* Plot lines */}
-                          <path d={consistencyPath} fill="none" stroke="var(--neon-cyan)" strokeWidth="3" strokeLinecap="round" className="drop-shadow-[0_0_8px_rgba(6,182,212,0.4)]" />
-                          <path d={waterPath} fill="none" stroke="var(--neon-violet)" strokeWidth="2" strokeLinecap="round" strokeDasharray="3 3" />
+                          <path d={consistencyPath} fill="none" stroke="var(--neon-cyan)" strokeWidth="3.5" strokeLinecap="round" className="drop-shadow-[0_0_8px_rgba(0,242,254,0.4)]" />
+                          <path d={waterPath} fill="none" stroke="var(--neon-violet)" strokeWidth="2" strokeLinecap="round" strokeDasharray="4 4" className="opacity-80" />
 
                           {/* Data points */}
                           {chartVitals.map((d, index) => {
@@ -1808,10 +1936,10 @@ export default function FitDNACoach() {
                                 key={index}
                                 cx={x}
                                 cy={y}
-                                r="4"
-                                fill="#030712"
+                                r="4.5"
+                                fill="#050508"
                                 stroke="var(--neon-cyan)"
-                                strokeWidth="2.5"
+                                strokeWidth="3"
                               />
                             );
                           })}
@@ -1823,11 +1951,12 @@ export default function FitDNACoach() {
                               <text
                                 key={index}
                                 x={x}
-                                y={svgDimensions.height - 10}
-                                fill="#94a3b8"
+                                y={svgDimensions.height - 8}
+                                fill="#64748b"
                                 fontSize="9"
                                 textAnchor="middle"
                                 fontFamily="monospace"
+                                fontWeight="bold"
                               >
                                 {d.name}
                               </text>
@@ -1839,18 +1968,20 @@ export default function FitDNACoach() {
                   </div>
 
                   {/* Weight progress curve */}
-                  <div className="glass-card p-6 rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl flex flex-col">
-                    <div className="flex justify-between items-center mb-4 border-b border-slate-800/80 pb-3">
+                  <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl flex flex-col relative">
+                    <div className="hud-corner-tl" />
+                    <div className="hud-corner-tr" />
+                    <div className="flex justify-between items-center mb-4 border-b border-white/5 pb-3">
                       <div className="flex items-center gap-2">
-                        <Flame className="w-5 h-5 text-rose-400" />
-                        <h3 className="text-sm font-bold font-mono text-white tracking-wider">WEIGHT TRACKER ESTIMATE</h3>
+                        <Flame className="w-5 h-5 text-rose-500" />
+                        <h3 className="text-xs font-bold font-mono text-white tracking-widest uppercase">MASS METABOLISM ESTIMATOR</h3>
                       </div>
-                      <span className="text-[10px] font-mono text-rose-400">Target: {profile.targetWeight} kg</span>
+                      <span className="text-[9px] font-mono text-rose-450 tracking-wider">TARGET: {profile.targetWeight} KG</span>
                     </div>
 
-                    <div className="relative w-full h-[180px] bg-slate-950/60 border border-slate-900 rounded-xl overflow-hidden p-2 flex items-center justify-center">
+                    <div className="relative w-full h-[190px] bg-slate-950/60 border border-white/5 rounded-xl overflow-hidden p-2 flex items-center justify-center">
                       {chartVitals.length < 2 ? (
-                        <p className="text-xs text-slate-500 font-mono">Log stats to visualize weight trend updates.</p>
+                        <p className="text-xs text-slate-500 font-mono tracking-wider">Log stats to visualize weight trend updates.</p>
                       ) : (
                         <svg viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`} className="w-full h-full">
                           {/* Grid lines */}
@@ -1863,20 +1994,20 @@ export default function FitDNACoach() {
                                 y1={y}
                                 x2={svgDimensions.width - svgDimensions.padding}
                                 y2={y}
-                                stroke="#1e293b"
-                                strokeWidth="0.75"
-                                strokeDasharray="4 4"
+                                stroke="rgba(255,255,255,0.03)"
+                                strokeWidth="1"
+                                strokeDasharray="3 3"
                               />
                             );
                           })}
                           
                           {/* Plot lines */}
-                          <path d={weightTrendPath} fill="none" stroke="var(--neon-rose)" strokeWidth="3" strokeLinecap="round" className="drop-shadow-[0_0_8px_rgba(244,63,94,0.4)]" />
+                          <path d={weightTrendPath} fill="none" stroke="var(--neon-rose)" strokeWidth="3.5" strokeLinecap="round" className="drop-shadow-[0_0_8px_rgba(255,8,68,0.4)]" />
 
                           {/* Data points */}
                           {chartVitals.map((d, index) => {
                             const x = svgDimensions.padding + (index / (chartVitals.length - 1)) * plotWidth;
-                            // Interpolate estimate
+                            
                             let currentEstimate = profile.weight || 78;
                             const targetW = profile.targetWeight || 72;
                             const profileWeight = profile.weight || 78;
@@ -1899,16 +2030,16 @@ export default function FitDNACoach() {
                                 <circle
                                   cx={x}
                                   cy={y}
-                                  r="4"
-                                  fill="#030712"
+                                  r="4.5"
+                                  fill="#050508"
                                   stroke="var(--neon-rose)"
-                                  strokeWidth="2.5"
+                                  strokeWidth="3"
                                 />
                                 <text
                                   x={x}
-                                  y={y - 8}
-                                  fill="#f43f5e"
-                                  fontSize="8"
+                                  y={y - 10}
+                                  fill="var(--neon-rose)"
+                                  fontSize="9"
                                   fontWeight="bold"
                                   textAnchor="middle"
                                   fontFamily="monospace"
@@ -1926,11 +2057,12 @@ export default function FitDNACoach() {
                               <text
                                 key={index}
                                 x={x}
-                                y={svgDimensions.height - 10}
-                                fill="#94a3b8"
+                                y={svgDimensions.height - 8}
+                                fill="#64748b"
                                 fontSize="9"
                                 textAnchor="middle"
                                 fontFamily="monospace"
+                                fontWeight="bold"
                               >
                                 {d.name}
                               </text>
@@ -1944,35 +2076,39 @@ export default function FitDNACoach() {
                 </div>
 
                 {/* Achievements Showcase */}
-                <div className="glass-card p-6 rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl">
-                  <div className="flex items-center gap-2 mb-4 border-b border-slate-800/80 pb-3">
-                    <Trophy className="w-5 h-5 text-amber-400" />
-                    <h3 className="text-sm font-bold font-mono text-white tracking-wider">GAMIFICATION ACHIEVEMENTS</h3>
+                <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl relative">
+                  <div className="hud-corner-tl" />
+                  <div className="hud-corner-tr" />
+                  <div className="flex items-center gap-2.5 mb-5 border-b border-white/5 pb-3">
+                    <Award className="w-5 h-5 text-cyan-400" />
+                    <h3 className="text-xs font-bold font-mono text-white tracking-widest uppercase">UNLOCKABLE ATHLETIC MEDALS</h3>
                   </div>
 
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {[
-                      { id: 'hydrationHero', name: 'Hydration Hero', desc: 'Met water targets on 3+ days', icon: Droplets, color: 'text-cyan-400 border-cyan-800/40 bg-cyan-950/10' },
-                      { id: 'sleepChampion', name: 'Sleep Champion', desc: 'Slept 8+ hours on 3+ days', icon: Moon, color: 'text-rose-400 border-rose-800/40 bg-rose-950/10' },
-                      { id: 'fitnessStarter', name: 'Fitness Starter', desc: 'Completed your first workout', icon: Dumbbell, color: 'text-violet-400 border-violet-800/40 bg-violet-950/10' },
-                      { id: 'consistencyMaster', name: 'Consistency Master', desc: 'Overall consistency score >= 80%', icon: Sparkles, color: 'text-amber-400 border-amber-800/40 bg-amber-950/10' }
+                      { id: 'hydrationHero', name: 'Hydration Hero', desc: 'Sustained water target metrics for 3+ logs', icon: Droplets, color: 'text-cyan-400 border-cyan-800/40 bg-cyan-950/10' },
+                      { id: 'sleepChampion', name: 'Sleep Champion', desc: 'Synchronized sleep targets for 3+ logs', icon: Moon, color: 'text-rose-400 border-rose-800/40 bg-rose-950/10' },
+                      { id: 'fitnessStarter', name: 'Fitness Starter', desc: 'Triggered first athletic training logs', icon: Dumbbell, color: 'text-violet-400 border-violet-800/40 bg-violet-950/10' },
+                      { id: 'consistencyMaster', name: 'Consistency Master', desc: 'Secured an adherence index >= 80%', icon: Sparkles, color: 'text-amber-400 border-amber-800/40 bg-amber-950/10' }
                     ].map((badge) => {
                       const hasBadge = achievements[badge.id as keyof typeof achievements];
                       const Icon = badge.icon;
                       return (
                         <div
                           key={badge.id}
-                          className={`p-4 rounded-xl border flex flex-col items-center text-center transition-all ${
-                            hasBadge ? badge.color + ' border-glow-cyan scale-100 opacity-100 shadow' : 'border-slate-850 bg-slate-950/20 opacity-40 scale-95'
+                          className={`p-4 rounded-xl border flex flex-col items-center text-center transition-all duration-300 relative ${
+                            hasBadge ? badge.color + ' border-neon-cyan scale-100 opacity-100 shadow-[0_0_15px_rgba(0,242,254,0.1)]' : 'border-white/5 bg-slate-950/20 opacity-30 scale-95'
                           }`}
                         >
-                          <div className={`p-2.5 rounded-full mb-2 ${hasBadge ? 'bg-slate-950/50' : 'bg-slate-900'}`}>
-                            <Icon className="w-6 h-6" />
+                          {/* Holographic scanning effect on unlocked badges */}
+                          {hasBadge && <div className="absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />}
+                          <div className={`p-3 rounded-full mb-3 shadow-inner ${hasBadge ? 'bg-slate-950/50 border border-white/5' : 'bg-slate-900'}`}>
+                            {hasBadge ? <Icon className="w-7 h-7" /> : <Lock className="w-7 h-7 text-slate-600" />}
                           </div>
-                          <h4 className="text-xs font-bold text-white leading-tight font-mono">{badge.name}</h4>
-                          <p className="text-[9px] text-slate-400 mt-1 leading-snug">{badge.desc}</p>
-                          <span className="text-[8px] font-mono font-bold mt-2 tracking-widest uppercase">
-                            {hasBadge ? 'UNLOCKED' : 'LOCKED'}
+                          <h4 className="text-xs font-bold text-white leading-tight font-mono tracking-wide">{badge.name}</h4>
+                          <p className="text-[10px] text-slate-400 mt-1.5 leading-snug">{badge.desc}</p>
+                          <span className="text-[8px] font-mono font-black mt-3 tracking-widest uppercase px-2 py-0.5 rounded bg-black/40 border border-white/5">
+                            {hasBadge ? 'ACTIVE' : 'OFFLINE'}
                           </span>
                         </div>
                       );
@@ -1984,35 +2120,39 @@ export default function FitDNACoach() {
 
             {/* TAB VIEW: AI COACH CHAT */}
             {activeTab === 'chat' && (
-              <div className="glass-card rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl overflow-hidden flex flex-col h-[550px]">
+              <div className="glass-card rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl overflow-hidden flex flex-col h-[550px] relative hologram-scanline">
+                <div className="hud-corner-tl" />
+                <div className="hud-corner-tr" />
                 
                 {/* Chat Panel Header */}
-                <div className="p-4 bg-slate-950/80 border-b border-slate-850 flex items-center justify-between shrink-0">
+                <div className="p-4 bg-slate-950/80 border-b border-white/5 flex items-center justify-between shrink-0 font-mono">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-                    <span className="text-xs font-bold font-mono tracking-wider text-white">AI COACH AGENT ACTIVE</span>
+                    <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
+                    <span className="text-xs font-bold tracking-widest text-white">COACH SYSTEM TERMINAL DIRECT</span>
                   </div>
-                  <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">GEMINI 1.5 FLASH ENGINE</span>
+                  <span className="text-[9px] text-slate-500 uppercase tracking-widest">GEMINI // CORE_SYNC</span>
                 </div>
 
                 {/* Messages scrollarea */}
-                <div className="flex-grow overflow-y-auto p-4 space-y-4">
+                <div className="flex-grow overflow-y-auto p-5 space-y-5">
                   {chatMessages.map((msg, index) => (
                     <div
                       key={index}
                       className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                     >
-                      <div className={`max-w-[80%] p-3.5 rounded-2xl text-sm leading-relaxed shadow-sm ${
-                        msg.sender === 'user' ? 'bg-cyan-500 text-slate-950 rounded-tr-none font-medium' : 'bg-slate-950/90 border border-slate-850 text-slate-200 rounded-tl-none'
+                      <div className={`max-w-[80%] p-4 rounded-2xl text-xs sm:text-sm leading-relaxed relative ${
+                        msg.sender === 'user'
+                          ? 'bg-gradient-to-r from-cyan-500 to-cyan-600 text-slate-950 rounded-tr-none font-bold shadow-lg shadow-cyan-500/10'
+                          : 'bg-slate-950/80 border border-white/5 text-slate-200 rounded-tl-none font-mono text-left'
                       }`}>
                         {msg.sender === 'ai' ? (
-                          <div className="markdown-chat whitespace-pre-line text-xs md:text-sm">
+                          <div className="markdown-chat whitespace-pre-line leading-relaxed">
                             {msg.text}
                           </div>
                         ) : (
-                          <p className="font-sans text-xs md:text-sm">{msg.text}</p>
+                          <p className="font-sans font-bold">{msg.text}</p>
                         )}
-                        <span className={`block text-[9px] mt-1.5 font-mono ${msg.sender === 'user' ? 'text-cyan-900' : 'text-slate-500 text-right'}`}>
+                        <span className={`block text-[8px] mt-2 font-mono ${msg.sender === 'user' ? 'text-cyan-950' : 'text-slate-500 text-right'}`}>
                           {msg.time}
                         </span>
                       </div>
@@ -2021,9 +2161,9 @@ export default function FitDNACoach() {
                   
                   {chatLoading && (
                     <div className="flex justify-start">
-                      <div className="bg-slate-950/90 border border-slate-850 p-4 rounded-2xl rounded-tl-none flex items-center gap-2 text-xs font-mono text-cyan-400">
-                        <RotateCw className="w-3.5 h-3.5 animate-spin" />
-                        <span>COACH IS THINKING...</span>
+                      <div className="bg-slate-950/80 border border-white/5 p-4 rounded-2xl rounded-tl-none flex items-center gap-2 text-[10px] font-mono text-cyan-400">
+                        <RotateCw className="w-3.5 h-3.5 animate-spin text-cyan-400" />
+                        <span className="animate-pulse tracking-widest">COACH DECIPHERING PATHWAYS...</span>
                       </div>
                     </div>
                   )}
@@ -2031,12 +2171,12 @@ export default function FitDNACoach() {
                 </div>
 
                 {/* Suggestion Chips */}
-                <div className="p-2 bg-slate-950/30 border-t border-slate-850/60 overflow-x-auto whitespace-nowrap flex gap-2 shrink-0">
+                <div className="p-2.5 bg-slate-950/40 border-t border-white/5 overflow-x-auto whitespace-nowrap flex gap-2 shrink-0 font-mono">
                   {chatChips.map((chip, i) => (
                     <button
                       key={i}
                       onClick={() => handleSendChatMessage(chip)}
-                      className="border border-slate-800 bg-slate-950 text-[10px] font-bold font-mono text-cyan-400 hover:border-slate-700 px-3 py-1.5 rounded-full transition-all shrink-0"
+                      className="border border-white/5 bg-slate-950 text-[9px] font-bold font-mono text-cyan-400 hover:text-white hover:border-cyan-500 px-3.5 py-1.5 rounded-full transition-all shrink-0 cursor-pointer"
                     >
                       {chip}
                     </button>
@@ -2044,7 +2184,7 @@ export default function FitDNACoach() {
                 </div>
 
                 {/* Chat Input form */}
-                <div className="p-3 bg-slate-950/80 border-t border-slate-850 shrink-0">
+                <div className="p-3.5 bg-slate-950/80 border-t border-white/5 shrink-0">
                   <form
                     onSubmit={(e) => {
                       e.preventDefault();
@@ -2056,15 +2196,15 @@ export default function FitDNACoach() {
                       type="text"
                       value={chatInput}
                       onChange={(e) => setChatInput(e.target.value)}
-                      placeholder="Ask your Coach about workouts, metabolic pathways, or sleep targets..."
-                      className="flex-grow bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-xs md:text-sm text-slate-200 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                      placeholder="Input questions regarding metabolic rates, circadian sync or workouts..."
+                      className="flex-grow bg-slate-900 border border-white/5 rounded-xl px-4 py-3.5 text-xs sm:text-sm text-slate-200 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 font-mono"
                     />
                     <button
                       type="submit"
                       disabled={chatLoading}
-                      className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 p-3 rounded-xl transition-all shadow-md shadow-cyan-500/10 active:scale-[0.98] shrink-0"
+                      className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 p-3.5 rounded-xl transition-all shadow-md shadow-cyan-500/10 active:scale-[0.98] shrink-0 cursor-pointer"
                     >
-                      <Send className="w-4 h-4" />
+                      <Send className="w-4.5 h-4.5 text-slate-950" />
                     </button>
                   </form>
                 </div>
@@ -2077,45 +2217,46 @@ export default function FitDNACoach() {
               <div className="space-y-6">
                 
                 {/* Introduction banner */}
-                <div className="glass-card p-6 rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl">
-                  <div className="flex items-center gap-2 mb-3">
+                <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl relative overflow-hidden">
+                  <div className="hud-corner-tl" />
+                  <div className="hud-corner-tr" />
+                  <div className="flex items-center gap-2.5 mb-3 border-b border-white/5 pb-2">
                     <Compass className="w-5 h-5 text-cyan-400 animate-spin-slow" />
-                    <h3 className="text-sm font-bold font-mono text-white tracking-wider">ADAPTIVE PLANNING SYSTEM</h3>
+                    <h3 className="text-xs font-bold font-mono text-white tracking-widest uppercase">AUTOMATED WORKLOAD ADAPTATION</h3>
                   </div>
-                  <p className="text-sm text-slate-300 leading-relaxed font-sans">
-                    Fitness consistency breaks because people set overly ambitious targets. 
-                    If you miss your workout schedule repeatedly, our **Consistency Engine** automatically 
-                    recalibrates your blueprint down to manageable, habit-forming sizes, ensuring you regain momentum instead of quitting.
+                  <p className="text-xs sm:text-sm text-slate-350 leading-relaxed font-sans">
+                    Fitness consistency fails when physical load expectations collide with lifestyle friction. 
+                    If you miss your target exercises repeatedly, our AI **Consistency Engine** scales training blocks down to micro-habits, preventing burnout and keeping momentum alive.
                   </p>
                 </div>
 
                 {/* Split comparison plan */}
                 {adaptivePlan ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
                     
                     {/* Before Plan */}
-                    <div className="glass-card p-6 rounded-2xl border border-red-900/30 bg-red-950/5 relative overflow-hidden flex flex-col justify-between">
-                      <div className="absolute top-2 right-2 bg-red-500/10 border border-red-500/20 text-red-400 text-[8px] font-bold font-mono px-2 py-0.5 rounded">
-                        WEEK 1 INITIAL TARGETS
+                    <div className="glass-card p-6 rounded-2xl border border-rose-900/20 bg-rose-950/5 relative overflow-hidden flex flex-col justify-between">
+                      <div className="absolute top-3 right-3 bg-rose-500/10 border border-rose-500/20 text-rose-455 text-[8px] font-bold font-mono px-2 py-0.5 rounded tracking-wider uppercase">
+                        INITIAL LOAD STATE
                       </div>
                       <div>
-                        <h4 className="text-sm font-bold text-white font-mono uppercase mb-4 border-b border-red-900/20 pb-2">Ambitious Plan</h4>
-                        <div className="space-y-3 font-sans text-sm text-slate-300">
-                          <div className="flex justify-between border-b border-slate-900 pb-1.5">
-                            <span className="text-slate-400">Weekly Workouts:</span>
-                            <span className="font-bold text-white">{adaptivePlan.originalWorkouts} days</span>
+                        <h4 className="text-xs font-bold text-white font-mono uppercase mb-4 border-b border-white/5 pb-2">Initial Adherence Load</h4>
+                        <div className="space-y-3 font-mono text-xs text-slate-300">
+                          <div className="flex justify-between border-b border-white/5 pb-2">
+                            <span className="text-slate-500">Weekly Cycles:</span>
+                            <span className="font-bold text-white">{adaptivePlan.originalWorkouts} drills / week</span>
                           </div>
-                          <div className="flex justify-between border-b border-slate-900 pb-1.5">
-                            <span className="text-slate-400">Duration per session:</span>
+                          <div className="flex justify-between border-b border-white/5 pb-2">
+                            <span className="text-slate-500">Cycle Duration:</span>
                             <span className="font-bold text-white">{adaptivePlan.originalDuration} minutes</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-slate-400">Total workout time:</span>
-                            <span className="font-bold text-red-400">{adaptivePlan.originalWorkouts * adaptivePlan.originalDuration} mins / week</span>
+                            <span className="text-slate-500">Total Workload Time:</span>
+                            <span className="font-bold text-rose-400">{adaptivePlan.originalWorkouts * adaptivePlan.originalDuration} mins / week</span>
                           </div>
                         </div>
-                        <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3.5 mt-6 text-xs text-red-300 leading-relaxed font-sans">
-                          <strong>Adherence Drop:</strong> {profile.name || 'Athlete'} completed only {Object.values(logs).filter(l => l.workoutCompleted).length} workouts in the last 7 days. Consistency rating is low.
+                        <div className="bg-rose-500/10 border border-rose-500/20 rounded-xl p-3.5 mt-6 text-xs text-rose-300 leading-relaxed font-sans">
+                          <strong>Biometric Adherence Drop:</strong> Athlete completed only {Object.values(logs).filter(l => l.workoutCompleted).length} training routines this week. Circadian stress detected.
                         </div>
                       </div>
                     </div>
@@ -2124,45 +2265,45 @@ export default function FitDNACoach() {
                     <div className={`glass-card p-6 rounded-2xl border relative overflow-hidden flex flex-col justify-between transition-all duration-500 ${
                       adaptivePlan.isActive ? 'border-emerald-800/80 bg-emerald-950/5' : 'border-cyan-800/60 bg-cyan-950/5 border-glow-cyan'
                     }`}>
-                      <div className={`absolute top-2 right-2 border text-[8px] font-bold font-mono px-2 py-0.5 rounded ${
-                        adaptivePlan.isActive ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400'
+                      <div className={`absolute top-3 right-3 border text-[8px] font-bold font-mono px-2 py-0.5 rounded tracking-wider uppercase ${
+                        adaptivePlan.isActive ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-450' : 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400'
                       }`}>
-                        {adaptivePlan.isActive ? 'ACTIVE PLAN' : 'RECOMMENDED ADAPTATION'}
+                        {adaptivePlan.isActive ? 'ACTIVE PLAN MATRIX' : 'RECOMMENDED DIRECTIVE'}
                       </div>
                       
                       <div>
-                        <h4 className="text-sm font-bold text-white font-mono uppercase mb-4 border-b border-cyan-900/20 pb-2">Adaptive plan</h4>
-                        <div className="space-y-3 font-sans text-sm text-slate-300">
-                          <div className="flex justify-between border-b border-slate-900 pb-1.5">
-                            <span className="text-slate-400">Weekly Workouts:</span>
-                            <span className="font-bold text-white">{adaptivePlan.adaptedWorkouts} days</span>
+                        <h4 className="text-xs font-bold text-white font-mono uppercase mb-4 border-b border-white/5 pb-2">Scaled Adapted Blueprint</h4>
+                        <div className="space-y-3 font-mono text-xs text-slate-300">
+                          <div className="flex justify-between border-b border-white/5 pb-2">
+                            <span className="text-slate-500">Weekly Cycles:</span>
+                            <span className="font-bold text-white">{adaptivePlan.adaptedWorkouts} drills / week</span>
                           </div>
-                          <div className="flex justify-between border-b border-slate-900 pb-1.5">
-                            <span className="text-slate-400">Duration per session:</span>
+                          <div className="flex justify-between border-b border-white/5 pb-2">
+                            <span className="text-slate-500">Cycle Duration:</span>
                             <span className="font-bold text-white">{adaptivePlan.adaptedDuration} minutes</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-slate-400">Total workout time:</span>
+                            <span className="text-slate-500">Total Workload Time:</span>
                             <span className="font-bold text-cyan-400">{adaptivePlan.adaptedWorkouts * adaptivePlan.adaptedDuration} mins / week</span>
                           </div>
                         </div>
-                        <div className="bg-cyan-950/20 border border-cyan-800/30 rounded-xl p-3.5 mt-6 text-xs text-cyan-200 leading-relaxed font-sans">
-                          <strong>AI Logic:</strong> {adaptivePlan.reason}
+                        <div className="bg-cyan-950/20 border border-cyan-800/35 rounded-xl p-3.5 mt-6 text-xs text-cyan-200 leading-relaxed font-sans">
+                          <strong>AI Logic Adaptation:</strong> {adaptivePlan.reason}
                         </div>
                       </div>
 
                       {!adaptivePlan.isActive && (
                         <button
                           onClick={handleApplyAdaptation}
-                          className="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-2.5 rounded-lg text-xs tracking-wider uppercase transition-all shadow-md mt-6"
+                          className="w-full bg-cyan-505 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black py-2.5 rounded-lg text-xs tracking-widest uppercase transition-all shadow-md mt-6 font-mono cursor-pointer"
                         >
-                          APPLY ADAPTED RECOMMENDATIONS
+                          APPLY METRIC DIRECTIVES
                         </button>
                       )}
 
                       {adaptivePlan.isActive && (
-                        <div className="w-full text-center py-2.5 rounded-lg text-xs font-bold font-mono text-emerald-400 border border-emerald-800 bg-emerald-950/20 mt-6 uppercase">
-                          PLAN SUCCESSFULLY APPLIED
+                        <div className="w-full text-center py-2.5 rounded-lg text-xs font-bold font-mono text-emerald-450 border border-emerald-800 bg-emerald-950/20 mt-6 uppercase tracking-widest">
+                          ADAPTATION SECURED IN BLUEPRINT
                         </div>
                       )}
 
@@ -2170,8 +2311,8 @@ export default function FitDNACoach() {
 
                   </div>
                 ) : (
-                  <div className="glass-card p-8 rounded-2xl border border-slate-800 bg-slate-900/40 text-center font-mono text-slate-500 text-sm">
-                    Your workout adherence is currently high! Adaptive modifications will trigger if your consistency dips below 70%.
+                  <div className="glass-card p-8 rounded-2xl border border-white/5 bg-slate-900/40 text-center font-mono text-slate-500 text-xs tracking-wider">
+                    Adherence levels are stable. Adaptive thresholds will trigger if your consistency index falls under 70%.
                   </div>
                 )}
 
@@ -2183,26 +2324,29 @@ export default function FitDNACoach() {
               <div className="space-y-6">
                 
                 {/* Introduction and stats */}
-                <div className="glass-card p-6 rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl flex items-center justify-between">
-                  <div className="space-y-1">
-                    <h3 className="text-sm font-bold font-mono text-white tracking-wider uppercase">Weekly AI Coach Report</h3>
-                    <p className="text-xs text-slate-400">Analysis calculated on last 7 days of logs</p>
+                <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl flex items-center justify-between relative">
+                  <div className="hud-corner-tl" />
+                  <div className="hud-corner-tr" />
+                  <div className="space-y-0.5">
+                    <h3 className="text-xs font-bold font-mono text-white tracking-widest uppercase">COACH BIOMETRICS ANALYSIS</h3>
+                    <p className="text-[10px] text-slate-500 font-mono uppercase">Calculated across the preceding 7 diurnal rotations</p>
                   </div>
-                  <span className="text-[10px] font-mono bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full">
-                    CALIBRATED TODAY
+                  <span className="text-[8px] font-mono bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full uppercase tracking-wider font-bold">
+                    MATRIX RECALIBRATED
                   </span>
                 </div>
 
                 {weeklyReport ? (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
                     
                     {/* Wins column */}
-                    <div className="glass-card p-6 rounded-2xl border border-emerald-900/30 bg-emerald-950/5 flex flex-col gap-4">
-                      <div className="flex items-center gap-2 border-b border-emerald-900/20 pb-2">
-                        <CheckCircle className="w-5 h-5 text-emerald-400" />
-                        <h4 className="text-sm font-bold text-white font-mono uppercase">WEEKLY WINS</h4>
+                    <div className="glass-card p-6 rounded-2xl border border-emerald-900/20 bg-emerald-950/5 flex flex-col gap-4 relative">
+                      <div className="hud-corner-tl" />
+                      <div className="flex items-center gap-2 border-b border-white/5 pb-2">
+                        <CheckCircle className="w-4.5 h-4.5 text-emerald-400" />
+                        <h4 className="text-xs font-bold text-white font-mono uppercase tracking-wider">SECURED ADVANCEMENTS</h4>
                       </div>
-                      <ul className="space-y-3 font-sans text-xs md:text-sm text-slate-300 list-disc pl-4 leading-relaxed">
+                      <ul className="space-y-3 font-sans text-xs sm:text-sm text-slate-300 list-disc pl-4 leading-relaxed">
                         {weeklyReport.wins.map((w, idx) => (
                           <li key={idx} className="marker:text-emerald-400">{w}</li>
                         ))}
@@ -2210,247 +2354,69 @@ export default function FitDNACoach() {
                     </div>
 
                     {/* Weak areas column */}
-                    <div className="glass-card p-6 rounded-2xl border border-red-900/30 bg-red-950/5 flex flex-col gap-4">
-                      <div className="flex items-center gap-2 border-b border-red-900/20 pb-2">
-                        <AlertTriangle className="w-5 h-5 text-red-400" />
-                        <h4 className="text-sm font-bold text-white font-mono uppercase">WEAK AREAS</h4>
+                    <div className="glass-card p-6 rounded-2xl border border-rose-900/20 bg-rose-950/5 flex flex-col gap-4 relative">
+                      <div className="hud-corner-tl" />
+                      <div className="flex items-center gap-2 border-b border-white/5 pb-2">
+                        <AlertTriangle className="w-4.5 h-4.5 text-rose-400" />
+                        <h4 className="text-xs font-bold text-white font-mono uppercase tracking-wider">BIOMETRIC SLIPS</h4>
                       </div>
-                      <ul className="space-y-3 font-sans text-xs md:text-sm text-slate-300 list-disc pl-4 leading-relaxed">
+                      <ul className="space-y-3 font-sans text-xs sm:text-sm text-slate-300 list-disc pl-4 leading-relaxed">
                         {weeklyReport.weakAreas.map((w, idx) => (
-                          <li key={idx} className="marker:text-red-400">{w}</li>
+                          <li key={idx} className="marker:text-rose-455">{w}</li>
                         ))}
                       </ul>
                     </div>
 
                     {/* Suggestions column */}
-                    <div className="glass-card p-6 rounded-2xl border border-cyan-900/30 bg-cyan-950/5 flex flex-col gap-4">
-                      <div className="flex items-center gap-2 border-b border-cyan-900/20 pb-2">
-                        <Sparkles className="w-5 h-5 text-cyan-400" />
-                        <h4 className="text-sm font-bold text-white font-mono uppercase">SUGGESTIONS</h4>
+                    <div className="glass-card p-6 rounded-2xl border border-cyan-900/25 bg-cyan-950/5 flex flex-col gap-4 relative">
+                      <div className="hud-corner-tl" />
+                      <div className="flex items-center gap-2 border-b border-white/5 pb-2">
+                        <Sparkles className="w-4.5 h-4.5 text-cyan-400" />
+                        <h4 className="text-xs font-bold text-white font-mono uppercase tracking-wider">COACH INTERVENTIONS</h4>
                       </div>
-                      <ul className="space-y-3 font-sans text-xs md:text-sm text-slate-300 list-disc pl-4 leading-relaxed">
+                      <ul className="space-y-3 font-sans text-xs sm:text-sm text-slate-300 list-disc pl-4 leading-relaxed">
                         {weeklyReport.suggestions.map((w, idx) => (
-                          <li key={idx} className="marker:text-cyan-400">{w}</li>
+                          <li key={idx} className="marker:text-cyan-450">{w}</li>
                         ))}
                       </ul>
                     </div>
 
                   </div>
                 ) : (
-                  <div className="glass-card p-8 rounded-2xl border border-slate-800 bg-slate-900/40 text-center font-mono text-slate-500 text-sm">
-                    Weekly feedback requires at least 4 tracked days in history. Log more habits to trigger.
+                  <div className="glass-card p-8 rounded-2xl border border-white/5 bg-slate-900/40 text-center font-mono text-slate-500 text-xs tracking-wider">
+                    Feedback vectors require at least 4 active log frames. Perform more diurnal logs.
                   </div>
                 )}
 
               </div>
             )}
 
-            {/* TAB VIEW: GENETIC PROFILE */}
-            {activeTab === 'profile' && (
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                
-                {/* DNA Helix simulator column (SVG loop) */}
-                <div className="glass-card p-6 rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl col-span-1 lg:col-span-5 flex flex-col items-center justify-center min-h-[350px]">
-                  <h3 className="text-sm font-bold font-mono text-white tracking-wider mb-4 text-center">EPIGENETIC PATHWAY SIMULATOR</h3>
-                  
-                  {/* Rotating DNA Helix */}
-                  <div className="relative w-full max-w-[200px] aspect-square flex items-center justify-center bg-slate-950/60 border border-slate-900 rounded-full shadow-inner p-4">
-                    <svg viewBox="0 0 100 200" className="w-full h-full overflow-visible">
-                      {/* Vertical strands connector */}
-                      {Array.from({ length: 12 }).map((_, i) => {
-                        const spacing = 15;
-                        const angle1 = dnaAngle + (i * 0.4);
-                        const angle2 = angle1 + Math.PI;
-                        
-                        const x1 = 50 + 32 * Math.cos(angle1);
-                        const x2 = 50 + 32 * Math.cos(angle2);
-                        const y = 15 + (i * 15);
-
-                        // Determine layer ordering (front node is larger and brighter)
-                        const isNode1Front = Math.sin(angle1) > 0;
-                        const opacity = isNode1Front ? '0.7' : '0.2';
-                        
-                        return (
-                          <g key={i}>
-                            {/* Horizontal connector bar */}
-                            <line
-                              x1={x1}
-                              y1={y}
-                              x2={x2}
-                              y2={y}
-                              stroke="var(--neon-violet)"
-                              strokeWidth="1.5"
-                              strokeOpacity={opacity}
-                            />
-                            
-                            {/* DNA node 1 */}
-                            <circle
-                              cx={x1}
-                              cy={y}
-                              r={isNode1Front ? 4.5 : 2.5}
-                              fill="var(--neon-cyan)"
-                              className="dna-node"
-                              style={{
-                                fillOpacity: isNode1Front ? 1 : 0.4,
-                                filter: isNode1Front ? 'drop-shadow(0 0 4px #06b6d4)' : 'none'
-                              }}
-                            />
-                            
-                            {/* DNA node 2 */}
-                            <circle
-                              cx={x2}
-                              cy={y}
-                              r={!isNode1Front ? 4.5 : 2.5}
-                              fill="var(--neon-rose)"
-                              className="dna-node"
-                              style={{
-                                fillOpacity: !isNode1Front ? 1 : 0.4,
-                                filter: !isNode1Front ? 'drop-shadow(0 0 4px #f43f5e)' : 'none'
-                              }}
-                            />
-                          </g>
-                        );
-                      })}
-                    </svg>
-                  </div>
-                  
-                  <div className="text-center mt-4 space-y-1">
-                    <p className="text-[10px] font-mono text-slate-400 uppercase tracking-widest">Helix Rotation Speed</p>
-                    <p className="text-xs font-bold text-cyan-400 font-mono">
-                      {(0.015 + (overallConsistency / 100) * 0.05 * 100).toFixed(1)}x (Calibrated to Consistency)
-                    </p>
-                  </div>
-                </div>
-
-                {/* Epigenetic gene pathways information */}
-                <div className="glass-card p-6 rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl col-span-1 lg:col-span-7 space-y-6 flex flex-col justify-between">
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-2 border-b border-slate-800/80 pb-3">
-                      <Brain className="w-5 h-5 text-cyan-400" />
-                      <h3 className="text-sm font-bold font-mono text-white tracking-wider">ACTIVE GENETIC PATHWAY CHECKS</h3>
-                    </div>
-
-                    <p className="text-xs md:text-sm text-slate-300 leading-relaxed font-sans">
-                      Genes load the gun, but habits pull the trigger. Our simulated epigenetic report tracks 
-                      how your weekly habit consistency regulates critical metabolic, circadian, and lipid-clearance pathways.
-                    </p>
-
-                    <div className="space-y-4">
-                      {/* FTO gene */}
-                      <div className="space-y-1.5">
-                        <div className="flex justify-between text-xs font-mono">
-                          <span className="font-bold text-white">FTO PATHWAY (Fat Burning & Energy Regulator)</span>
-                          <span className={`${overallConsistency >= 70 ? 'text-emerald-400' : 'text-red-400'} font-bold`}>
-                            {overallConsistency >= 70 ? 'OPTIMIZED' : 'DOWNREGULATED'}
-                          </span>
-                        </div>
-                        <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden border border-slate-850">
-                          <div
-                            className={`h-full transition-all duration-1000 ${overallConsistency >= 70 ? 'bg-emerald-400' : 'bg-red-500'}`}
-                            style={{ width: `${Math.min(100, overallConsistency)}%` }}
-                          />
-                        </div>
-                        <p className="text-[9px] text-slate-400 leading-relaxed">
-                          Adherence dependent. High consistency increases energy metabolism, helping burn fat more efficiently.
-                        </p>
-                      </div>
-
-                      {/* PPARG gene */}
-                      <div className="space-y-1.5">
-                        {(() => {
-                          const workoutScore = consistencyStats.workout;
-                          const nutritionScore = consistencyStats.nutrition;
-                          const ppargScore = Math.round((workoutScore + nutritionScore) / 2);
-                          const isOptimized = ppargScore >= 70;
-                          return (
-                            <>
-                              <div className="flex justify-between text-xs font-mono">
-                                <span className="font-bold text-white">PPARG PATHWAY (Lipid Metabolism & Clearing)</span>
-                                <span className={`${isOptimized ? 'text-emerald-400' : 'text-red-400'} font-bold`}>
-                                  {isOptimized ? 'BALANCED' : 'IMPAIRED'}
-                                </span>
-                              </div>
-                              <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden border border-slate-850">
-                                <div
-                                  className={`h-full transition-all duration-1000 ${isOptimized ? 'bg-emerald-400' : 'bg-red-500'}`}
-                                  style={{ width: `${ppargScore}%` }}
-                                />
-                              </div>
-                              <p className="text-[9px] text-slate-400 leading-relaxed">
-                                Dependent on Workout & Nutrition scores. Regulates insulin sensitivity and clearance of circulating lipids.
-                              </p>
-                            </>
-                          );
-                        })()}
-                      </div>
-
-                      {/* CLOCK gene */}
-                      <div className="space-y-1.5">
-                        {(() => {
-                          const sleepScore = consistencyStats.sleep;
-                          const isOptimized = sleepScore >= 70;
-                          return (
-                            <>
-                              <div className="flex justify-between text-xs font-mono">
-                                <span className="font-bold text-white">CLOCK GENE (Circadian Reset & Restoration)</span>
-                                <span className={`${isOptimized ? 'text-emerald-400' : 'text-red-400'} font-bold`}>
-                                  {isOptimized ? 'SYNCED' : 'DISRUPTED'}
-                                </span>
-                              </div>
-                              <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden border border-slate-850">
-                                <div
-                                  className={`h-full transition-all duration-1000 ${isOptimized ? 'bg-emerald-400' : 'bg-red-500'}`}
-                                  style={{ width: `${sleepScore}%` }}
-                                />
-                              </div>
-                              <p className="text-[9px] text-slate-400 leading-relaxed">
-                                Regulated by Sleep consistency. Synced sleep optimizes cell repairs, energy peaks, and hormone rhythms.
-                              </p>
-                            </>
-                          );
-                        })()}
-                      </div>
-
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-800 text-xs">
-                    <div>
-                      <span className="text-slate-400 block font-mono">Baseline Blueprint:</span>
-                      <span className="text-white font-semibold capitalize font-sans">{profile.gender} | {profile.age} y/o</span>
-                    </div>
-                    <div>
-                      <span className="text-slate-400 block font-mono">BMI Target category:</span>
-                      <span className="text-cyan-400 font-semibold uppercase font-sans">{profile.bmiCategory}</span>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            )}
-
-            {/* LIVE ACTIVE PLANS DISPLAY CARD (FOOTER AREA OF TABS) */}
+            {/* LIVE ACTIVE PLANS DISPLAY CARD (FOOTER AREA) */}
             {activeWorkoutPlan && activeTab === 'dashboard' && (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 text-left">
                 
                 {/* Workout blueprint */}
-                <div className="glass-card p-6 rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl">
-                  <div className="flex items-center gap-2 mb-3 border-b border-slate-850 pb-2">
+                <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl relative overflow-hidden">
+                  <div className="hud-corner-tl" />
+                  <div className="hud-corner-tr" />
+                  <div className="flex items-center gap-2 mb-3 border-b border-white/5 pb-2">
                     <Dumbbell className="w-4 h-4 text-cyan-400" />
-                    <h4 className="text-xs font-bold font-mono text-white tracking-widest uppercase">ACTIVE WORKOUT PLAN</h4>
+                    <h4 className="text-[10px] font-bold font-mono text-white tracking-widest uppercase">ACTIVE CYCLICAL TRAINING PLAN</h4>
                   </div>
-                  <div className="markdown-display font-sans text-xs md:text-sm leading-relaxed text-slate-300 max-h-[200px] overflow-y-auto whitespace-pre-line">
+                  <div className="font-sans text-xs sm:text-sm leading-relaxed text-slate-350 max-h-[220px] overflow-y-auto whitespace-pre-line">
                     {activeWorkoutPlan}
                   </div>
                 </div>
 
                 {/* Nutrition blueprint */}
-                <div className="glass-card p-6 rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl">
-                  <div className="flex items-center gap-2 mb-3 border-b border-slate-850 pb-2">
+                <div className="glass-card p-6 rounded-2xl border border-white/5 bg-slate-900/60 shadow-xl relative overflow-hidden">
+                  <div className="hud-corner-tl" />
+                  <div className="hud-corner-tr" />
+                  <div className="flex items-center gap-2 mb-3 border-b border-white/5 pb-2">
                     <Flame className="w-4 h-4 text-cyan-400" />
-                    <h4 className="text-xs font-bold font-mono text-white tracking-widest uppercase">ACTIVE NUTRITION RECOMMENDATIONS</h4>
+                    <h4 className="text-[10px] font-bold font-mono text-white tracking-widest uppercase">ACTIVE NUTRITIONAL FUEL PLAN</h4>
                   </div>
-                  <div className="markdown-display font-sans text-xs md:text-sm leading-relaxed text-slate-300 max-h-[200px] overflow-y-auto whitespace-pre-line">
+                  <div className="font-sans text-xs sm:text-sm leading-relaxed text-slate-350 max-h-[220px] overflow-y-auto whitespace-pre-line">
                     {activeNutritionPlan}
                   </div>
                 </div>
@@ -2466,43 +2432,47 @@ export default function FitDNACoach() {
       {/* --- MOCK API CONFIGURATION MODAL --- */}
       {showKeyModal && (
         <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="glass-card p-6 rounded-2xl border border-slate-800 bg-slate-900 max-w-md w-full shadow-2xl space-y-4">
-            <div className="flex items-center gap-2 border-b border-slate-850 pb-3">
+          <div className="glass-card p-6 rounded-2xl border border-white/10 bg-slate-900 max-w-md w-full shadow-2xl space-y-4 relative text-left font-mono">
+            <div className="hud-corner-tl" />
+            <div className="hud-corner-tr" />
+            <div className="hud-corner-bl" />
+            <div className="hud-corner-br" />
+
+            <div className="flex items-center gap-2.5 border-b border-white/5 pb-3">
               <Key className="w-5 h-5 text-cyan-400" />
-              <h3 className="text-sm font-bold font-mono text-white uppercase tracking-wider">Gemini API Key Configuration</h3>
+              <h3 className="text-xs font-bold text-white uppercase tracking-widest">GEMINI SYSTEM API KEY</h3>
             </div>
             
-            <p className="text-xs text-slate-400 leading-relaxed">
-              By default, FitDNA Coach runs client-side offline using a custom local AI rule engine. 
-              If you have a Google Gemini API key, input it below to generate live plans and chat answers from the real **Gemini 1.5 Flash** model. 
-              Keys are only stored locally in your browser's memory and are never sent to external servers.
+            <p className="text-[10px] text-slate-400 leading-relaxed font-sans uppercase-first">
+              FitAI Coach runs offline via a local heuristic model. 
+              Input a Google Gemini API key to swap to the live **Gemini 1.5 Flash** model for blueprints and coaching feedback. Keys are cached locally and never sent to external servers.
             </p>
 
-            <div>
-              <label className="block text-[10px] font-mono text-slate-400 uppercase tracking-widest mb-1.5">Gemini API Key</label>
+            <div className="space-y-1.5">
+              <label className="block text-[9px] font-bold text-slate-450 uppercase tracking-widest">Gemini API Token Key</label>
               <input
                 type="password"
                 value={apiKeyInput}
                 onChange={(e) => setApiKeyInput(e.target.value)}
-                placeholder={getGeminiApiKey() ? '••••••••••••••••••••••••' : 'Enter API key (AIzaSy...)'}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-xs font-mono text-slate-300 focus:outline-none focus:border-cyan-500"
+                placeholder={getGeminiApiKey() ? '••••••••••••••••••••••••' : 'AIzaSy...'}
+                className="w-full bg-slate-950 border border-white/5 rounded-lg px-4 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-cyan-500 font-mono"
               />
             </div>
 
-            <div className="flex gap-3 pt-2">
+            <div className="flex gap-3 pt-2 font-mono text-xs">
               <button
                 type="button"
                 onClick={() => setShowKeyModal(false)}
-                className="flex-1 border border-slate-800 hover:border-slate-700 bg-slate-950 text-xs font-bold font-mono py-2.5 rounded-lg text-slate-400"
+                className="flex-1 border border-white/5 hover:border-white/10 bg-slate-950 py-2.5 rounded-lg text-slate-400 font-bold tracking-widest uppercase cursor-pointer"
               >
-                CANCEL
+                Cancel
               </button>
               <button
                 type="button"
                 onClick={handleSaveApiKey}
-                className="flex-1 bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold font-mono py-2.5 rounded-lg uppercase transition-all shadow-md"
+                className="flex-1 bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-2.5 rounded-lg font-black tracking-widest uppercase transition-all shadow-md cursor-pointer"
               >
-                SAVE KEY SETTINGS
+                Save Protocol
               </button>
             </div>
           </div>
