@@ -1495,7 +1495,7 @@ export default function FitAICoach() {
             <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-cyber-divider pb-4 font-mono">
               <div className="flex flex-col">
                 <span className="text-[9px] text-cyber-dim tracking-[0.25em] uppercase">SYSTEM COMMAND INTERFACE</span>
-                <span className="text-lg font-black text-cyber-primary tracking-wide uppercase">FitAI // Biometric Control Hub</span>
+                <span className="text-lg font-black text-cyber-primary tracking-wide uppercase">FitAI // Athletic Command Console</span>
               </div>
               <div className="flex items-center gap-3 self-start sm:self-center">
                 <span className="flex items-center gap-1.5 px-3 py-1 rounded bg-emerald-500/10 border border-emerald-500/25 text-[8px] text-emerald-400 font-bold uppercase tracking-widest">
