@@ -4,19 +4,20 @@ import { UserProfile, HabitLog, WeeklyReport, AdaptivePlan } from './mockFirebas
 // Retrieve API key from local storage if available
 export function getGeminiApiKey(): string | null {
   if (typeof window !== 'undefined') {
-    return localStorage.getItem('fitdna_gemini_api_key');
+    return localStorage.getItem('fitai_gemini_api_key') || localStorage.getItem('fitdna_gemini_api_key');
   }
   return null;
 }
 
 export function saveGeminiApiKey(key: string) {
   if (typeof window !== 'undefined') {
-    localStorage.setItem('fitdna_gemini_api_key', key);
+    localStorage.setItem('fitai_gemini_api_key', key);
   }
 }
 
 export function removeGeminiApiKey() {
   if (typeof window !== 'undefined') {
+    localStorage.removeItem('fitai_gemini_api_key');
     localStorage.removeItem('fitdna_gemini_api_key');
   }
 }
@@ -294,31 +295,31 @@ export async function getAICoachReply(
   const avgWorkouts = recentLogs.filter(l => l.workoutCompleted).length;
   
   const systemPrompt = `
-    You are "FitDNA Coach", a supportive, professional, and knowledgeable AI Fitness and Consistency Expert.
+    You are "FitAI Coach", a supportive, professional, and knowledgeable AI Fitness and Consistency Expert.
     The user's name is ${name}. Their fitness goals are: ${goalStr}.
     In their recent logs, they completed ${avgWorkouts} workouts in the last 5 days.
     
     Answer their fitness, workout, nutrition, recovery, or consistency-related questions.
     Give actionable, motivational, and scientifically grounded responses. Avoid overly long replies. Keep it conversational (2-3 paragraphs max).
-    If they ask about their genetics/DNA, remind them that consistency directly affects epigenetic pathways (like FTO for fat burner, PPARG for lipids, CLOCK for circadian) and habits unlock their genetic potential.
+    If they ask about their training plans, remind them that consistency directly affects athletic recovery, metabolic rate, and muscle retention. Focus on habit-building and adaptive workload scales.
   `;
 
   // Offline intelligent responses based on keywords
-  let localReply = `Hey ${name}! Tracking consistency is the key to unlocking your fitness genes. Let me know what questions you have about exercise, sleep, nutrition or building better habits!`;
+  let localReply = `Hey ${name}! Tracking consistency is the key to achieving your fitness goals. Let me know what questions you have about exercise, sleep, nutrition or building better habits!`;
   
   const lowerMsg = userMessage.toLowerCase();
   if (lowerMsg.includes('workout') || lowerMsg.includes('exercise') || lowerMsg.includes('train')) {
     localReply = `To optimize your workouts for consistency, focusing on progressive overload is critical, ${name}. Since your goal is ${goalStr}, we suggest focusing on structured compound movements (squats, pushups, rows) 3-4 days a week. When short on time, do a 15-minute high-intensity circuit rather than skipping it. Consistency beats duration every time!`;
   } else if (lowerMsg.includes('sleep') || lowerMsg.includes('tired') || lowerMsg.includes('rest') || lowerMsg.includes('recovery')) {
-    localReply = `Sleep is where the magic happens! When you sleep, your muscles repair and your circadian genes (like the CLOCK pathway) sync. Aiming for 7-8 hours of quality sleep reduces cortisol, which helps in ${goalStr}. Try to go to bed at the same time daily and shut down screens 30-45 minutes beforehand.`;
+    localReply = `Sleep is where the magic happens! When you sleep, your muscles repair and your circadian rhythm and sleep stages sync. Aiming for 7-8 hours of quality sleep reduces cortisol, which helps in ${goalStr}. Try to go to bed at the same time daily and shut down screens 30-45 minutes beforehand.`;
   } else if (lowerMsg.includes('diet') || lowerMsg.includes('eat') || lowerMsg.includes('nutrition') || lowerMsg.includes('calorie') || lowerMsg.includes('protein')) {
     localReply = `For ${goalStr}, nutrition acts as your fuel. Make sure you hit your protein target (around ${(profile?.weight || 70) * 1.8}g per day) to preserve lean muscle tissue. Focus on whole foods: complex carbs (oats, quinoa) for training energy, lean proteins (chicken, tofu, eggs) for repairs, and healthy fats (avocado, nuts) for hormone support.`;
-  } else if (lowerMsg.includes('dna') || lowerMsg.includes('genetics') || lowerMsg.includes('gene') || lowerMsg.includes('epigenetic')) {
-    localReply = `Your DNA is a blueprint, but your habits write the script! Through epigenetics, consistent exercise and nutrition actually activate positive genes (like the FTO fat-burning switch or the PPARG pathway for lipid clearance). A consistency score above 80% stimulates maximum positive gene expression!`;
+  } else if (lowerMsg.includes('ai') || lowerMsg.includes('algorithm') || lowerMsg.includes('predict') || lowerMsg.includes('system')) {
+    localReply = `FitAI Coach utilizes dynamic biometric logging and consistency forecasting. By analyzing your workouts, rest periods, and nutrition inputs, the AI system adapts your training volumes dynamically to prevent burnout and ensure steady progression.`;
   } else if (lowerMsg.includes('water') || lowerMsg.includes('hydration') || lowerMsg.includes('dehydrated')) {
     localReply = `Staying hydrated increases joint lubrication, cellular recovery, and metabolic speed. Your calculated daily hydration target is ${Math.round(((profile?.weight || 70) * 0.033) * 10) / 10} liters. A good tip is to drink one large glass of water right when you wake up and carry a water bottle throughout the day.`;
-  } else if (lowerMsg.includes('consist') || lowerMsg.includes('motivation') || lowerMsg.includes('missed') || lowerMsg.includes('lazy')) {
-    localReply = `Consistency is a skill, not a trait! If you missed a goal, don't beat yourself up. Focus on the "Never Miss Twice" rule. If you miss a workout or eat off-track, make sure your next meal or session is on-point. Our Consistency Risk Alert will help you spot these drops so you can course-correct immediately.`;
+  } else if (lowerMsg.includes('consist') || lowerMsg.includes('motivation') || lowerMsg.includes('missed') || lowerMsg.includes('lazy') || lowerMsg.includes('dna') || lowerMsg.includes('gene')) {
+    localReply = `Consistency is a skill, not a trait! If you missed a goal, don't beat yourself up. Focus on the "Never Miss Twice" rule. FitAI Coach helps you track daily habits and adjust target parameters so you can maintain momentum and reach your goals.`;
   }
 
   const fullPrompt = `

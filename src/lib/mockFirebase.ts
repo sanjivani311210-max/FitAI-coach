@@ -75,7 +75,7 @@ class MockAuth {
 
   constructor() {
     if (typeof window !== 'undefined') {
-      const activeUser = localStorage.getItem('fitdna_active_user');
+      const activeUser = localStorage.getItem('fitai_active_user') || localStorage.getItem('fitdna_active_user');
       if (activeUser) {
         this.currentUser = JSON.parse(activeUser);
       }
@@ -99,7 +99,7 @@ class MockAuth {
     if (password.length < 6) {
       throw new Error('Password must be at least 6 characters.');
     }
-    const users = JSON.parse(localStorage.getItem('fitdna_users') || '[]');
+    const users = JSON.parse(localStorage.getItem('fitai_users') || localStorage.getItem('fitdna_users') || '[]');
     if (users.find((u: any) => u.email === email)) {
       throw new Error('Email already in use.');
     }
@@ -110,7 +110,7 @@ class MockAuth {
     };
 
     users.push({ ...newUser, password });
-    localStorage.setItem('fitdna_users', JSON.stringify(users));
+    localStorage.setItem('fitai_users', JSON.stringify(users));
 
     // Create user default state
     const defaultState: UserState = {
@@ -133,15 +133,15 @@ class MockAuth {
       weeklyReport: null
     };
     
-    localStorage.setItem(`fitdna_state_${newUser.uid}`, JSON.stringify(defaultState));
+    localStorage.setItem(`fitai_state_${newUser.uid}`, JSON.stringify(defaultState));
     this.currentUser = newUser;
-    localStorage.setItem('fitdna_active_user', JSON.stringify(newUser));
+    localStorage.setItem('fitai_active_user', JSON.stringify(newUser));
     this.triggerChange();
     return { user: newUser };
   }
 
   async signInWithEmailAndPassword(email: string, password: string): Promise<any> {
-    const users = JSON.parse(localStorage.getItem('fitdna_users') || '[]');
+    const users = JSON.parse(localStorage.getItem('fitai_users') || localStorage.getItem('fitdna_users') || '[]');
     const user = users.find((u: any) => u.email === email && u.password === password);
     if (!user) {
       throw new Error('Invalid email or password.');
@@ -149,13 +149,14 @@ class MockAuth {
 
     const authUser = { uid: user.uid, email: user.email };
     this.currentUser = authUser;
-    localStorage.setItem('fitdna_active_user', JSON.stringify(authUser));
+    localStorage.setItem('fitai_active_user', JSON.stringify(authUser));
     this.triggerChange();
     return { user: authUser };
   }
 
   async signOut() {
     this.currentUser = null;
+    localStorage.removeItem('fitai_active_user');
     localStorage.removeItem('fitdna_active_user');
     this.triggerChange();
   }
@@ -169,8 +170,9 @@ class MockFirestore {
   // Simple document operations
   async getDoc(collectionName: string, docId: string): Promise<any> {
     if (collectionName === 'users') {
-      const stateKey = `fitdna_state_${docId}`;
-      const stateStr = localStorage.getItem(stateKey);
+      const stateKey = `fitai_state_${docId}`;
+      const fallbackKey = `fitdna_state_${docId}`;
+      const stateStr = localStorage.getItem(stateKey) || localStorage.getItem(fallbackKey);
       if (stateStr) {
         return {
           exists: () => true,
@@ -186,15 +188,16 @@ class MockFirestore {
 
   async setDoc(collectionName: string, docId: string, data: any): Promise<void> {
     if (collectionName === 'users') {
-      const stateKey = `fitdna_state_${docId}`;
+      const stateKey = `fitai_state_${docId}`;
       localStorage.setItem(stateKey, JSON.stringify(data));
     }
   }
 
   async updateDoc(collectionName: string, docId: string, updateData: any): Promise<void> {
     if (collectionName === 'users') {
-      const stateKey = `fitdna_state_${docId}`;
-      const existing = localStorage.getItem(stateKey);
+      const stateKey = `fitai_state_${docId}`;
+      const fallbackKey = `fitdna_state_${docId}`;
+      const existing = localStorage.getItem(stateKey) || localStorage.getItem(fallbackKey);
       if (existing) {
         const parsed = JSON.parse(existing);
         const merged = { ...parsed, ...updateData };
