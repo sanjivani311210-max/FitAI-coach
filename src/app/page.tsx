@@ -854,7 +854,7 @@ export default function FitAICoach() {
   }
 
   return (
-    <div className="flex-grow flex flex-col relative bg-[#050508] text-cyber-primary font-sans min-h-screen select-none bg-tech-grid bg-dot-matrix">
+    <div className="flex-grow flex flex-col relative bg-[#050508] text-cyber-primary font-sans min-h-screen select-none bg-tech-grid bg-dot-matrix overflow-x-hidden">
       
       {/* Background Glow Blobs */}
       <div className="glow-blob w-[500px] h-[500px] bg-cyan-900/10 top-0 left-[-100px] animate-bg-pan" />
@@ -1353,10 +1353,10 @@ export default function FitAICoach() {
 
       {/* --- AUTHENTICATED ATHLETIC CORE INTERFACE --- */}
       {user && profile?.name && (
-        <div className="flex-grow flex flex-col md:flex-row max-w-7xl w-full mx-auto p-4 md:p-6 gap-6 z-10 relative">
+        <div className="flex-grow flex flex-col lg:flex-row max-w-7xl w-full mx-auto p-4 md:p-6 gap-6 z-10 relative">
           
           {/* SIDE NAVIGATION PANEL */}
-          <aside className="w-full md:w-64 flex flex-col gap-4 text-left shrink-0">
+          <aside className="w-full lg:w-64 flex flex-col gap-4 text-left shrink-0">
             {/* User Profile Summary */}
             <div className="glass-card p-5 rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-xl flex flex-col items-center text-center relative overflow-hidden">
               <div className="hud-corner-tl" />
@@ -1531,7 +1531,7 @@ export default function FitAICoach() {
             {activeTab === 'dashboard' && (
               <>
                 {/* 1. HEALTH SUMMARY GRID */}
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                   {/* BMI */}
                   <div className="glass-card p-4 rounded-xl border border-cyber-divider bg-cyber-input/50 relative">
                     <div className="hud-corner-tl" />
@@ -1580,7 +1580,7 @@ export default function FitAICoach() {
                     <h3 className="text-xs font-bold font-mono text-cyber-primary tracking-widest uppercase">CONSISTENCY ADHERENCE BIORHYTHM</h3>
                   </div>
 
-                  <div className="grid grid-cols-2 lg:grid-cols-5 gap-6 text-center items-center">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 text-center items-center">
                     
                     {/* Overall Ring (Redesigned as a massive radial gauge) */}
                     <div className="flex flex-col items-center justify-center col-span-2 lg:col-span-1 border-r border-cyber-divider pr-0 lg:pr-6">
@@ -1714,7 +1714,7 @@ export default function FitAICoach() {
                 </div>
 
                 {/* 3. DAILY TRACKING LOGGERS & CHALLENGE BOARD */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   
                   {/* Daily Habit Logger Card */}
                   <div className="glass-card p-6 rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-xl flex flex-col relative">
@@ -2084,7 +2084,7 @@ export default function FitAICoach() {
                     <h3 className="text-xs font-bold font-mono text-cyber-primary tracking-widest uppercase">UNLOCKABLE ATHLETIC MEDALS</h3>
                   </div>
 
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                     {[
                       { id: 'hydrationHero', name: 'Hydration Hero', desc: 'Sustained water target metrics for 3+ logs', icon: Droplets, color: 'text-cyan-400 border-cyan-800/40 bg-cyan-950/10' },
                       { id: 'sleepChampion', name: 'Sleep Champion', desc: 'Synchronized sleep targets for 3+ logs', icon: Moon, color: 'text-rose-400 border-rose-800/40 bg-rose-950/10' },
