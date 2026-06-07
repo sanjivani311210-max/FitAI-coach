@@ -1530,8 +1530,15 @@ export default function FitAICoach() {
             {/* TAB VIEW: DASHBOARD */}
             {activeTab === 'dashboard' && (
               <>
-                {/* 1. HEALTH SUMMARY GRID */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                {/* SECTION 1: BIOMETRIC TELEMETRY & ADHERENCE MATRIX */}
+                <section className="flex flex-col gap-6 border-b border-cyber-divider/50 pb-8">
+                  <div className="flex items-center gap-2 font-mono">
+                    <span className="text-[9px] text-cyan-400 font-bold px-2 py-0.5 rounded bg-cyan-950/40 border border-cyan-800/40">SEC // 01</span>
+                    <h2 className="text-xs font-black tracking-widest text-cyber-secondary uppercase">BIOMETRIC TELEMETRY & ADHERENCE</h2>
+                  </div>
+
+                  {/* 1. HEALTH SUMMARY GRID */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                   {/* BMI */}
                   <div className="glass-card p-4 rounded-xl border border-cyber-divider bg-cyber-input/50 relative">
                     <div className="hud-corner-tl" />
@@ -1712,9 +1719,17 @@ export default function FitAICoach() {
                     </defs>
                   </svg>
                 </div>
+                </section>
 
-                {/* 3. DAILY TRACKING LOGGERS & CHALLENGE BOARD */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* SECTION 2: TACTICAL ROUTINES & DAILY DRILLS */}
+                <section className="flex flex-col gap-6 border-b border-cyber-divider/50 pb-8">
+                  <div className="flex items-center gap-2 font-mono">
+                    <span className="text-[9px] text-violet-400 font-bold px-2 py-0.5 rounded bg-violet-950/40 border border-violet-800/40">SEC // 02</span>
+                    <h2 className="text-xs font-black tracking-widest text-cyber-secondary uppercase">TACTICAL ROUTINES & DAILY DRILLS</h2>
+                  </div>
+
+                  {/* 3. DAILY TRACKING LOGGERS & CHALLENGE BOARD */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   
                   {/* Daily Habit Logger Card */}
                   <div className="glass-card p-6 rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-xl flex flex-col relative">
@@ -1882,9 +1897,17 @@ export default function FitAICoach() {
                   </div>
 
                 </div>
+                </section>
 
-                {/* 4. PROGRESS CHARTS (LIVE DETAILED METRIC CURVES) */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* SECTION 3: METABOLIC METRICS & COHORT CURVES */}
+                <section className="flex flex-col gap-6 border-b border-cyber-divider/50 pb-8">
+                  <div className="flex items-center gap-2 font-mono">
+                    <span className="text-[9px] text-rose-400 font-bold px-2 py-0.5 rounded bg-rose-950/40 border border-rose-800/40">SEC // 03</span>
+                    <h2 className="text-xs font-black tracking-widest text-cyber-secondary uppercase">METABOLIC METRICS & COHORT CURVES</h2>
+                  </div>
+
+                  {/* 4. PROGRESS CHARTS (LIVE DETAILED METRIC CURVES) */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   
                   {/* Consistency & Water trend */}
                   <div className="glass-card p-6 rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-xl flex flex-col relative">
@@ -2074,9 +2097,17 @@ export default function FitAICoach() {
                   </div>
 
                 </div>
+                </section>
 
-                {/* Achievements Showcase */}
-                <div className="glass-card p-6 rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-xl relative">
+                {/* SECTION 4: ACHIEVEMENT PROTOCOLS & MILITARY MEDALS */}
+                <section className="flex flex-col gap-6">
+                  <div className="flex items-center gap-2 font-mono">
+                    <span className="text-[9px] text-amber-400 font-bold px-2 py-0.5 rounded bg-amber-950/40 border border-amber-800/40">SEC // 04</span>
+                    <h2 className="text-xs font-black tracking-widest text-cyber-secondary uppercase">ACHIEVEMENT PROTOCOLS & MEDALS</h2>
+                  </div>
+
+                  {/* Achievements Showcase */}
+                  <div className="glass-card p-6 rounded-2xl border border-cyber-divider bg-cyber-input/70 shadow-xl relative">
                   <div className="hud-corner-tl" />
                   <div className="hud-corner-tr" />
                   <div className="flex items-center gap-2.5 mb-5 border-b border-cyber-divider pb-3">
@@ -2115,6 +2146,7 @@ export default function FitAICoach() {
                     })}
                   </div>
                 </div>
+                </section>
               </>
             )}
 
